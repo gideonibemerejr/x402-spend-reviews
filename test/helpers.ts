@@ -1,15 +1,8 @@
 /** Shared wiring for route tests: a real Worker env, a fixture chain, no network. */
 import { createExecutionContext, env, waitOnExecutionContext } from "cloudflare:test";
 import { createApp, type AppOptions } from "../src/app";
-import { submission, USDC_BASE_SEPOLIA } from "../src/fixtures";
+import { submission } from "../src/fixtures";
 import type { ReviewSubmission } from "../src/review";
-
-/**
- * The shared fixture defaults `asset` to the symbolic "usdc", which the schema
- * no longer accepts; every submission here names the contract instead.
- */
-export const valid = (overrides: Partial<ReviewSubmission> = {}): ReviewSubmission =>
-  submission({ asset: USDC_BASE_SEPOLIA, ...overrides });
 
 let harnessCount = 0;
 
@@ -44,7 +37,7 @@ export function harness(options: AppOptions = {}) {
     transaction,
     resourceUrl,
     /** A submission for this harness's own settlement and resource. */
-    valid: (overrides: Partial<ReviewSubmission> = {}) => valid({ transaction, resourceUrl, ...overrides }),
+    valid: (overrides: Partial<ReviewSubmission> = {}) => submission({ transaction, resourceUrl, ...overrides }),
     /** A second, distinct settlement for the same harness. */
     otherTransaction: hash(id + 1_000_000),
     /** The review page for this harness's own resource. */

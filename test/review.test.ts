@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 import { ReviewSubmission } from "../src/review";
-import { valid as submission } from "./helpers";
+import { submission } from "../src/fixtures";
 
 /** Asserts the schema refuses a body, naming the check that failed. */
 const rejects = (body: unknown, reason: RegExp) => {

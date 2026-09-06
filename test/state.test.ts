@@ -2,40 +2,40 @@ import { describe, expect, test } from "vitest";
 import {
   applyVerification, decideSubmission, MAX_VERIFY_ATTEMPTS, type SettlementFacts,
 } from "../src/state";
-import { valid } from "./helpers";
+import { submission } from "../src/fixtures";
 
 const facts = (overrides: Partial<SettlementFacts> = {}): SettlementFacts => {
-  const base = valid();
+  const base = submission();
   return { network: base.network, asset: base.asset, amount: base.amount, payTo: base.payTo,
     outcome: base.outcome, ...overrides };
 };
 
 describe("decideSubmission", () => {
   test("an unknown settlement goes to the chain", () => {
-    expect(decideSubmission(valid(), undefined)).toEqual({ kind: "verify" });
+    expect(decideSubmission(submission(), undefined)).toEqual({ kind: "verify" });
   });
 
   test("a known settlement with matching facts replays without touching the chain", () => {
-    expect(decideSubmission(valid(), facts())).toEqual({ kind: "replay", changed: false });
+    expect(decideSubmission(submission(), facts())).toEqual({ kind: "replay", changed: false });
   });
 
   test("a changed verdict is a replay that needs writing", () => {
-    expect(decideSubmission(valid({ outcome: "discarded" }), facts())).toEqual({ kind: "replay", changed: true });
-    expect(decideSubmission(valid({ note: "new" }), facts())).toEqual({ kind: "replay", changed: true });
+    expect(decideSubmission(submission({ outcome: "discarded" }), facts())).toEqual({ kind: "replay", changed: true });
+    expect(decideSubmission(submission({ note: "new" }), facts())).toEqual({ kind: "replay", changed: true });
   });
 
   test("settlement facts compare case-insensitively except the amount", () => {
     const upper = facts({ payTo: facts().payTo.toUpperCase().replace("0X", "0x") });
-    expect(decideSubmission(valid(), upper)).toEqual({ kind: "replay", changed: false });
+    expect(decideSubmission(submission(), upper)).toEqual({ kind: "replay", changed: false });
   });
 
   test("one transaction cannot have carried two different amounts", () => {
-    const result = decideSubmission(valid({ amount: "99" }), facts());
+    const result = decideSubmission(submission({ amount: "99" }), facts());
     expect(result).toEqual({ kind: "conflict", reason: "settlement fields differ from stored review: amount" });
   });
 
   test("every differing settlement field is named", () => {
-    const result = decideSubmission(valid({ amount: "99", network: "eip155:8453" }), facts());
+    const result = decideSubmission(submission({ amount: "99", network: "eip155:8453" }), facts());
     expect(result.kind).toBe("conflict");
     expect(result.kind === "conflict" && result.reason).toContain("network, amount");
   });

@@ -2,9 +2,8 @@ import { expect, test } from "vitest";
 import { USDC_BY_CHAIN_ID, verifySettlement } from "../src/verify";
 import {
   FACILITATOR, PAYER, PAY_TO, USDC_BASE_SEPOLIA,
-  receiptWith, rpcReturning, transferLog,
+  receiptWith, rpcReturning, submission, transferLog,
 } from "../src/fixtures";
-import { valid as submission } from "./helpers";
 
 test("USDC addresses match Circle's published contract list", () => {
   expect(USDC_BY_CHAIN_ID["8453"]).toBe("0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913");

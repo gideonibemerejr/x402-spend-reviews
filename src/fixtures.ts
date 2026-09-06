@@ -46,7 +46,7 @@ export function submission(overrides: Partial<ReviewSubmission> = {}): ReviewSub
     schema: 1,
     resourceUrl: "https://api.test/paid",
     network: "eip155:84532",
-    asset: "usdc",
+    asset: USDC_BASE_SEPOLIA,
     amount: "10000",
     payTo: PAY_TO,
     transaction: TX_HASH,
