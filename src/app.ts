@@ -3,6 +3,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { bodyLimit } from "hono/body-limit";
 import { zValidator } from "@hono/zod-validator";
+import { renderPage } from "./page";
 import { describeIssues, ReviewSubmission } from "./review";
 import { createRpc } from "./rpc";
 import { applyVerification, decideSubmission } from "./state";
@@ -79,6 +80,12 @@ export function createApp(options: AppOptions = {}) {
   app.use("*", async (c, next) => {
     if (c.req.method === "GET" || c.req.method === "OPTIONS") return readCors(c, next);
     return next();
+  });
+
+  // The dataset is meant to be checkable by anyone, so it has a page of its own:
+  // rendered on the server, no client JavaScript, readable from view-source.
+  app.get("/", rateLimited((env) => env.GET_REVIEWS) as never, async (c) => {
+    return c.html(renderPage(await new ReviewStore(c.env.DB).recent(100)));
   });
 
   // Exempt from rate limiting: a health check that can be throttled is not a health check.
