@@ -46,7 +46,14 @@ export const ReviewSubmission = z
     paidMs: z.number().int().nonnegative().optional(),
     ts: z.iso.datetime("must be an ISO 8601 timestamp"),
   })
-  .strict();
+  .strict()
+  // Paying yourself proves a transfer happened, not that a purchase did: the
+  // Transfer log would verify while the review behind it means nothing. Caught
+  // here so the claim is refused before it costs an RPC round trip.
+  .refine(
+    (submission) => submission.payer.toLowerCase() !== submission.payTo.toLowerCase(),
+    "payer and payTo are the same address"
+  );
 
 /** A published verdict about a paid resource. */
 export type ReviewOutcome = (typeof REVIEW_OUTCOMES)[number];

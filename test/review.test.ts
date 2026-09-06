@@ -63,6 +63,17 @@ test("free text is bounded", () => {
   rejects({ ...submission(), taskClass: "x".repeat(65) }, /taskClass/);
 });
 
+test("a payer cannot review a payment to itself", () => {
+  const payer = "0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc";
+  rejects({ ...submission(), payer, payTo: payer }, /payer and payTo are the same address/);
+  // Casing is not a way around it.
+  rejects({ ...submission(), payer, payTo: payer.toLowerCase() }, /payer and payTo are the same address/);
+  rejects({ ...submission(), payer: payer.toLowerCase(), payTo: payer.toUpperCase().replace("0X", "0x") },
+    /payer and payTo are the same address/);
+  // Distinct addresses still pass.
+  expect(ReviewSubmission.safeParse(submission()).success).toBe(true);
+});
+
 test("a non-EVM network is refused by the schema", () => {
   rejects({ ...submission(), network: "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp" }, /eip155/);
 });

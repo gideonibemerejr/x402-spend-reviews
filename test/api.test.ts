@@ -113,6 +113,19 @@ describe("POST /v1/reviews", () => {
     expect(call).not.toHaveBeenCalled();
   });
 
+  test("a self-payment is refused before the chain is consulted", async () => {
+    const call = vi.fn<RpcCall>(async () => {
+      throw new Error("a self-payment must not cost an RPC round trip");
+    });
+    const api = harness(rpc(call));
+    const submission = api.valid();
+    const response = await api.post({ ...submission, payTo: submission.payer });
+    expect(response.status).toBe(422);
+    expect((await response.json<{ error: string }>()).error).toBe("payer and payTo are the same address");
+    expect(call).not.toHaveBeenCalled();
+    expect((await (await api.page()).json<{ reviews: unknown[] }>()).reviews).toHaveLength(0);
+  });
+
   test("a non-EVM network is out of scope and never reaches the RPC", async () => {
     const call = vi.fn<RpcCall>(async () => {
       throw new Error("non-EVM networks must not be verified");

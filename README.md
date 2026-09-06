@@ -33,6 +33,10 @@ that matches all of it:
 
 Any miss is a `422` naming the check that failed, and nothing is stored.
 
+A submission whose `payer` and `payTo` are the same address is refused before any of this, without
+spending an RPC call. Such a transfer would verify perfectly and still mean nothing: paying yourself
+proves a transaction happened, not that a purchase did.
+
 The payer is read from the Transfer log, **never** from the transaction sender. Under EIP-3009
 `transferWithAuthorization` the facilitator broadcasts the transaction and pays the gas, so
 `tx.from` is the facilitator, not the buyer. Reading the buyer from `tx.from` would credit every
