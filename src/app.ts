@@ -85,7 +85,9 @@ export function createApp(options: AppOptions = {}) {
   // The dataset is meant to be checkable by anyone, so it has a page of its own:
   // rendered on the server, no client JavaScript, readable from view-source.
   app.get("/", rateLimited((env) => env.GET_REVIEWS) as never, async (c) => {
-    return c.html(renderPage(await new ReviewStore(c.env.DB).recent(100)));
+    const store = new ReviewStore(c.env.DB);
+    const [reviews, pending] = await Promise.all([store.recent(100), store.pendingCount()]);
+    return c.html(renderPage(reviews, pending));
   });
 
   // Exempt from rate limiting: a health check that can be throttled is not a health check.

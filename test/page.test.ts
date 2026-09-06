@@ -34,7 +34,7 @@ describe("formatting", () => {
   });
 
   test("a hash is shortened for display but kept whole for the title", () => {
-    expect(shortHash(`0x58156f${"0".repeat(54)}78c6`)).toBe("0x58156f…78c6");
+    expect(shortHash(`0x58156fc5${"0".repeat(52)}478c6`)).toBe("0x58156f…478c6");
     expect(shortHash("0xshort")).toBe("0xshort");
   });
 
@@ -55,7 +55,7 @@ describe("the page", () => {
 
   test("an unknown chain shows the hash without inventing an explorer", () => {
     const html = renderPage([stored({ network: "eip155:1" })]);
-    expect(html).toContain("0xababab…abab");
+    expect(html).toContain("0xababab…babab");
     expect(html).not.toContain("basescan.org");
   });
 
@@ -75,6 +75,24 @@ describe("the page", () => {
     expect(html).toContain("https://api.test/a&amp;b");
   });
 
+  test("the count line reports the verified total and the pending backlog", () => {
+    expect(renderPage([stored(), stored({ id: "r2" })], 3))
+      .toContain("<b>2 verified</b> · newest first · 3 pending");
+    expect(renderPage([], 0)).toContain("<b>0 verified</b> · newest first · 0 pending");
+  });
+
+  test("a note is shown under its endpoint, and omitted entirely when absent", () => {
+    const withNote = renderPage([stored({ note: "stale results, 3 of 10 links dead" })]);
+    expect(withNote).toContain('<div class="note">stale results, 3 of 10 links dead</div>');
+    expect(renderPage([stored()])).not.toContain('class="note"');
+  });
+
+  test("the amount carries its unit and the endpoint drops its scheme", () => {
+    const html = renderPage([stored()]);
+    expect(html).toContain("0.010000 USDC");
+    expect(html).toContain(">api.test/paid</a>");
+  });
+
   test("an empty dataset says so rather than rendering an empty table", () => {
     const html = renderPage([]);
     expect(html).toContain("No verified reviews yet.");
@@ -83,6 +101,8 @@ describe("the page", () => {
 
   test("the page states what it is and links the JSON and both repos", () => {
     const html = renderPage([stored()]);
+    expect(html).toContain("Verified reviews <span>of things agents paid for</span>");
+    expect(html).toContain("kept only after the payment behind it was found on-chain");
     expect(html).toContain('href="/v1/reviews/recent"');
     expect(html).toContain("https://github.com/gideonibemerejr/x402-spend-reviews");
     expect(html).toContain("https://github.com/gideonibemerejr/x402-spend");
