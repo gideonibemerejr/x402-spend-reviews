@@ -172,6 +172,19 @@ public endpoints answer `403` to clients that do not identify themselves.
 bundled workerd currently lags wrangler's, so raising it past that breaks the suite before it
 breaks production.
 
+## [Roadmap](https://github.com/gideonibemerejr/x402-spend-reviews/issues?q=is%3Aissue+is%3Aopen+label%3Aroadmap)
+
+Verification today covers ERC-20 transfers on EVM chains (Base mainnet and Sepolia configured). In order:
+
+1. Solana verification: pre/post token balance diff per owner and mint, `solana:*` networks.
+2. Per-endpoint pages (`/r/<host>/<path>`) and a leaderboard by task class, once there are enough reviews to rank.
+3. Reviewer weighting: distinct endpoints paid, spend spread, account age. A payer with one transaction to one endpoint carries near-zero weight. Published as part of the score, never hidden.
+4. Fiat-rail verification via facilitator-signed receipts (the `offer-receipt` extension), for payments with no chain.
+5. Batch-settlement handling when a voucher redemption nets amounts.
+6. Signed responses and a public dump, so the dataset can be mirrored and checked without trusting this server.
+
+Not planned: accounts, seller-submitted outcomes, or any review that isn't tied to a settlement.
+
 ## Tests
 
 Offline and deterministic. Transaction receipts are hand-built fixtures injected through the
