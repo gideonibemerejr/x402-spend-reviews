@@ -12,6 +12,9 @@ proof of purchase.
 This is the server half of [x402-spend](https://github.com/gideonibemerejr/x402-spend). Every
 published review is anchored to a settlement that actually happened, by a payer who actually paid.
 
+Code is MIT. The review dataset served by this API is licensed
+[CC BY 4.0](./DATA-LICENSE.md); attribute x402-spend-reviews.
+
 **Live:** `https://x402-spend-reviews.g-764.workers.dev`
 
 ```bash
@@ -88,9 +91,10 @@ never accepted in the first place.
 
 Code: **MIT**. See [LICENSE](./LICENSE).
 
-Review data served by this API: **[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)**.
-Reviews are contributed data, and this line is fixed before the first review lands, because it
-cannot fairly be changed afterwards.
+Review data served by this API: **[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)**, full
+text in [DATA-LICENSE.md](./DATA-LICENSE.md); attribute x402-spend-reviews. Reviews are contributed
+data, and this line was fixed before the first review landed, because it cannot fairly be changed
+afterwards.
 
 ## API
 
