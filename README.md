@@ -9,6 +9,16 @@ tools grade x402 endpoints from probes and on-chain volume, and say plainly that
 verify whether anything was delivered after payment. That is the gap this fills: every published
 review is anchored to a settlement that actually happened, by a payer who actually paid.
 
+**Live:** `https://x402-spend-reviews.g-764.workers.dev`
+
+```bash
+curl https://x402-spend-reviews.g-764.workers.dev/health
+# {"ok":true,"pending":0}
+```
+
+That one call exercises the whole stack: `pending` is a real `COUNT(*)` against the reviews
+table, so an unmigrated database answers with an error rather than a zero.
+
 ## The verification rule, in plain words
 
 A submission names a transaction, a payer, a recipient, an asset contract and an amount. The

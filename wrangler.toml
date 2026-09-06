@@ -1,5 +1,11 @@
 name = "x402-spend-reviews"
 main = "src/index.ts"
+
+# Stated rather than defaulted. Preview URLs would publish every version at its
+# own public address against this same production D1, so an unfinished version
+# would stay callable after being deployed past.
+workers_dev = true
+preview_urls = false
 # Newest date the whole toolchain accepts: the vitest pool's bundled workerd
 # supports up to 2026-08-22, older than wrangler's own. Raise this once the pool
 # ships a newer runtime.
