@@ -1,13 +1,16 @@
 # x402-spend-reviews
 
+> "We probe and observe; we do not verify delivery-after-payment."
+> — [x402-trust](https://x402.fuchss.app)
+
+This does.
+
 A verification server for reviews of paid x402 endpoints. A review is accepted only when the
 settlement transaction on chain proves the payment it claims, so the transaction hash is the
 proof of purchase.
 
-This is the server half of [x402-spend](https://github.com/gideonibemerejr/x402-spend). Existing
-tools grade x402 endpoints from probes and on-chain volume, and say plainly that they do not
-verify whether anything was delivered after payment. That is the gap this fills: every published
-review is anchored to a settlement that actually happened, by a payer who actually paid.
+This is the server half of [x402-spend](https://github.com/gideonibemerejr/x402-spend). Every
+published review is anchored to a settlement that actually happened, by a payer who actually paid.
 
 **Live:** `https://x402-spend-reviews.g-764.workers.dev`
 
