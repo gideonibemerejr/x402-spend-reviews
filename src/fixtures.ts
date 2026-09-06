@@ -1,7 +1,7 @@
 /** Chain-free fixtures: hand-built transaction receipts so tests never touch a network. */
-import type { ReviewSubmission } from "./review.js";
-import type { RpcCall, RpcLog, RpcTransactionReceipt } from "./verify.js";
-import { TRANSFER_TOPIC } from "./verify.js";
+import type { ReviewSubmission } from "./review";
+import type { RpcCall, RpcLog, RpcTransactionReceipt } from "./verify";
+import { TRANSFER_TOPIC } from "./verify";
 
 export const PAYER = "0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc";
 export const PAY_TO = "0x976EA74026E726554dB657fA54763abd0C3a0aa9";
@@ -46,7 +46,7 @@ export function submission(overrides: Partial<ReviewSubmission> = {}): ReviewSub
     schema: 1,
     resourceUrl: "https://api.test/paid",
     network: "eip155:84532",
-    asset: "usdc",
+    asset: USDC_BASE_SEPOLIA,
     amount: "10000",
     payTo: PAY_TO,
     transaction: TX_HASH,

@@ -1,17 +1,29 @@
 # x402-spend-reviews
 
 A verification server for reviews of paid x402 endpoints. A review is accepted only when the
-settlement transaction on chain proves the payment it claims, so the tx hash is the proof of purchase.
+settlement transaction on chain proves the payment it claims, so the transaction hash is the
+proof of purchase.
 
-This is the server half of [x402-spend](https://github.com/gideonibemerejr/x402-spend) 0.3. Existing
-tools grade x402 endpoints from probes and on-chain volume, and state plainly that they do not verify
-whether anything was delivered after payment. That is the gap this fills: every review here is anchored
-to a settlement that actually happened, by a payer who actually paid.
+This is the server half of [x402-spend](https://github.com/gideonibemerejr/x402-spend). Existing
+tools grade x402 endpoints from probes and on-chain volume, and say plainly that they do not
+verify whether anything was delivered after payment. That is the gap this fills: every published
+review is anchored to a settlement that actually happened, by a payer who actually paid.
+
+**Live:** `https://x402-spend-reviews.g-764.workers.dev`
+
+```bash
+curl https://x402-spend-reviews.g-764.workers.dev/health
+# {"ok":true,"pending":0}
+```
+
+That one call exercises the whole stack: `pending` is a real `COUNT(*)` against the reviews
+table, so an unmigrated database answers with an error rather than a zero.
 
 ## The verification rule, in plain words
 
-A submission names a transaction, a payer, a recipient, an asset and an amount. The server fetches
-that transaction's receipt over JSON-RPC and looks for an ERC-20 `Transfer` log that matches all of it:
+A submission names a transaction, a payer, a recipient, an asset contract and an amount. The
+server fetches that transaction's receipt over JSON-RPC and looks for an ERC-20 `Transfer` log
+that matches all of it:
 
 1. The transaction exists and succeeded (`status` is `0x1`).
 2. A log on the **asset's contract** carries the `Transfer(address,address,uint256)` topic.
@@ -19,52 +31,75 @@ that transaction's receipt over JSON-RPC and looks for an ERC-20 `Transfer` log 
 4. That log's recipient is the claimed **payTo**.
 5. That log's value is exactly the claimed **amount**, in atomic units.
 
-Any miss is a `422` naming the check that failed. Nothing is stored until every check passes.
+Any miss is a `422` naming the check that failed, and nothing is stored.
 
-The payer is always read from the transfer log, **never** from the transaction sender. Under EIP-3009
-`transferWithAuthorization` the facilitator broadcasts the transaction and pays the gas, so `tx.from`
-is the facilitator, not the buyer. Reading the buyer from `tx.from` would attribute every review to
-the facilitator.
+The payer is read from the Transfer log, **never** from the transaction sender. Under EIP-3009
+`transferWithAuthorization` the facilitator broadcasts the transaction and pays the gas, so
+`tx.from` is the facilitator, not the buyer. Reading the buyer from `tx.from` would credit every
+review on the network to a handful of facilitators.
 
-Asset resolution is deliberately narrow: an `asset` that is already a contract address is used as-is,
-and the only symbolic name recognised is `usdc`, which resolves to Circle's published contract for that
-chain. An unrecognised name is rejected rather than assumed to be USDC — otherwise a review claiming
-one token could be verified against a transfer of another.
+`asset` must be a contract address. Symbolic names are refused, so a review claiming one token
+can never be proved by a transfer of another.
 
-EVM chains only in 0.3 (`eip155:*`). Anything else is a `422`. Solana verification is a follow-up.
+EVM chains only (`eip155:*`); Base mainnet and Base Sepolia are configured. Anything else is a
+`422`. Solana verification is a follow-up.
 
-### One settlement, one review
+## POST is safe to retry
 
-Rows are unique on `(transaction, payer)`. Posting the same settlement again with a **different**
-outcome relabels the existing review (`200`); posting the same outcome again is a `409`. A buyer can
-change their mind, but cannot vote twice with one payment.
+Reviews are unique on `(transaction, payer)`: one payment buys exactly one review.
+
+A repost whose settlement facts still match the stored row **skips the chain call entirely** — a
+settlement already proved cannot change — and applies the verdict: `201` the first time, `200`
+on every replay, with an identical body. Retry blindly; there is no duplicate to clean up and no
+`409` to handle. Changing your mind relabels the existing review rather than adding a second
+voice, and notes can be edited on their own.
+
+A repost whose `amount`, `asset`, `payTo` or `network` disagrees with the stored row is refused
+with a `422`: one transaction cannot have carried two different payments.
+
+### When the chain is unreachable
+
+That is this server's problem, not yours. The review is stored as `pending` and answered `202`.
+A cron trigger re-verifies pending rows every five minutes, and each moves on its own evidence —
+proved becomes `verified`, contradicted becomes `rejected`, still-unreachable keeps its place
+with an attempt spent, up to five. Reads serve `verified` rows only, so nothing unproved is ever
+published. A `503` means only that the database write failed.
+
+There is no queue and no worker process. `retryPending` is a function that a cron calls. If one
+tick ever stops keeping up with the backlog, that is the moment to reach for Queues — not before.
 
 ## Reviews are public
 
-Every stored review is public and **includes the payer address**. That is disclosed, not hidden — it
-is what makes a review checkable by anyone. Reviews carry no receipt internals: no legs, byte counts,
-HTTP status, offered alternatives, or the client's local receipt id. Receipts stay on the client
-machine by default; publishing a review is opt-in, per meter instance.
+Every published review is public and **includes the payer address**. That is disclosed, not
+hidden: it is what lets anyone re-check the claim against the chain. Reviews carry no receipt
+internals — no legs, byte counts, HTTP status, offered alternatives, or the client's local
+receipt id — and a submission carrying any of those is rejected rather than quietly trimmed.
+`resourceUrl` must already have its query string and fragment stripped, so secrets in URLs are
+never accepted in the first place.
 
 ## Licence
 
 Code: **MIT**. See [LICENSE](./LICENSE).
 
 Review data served by this API: **[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)**.
-Reviews are contributed data, and this line is fixed before the first review lands, because it cannot
-fairly be changed afterwards.
+Reviews are contributed data, and this line is fixed before the first review lands, because it
+cannot fairly be changed afterwards.
 
 ## API
 
 ```
-POST /v1/reviews          → 201 {id, verified, updated} | 200 relabelled | 409 | 422 | 503
+POST /v1/reviews          → 201 verified | 200 replayed | 202 pending | 422 | 429 | 503
 GET  /v1/reviews?resource=<url>  → { resourceUrl, counts, reviews }
-GET  /v1/reviews/recent   → { reviews }   last 100, newest first
-GET  /health              → { ok: true }
+GET  /v1/reviews/recent   → { reviews }   last 100 verified, newest first
+GET  /health              → { ok, pending }
+POST /internal/retry      → Authorization: Bearer <ADMIN_TOKEN>; runs one retry pass
 ```
 
-JSON only. `GET` is CORS-open to any origin. A `503` means the chain could not be reached — the claim
-may well be true, this server just could not check it, so retry rather than treating it as a rejection.
+JSON only. `GET` is CORS-open to any origin; `POST` is not, because publishing a review is a
+server-to-server act no browser should be talked into performing on someone's behalf.
+
+**Rate limits**, per IP: 30 POST/minute, 300 GET/minute. `/health` is exempt. Over the limit is a
+`429`. Bodies are capped at 4096 bytes.
 
 ### Submission
 
@@ -74,7 +109,7 @@ may well be true, this server just could not check it, so retry rather than trea
   "resourceUrl": "https://api.example/paid",
   "taskClass": "search",
   "network": "eip155:84532",
-  "asset": "usdc",
+  "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
   "amount": "10000",
   "payTo": "0x...",
   "transaction": "0x...",
@@ -86,38 +121,52 @@ may well be true, this server just could not check it, so retry rather than trea
 }
 ```
 
-`outcome` is one of `used`, `retried`, `discarded`, `failed`. `unlabeled` is rejected: an unlabeled
-receipt has no verdict to publish. `resourceUrl` must already have its query string and fragment
-stripped, so secrets in URLs are never accepted in the first place.
+`outcome` is one of `used`, `retried`, `discarded`, `failed`. `unlabeled` is rejected: an
+unlabeled receipt has no verdict to publish.
 
 ## Running it
 
-Requires Node **≥ 22.5** for `node:sqlite`. No runtime dependencies: `node:http`, `node:sqlite`, and
-raw JSON-RPC over `fetch`.
+Cloudflare Workers and D1. Runtime dependencies are `hono`, `@hono/zod-validator` and `zod`;
+verification is raw JSON-RPC over `fetch`, with no chain client library.
 
 ```bash
 npm install
-npm test
-npm run build && npm start
+npm test              # vitest under the Workers pool, against a local D1
+npm run typecheck
+npm run dev
 ```
 
-| Variable | Default | Purpose |
-|---|---|---|
-| `PORT` | `8402` | Listen port |
-| `DB_PATH` | `x402-spend-reviews.db` | SQLite file |
-| `RPC_URL_8453` | `https://mainnet.base.org` | Base mainnet JSON-RPC |
-| `RPC_URL_84532` | `https://sepolia.base.org` | Base Sepolia JSON-RPC |
+Configuration lives in `wrangler.toml`: the D1 binding, the two rate-limit bindings, the cron
+trigger, and observability. **Secrets never go in that file.**
 
-The public Base endpoints are shared and rate-limited; set your own for any real deployment. A chain
-with no configured endpoint is refused rather than silently skipped.
+```bash
+wrangler d1 create x402-spend-reviews      # then paste database_id into wrangler.toml
+npm run migrate:local
+npm run migrate:remote
 
-Deploys anywhere Node ≥ 22.5 runs. The database is a single file.
+wrangler secret put RPC_URL_8453           # Base mainnet JSON-RPC
+wrangler secret put RPC_URL_84532          # Base Sepolia JSON-RPC
+wrangler secret put ADMIN_TOKEN            # guards POST /internal/retry
+
+npm run deploy
+```
+
+For local development the same three values go in `.dev.vars`, which is gitignored.
+
+Without a configured endpoint, a chain falls back to the public Base RPC. Those are shared and
+rate-limited, so set your own for anything real. Every RPC call sends a `User-Agent`, because the
+public endpoints answer `403` to clients that do not identify themselves.
+
+`compatibility_date` is pinned to the newest date the whole toolchain accepts; the vitest pool's
+bundled workerd currently lags wrangler's, so raising it past that breaks the suite before it
+breaks production.
 
 ## Tests
 
-The suite is fixture-driven and never touches a network: transaction receipts are hand-built and
-injected through the `RpcCall` seam, so `npm test` is fully offline and deterministic.
+Offline and deterministic. Transaction receipts are hand-built fixtures injected through the
+`RpcCall` seam, so nothing reaches a real chain, and D1 is the pool's local database with the
+migrations applied in setup. Rate limiting is exercised against the binding's local emulation.
 
 USDC contract addresses are checked against
-[Circle's published list](https://developers.circle.com/stablecoins/usdc-contract-addresses)
-by a test, so a bad constant fails the build rather than silently verifying against the wrong token.
+[Circle's published list](https://developers.circle.com/stablecoins/usdc-contract-addresses) by a
+test, so a wrong constant fails the build rather than silently verifying against the wrong token.

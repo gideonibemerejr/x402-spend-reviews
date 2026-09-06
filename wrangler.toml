@@ -1,0 +1,50 @@
+name = "x402-spend-reviews"
+main = "src/index.ts"
+
+# Stated rather than defaulted. Preview URLs would publish every version at its
+# own public address against this same production D1, so an unfinished version
+# would stay callable after being deployed past.
+workers_dev = true
+preview_urls = false
+# Newest date the whole toolchain accepts: the vitest pool's bundled workerd
+# supports up to 2026-08-22, older than wrangler's own. Raise this once the pool
+# ships a newer runtime.
+compatibility_date = "2026-08-22"
+
+# Traces need their own flag; the top-level setting alone does not enable them.
+[observability]
+enabled = true
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+
+[observability.traces]
+enabled = true
+head_sampling_rate = 0.01
+
+# Secrets only, never keys in this file:
+#   wrangler secret put RPC_URL_8453
+#   wrangler secret put RPC_URL_84532
+#   wrangler secret put ADMIN_TOKEN
+
+[[d1_databases]]
+binding = "DB"
+database_name = "x402-spend-reviews"
+database_id = "f493dbb4-ff0b-4f05-929a-e5e464d35164"
+migrations_dir = "migrations"
+
+# period must be 10 or 60; anything else is rejected by the platform.
+[[ratelimits]]
+name = "POST_REVIEWS"
+namespace_id = "1001"
+simple = { limit = 30, period = 60 }
+
+[[ratelimits]]
+name = "GET_REVIEWS"
+namespace_id = "1002"
+simple = { limit = 300, period = 60 }
+
+# Drains pending verifications; retryPending is also reachable at POST /internal/retry.
+[triggers]
+crons = ["*/5 * * * *"]

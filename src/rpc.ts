@@ -1,5 +1,8 @@
 /** Minimal JSON-RPC over fetch. No client library, no provider abstraction. */
-import type { RpcCall } from "./verify.js";
+import type { RpcCall } from "./verify";
+
+/** Configuration source. Deliberately not Node's ProcessEnv: this file runs on Workers too. */
+export type RpcEnv = Record<string, string | undefined>;
 
 /**
  * Public endpoints used when no `RPC_URL_<chainId>` is configured. They are
@@ -11,9 +14,17 @@ export const PUBLIC_RPC_URLS: Readonly<Record<string, string>> = {
 };
 
 /** Resolves the RPC endpoint for a chain, preferring explicit configuration. */
-export function rpcUrlFor(chainId: string, env: NodeJS.ProcessEnv = process.env): string | undefined {
+export function rpcUrlFor(chainId: string, env: RpcEnv = {}): string | undefined {
   return env[`RPC_URL_${chainId}`] || PUBLIC_RPC_URLS[chainId];
 }
+
+/**
+ * Sent on every RPC call. Public endpoints sit behind bot protection that
+ * refuses unrecognised clients, so an absent User-Agent is a 403 waiting to
+ * happen rather than a cosmetic detail.
+ */
+export const RPC_USER_AGENT =
+  "x402-spend-reviews/0.3 (+github.com/gideonibemerejr/x402-spend-reviews)";
 
 /** Raised when the endpoint is unreachable, slow, or answers with a JSON-RPC error. */
 export class RpcError extends Error {
@@ -32,7 +43,7 @@ export class RpcError extends Error {
  */
 export function createRpc(
   chainId: string,
-  options: { env?: NodeJS.ProcessEnv; fetchImpl?: typeof fetch; timeoutMs?: number } = {}
+  options: { env?: RpcEnv; fetchImpl?: typeof fetch; timeoutMs?: number } = {}
 ): RpcCall | undefined {
   const url = rpcUrlFor(chainId, options.env);
   if (!url) return undefined;
@@ -42,7 +53,7 @@ export function createRpc(
   return async (method, params) => {
     const response = await fetchImpl(url, {
       method: "POST",
-      headers: { "content-type": "application/json" },
+      headers: { "content-type": "application/json", "user-agent": RPC_USER_AGENT },
       body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }),
       signal: AbortSignal.timeout(timeoutMs),
     }).catch((cause: unknown) => {

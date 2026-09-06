@@ -1,27 +1,21 @@
-/** Public surface of the review verification server. */
-export {
-  parseSubmission,
-  REVIEW_OUTCOMES,
-  ReviewValidationError,
-  type ReviewOutcome,
-  type ReviewSubmission,
-} from "./review.js";
-export {
-  TRANSFER_TOPIC,
-  USDC_BY_CHAIN_ID,
-  verifySettlement,
-  type RpcCall,
-  type RpcLog,
-  type RpcTransactionReceipt,
-  type VerificationResult,
-} from "./verify.js";
-export { createRpc, PUBLIC_RPC_URLS, RpcError, rpcUrlFor } from "./rpc.js";
-export {
-  DEFAULT_DB_PATH,
-  ReviewStore,
-  type OutcomeCounts,
-  type ResourceReviews,
-  type StoredReview,
-  type WriteResult,
-} from "./store.js";
-export { createServer, type RpcResolver, type ServerOptions } from "./server.js";
+/** Worker entry point. */
+import { createApp } from "./app";
+import { retryPending } from "./retry";
+
+const app = createApp();
+
+export default {
+  fetch: app.fetch,
+
+  /**
+   * Drains the backlog of reviews parked while a chain was unreachable.
+   *
+   * One pass per tick, no queue and no backoff schedule: if a single tick ever
+   * stops keeping up, that is the signal to reach for Queues, not a reason to
+   * build one now.
+   */
+  async scheduled(_controller, env, _ctx) {
+    const report = await retryPending(env, 50);
+    console.log(JSON.stringify({ message: "retryPending", ...report }));
+  },
+} satisfies ExportedHandler<Env>;
