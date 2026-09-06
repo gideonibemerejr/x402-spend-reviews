@@ -196,6 +196,41 @@ export class ReviewStore {
     return rows.results.map(toReview);
   }
 
+  /**
+   * Reviews still worth another verification attempt, oldest first.
+   *
+   * Rows at the attempt ceiling are excluded: they have already been settled as
+   * rejected, and re-reading them would starve newer work on every cron tick.
+   */
+  async pending(limit: number, maxAttempts: number): Promise<StoredReview[]> {
+    const rows = await this.db
+      .prepare(
+        `SELECT ${COLUMNS} FROM reviews
+         WHERE status = 'pending' AND verify_attempts < ?
+         ORDER BY created_at ASC LIMIT ?`
+      )
+      .bind(maxAttempts, limit)
+      .all<Row>();
+    return rows.results.map(toReview);
+  }
+
+  /** Records the result of a re-verification against an existing row. */
+  async applyRetry(id: string, state: WriteState, now: Date = new Date()): Promise<void> {
+    const timestamp = now.toISOString();
+    await this.db
+      .prepare(
+        `UPDATE reviews
+         SET status = ?, verify_attempts = ?, last_error = ?,
+             verified_at = COALESCE(?, verified_at), updated_at = ?
+         WHERE id = ?`
+      )
+      .bind(
+        state.status, state.verifyAttempts, state.lastError ?? null,
+        state.stampVerifiedAt ? timestamp : null, timestamp, id
+      )
+      .run();
+  }
+
   /** How many reviews are waiting on a chain that could not be reached. */
   async pendingCount(): Promise<number> {
     const row = await this.db

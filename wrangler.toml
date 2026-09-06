@@ -38,3 +38,7 @@ simple = { limit = 30, period = 60 }
 name = "GET_REVIEWS"
 namespace_id = "1002"
 simple = { limit = 300, period = 60 }
+
+# Drains pending verifications; retryPending is also reachable at POST /internal/retry.
+[triggers]
+crons = ["*/5 * * * *"]

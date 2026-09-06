@@ -6,6 +6,7 @@ import { zValidator } from "@hono/zod-validator";
 import { describeIssues, ReviewSubmission } from "./review";
 import { createRpc } from "./rpc";
 import { applyVerification, decideSubmission } from "./state";
+import { retryPending, type RetryRpcResolver } from "./retry";
 import { ReviewStore, settlementFacts } from "./store";
 import { verifySettlement, type RpcCall } from "./verify";
 
@@ -15,9 +16,10 @@ export type RpcResolver = (chainId: string, env: Env) => RpcCall | undefined;
 export interface AppOptions {
   rpc?: RpcResolver;
   /**
-   * Whether an unreachable chain parks the review as `pending` and answers 202.
-   * Off until the pending path and its retry trigger exist; until then an
-   * unreachable chain is a 503 and nothing is stored.
+   * Whether an unreachable chain parks the review as `pending` and answers 202
+   * instead of refusing it. On by default: a node outage is this server's
+   * problem, and turning it into a lost review would make an honest client pay
+   * for it. Tests switch it off to exercise the refusing path.
    */
   allowPending?: boolean;
 }
@@ -33,6 +35,24 @@ const defaultRpc: RpcResolver = (chainId, env) => {
   const url = rpcUrlFromEnv(env, chainId);
   return createRpc(chainId, { env: url ? { [`RPC_URL_${chainId}`]: url } : {} });
 };
+
+/**
+ * Compares a bearer token against the configured admin secret in constant time.
+ *
+ * Both sides are hashed to a fixed size first, so neither the token's length nor
+ * how far it matched is observable in the response time. An unset secret fails
+ * closed rather than opening the route.
+ */
+async function bearerMatches(header: string | undefined, secret: string | undefined): Promise<boolean> {
+  const provided = header?.match(/^Bearer\s+(.+)$/i)?.[1];
+  if (!provided || !secret) return false;
+  const encoder = new TextEncoder();
+  const [a, b] = await Promise.all([
+    crypto.subtle.digest("SHA-256", encoder.encode(provided)),
+    crypto.subtle.digest("SHA-256", encoder.encode(secret)),
+  ]);
+  return crypto.subtle.timingSafeEqual(a, b);
+}
 
 /** Rate limits are keyed by client IP, so one noisy caller cannot spend everyone's budget. */
 const rateLimited = (pick: (env: Env) => RateLimit) =>
@@ -52,7 +72,7 @@ const rateLimited = (pick: (env: Env) => RateLimit) =>
  */
 export function createApp(options: AppOptions = {}) {
   const resolveRpc = options.rpc ?? defaultRpc;
-  const allowPending = options.allowPending ?? false;
+  const allowPending = options.allowPending ?? true;
   const app = new Hono<{ Bindings: Env }>();
 
   const readCors = cors({ origin: "*", allowMethods: ["GET", "OPTIONS"] });
@@ -113,11 +133,28 @@ export function createApp(options: AppOptions = {}) {
             : { error: transition.lastError ?? "verification failed" };
         return c.json(body, transition.httpStatus);
       }
-      const created = await store.create(submission, transition);
-      return c.json({ id: created.id, status: created.status, verified: created.status === "verified" },
-        transition.httpStatus);
+      try {
+        const created = await store.create(submission, transition);
+        return c.json({ id: created.id, status: created.status, verified: created.status === "verified" },
+          transition.httpStatus);
+      } catch (cause: unknown) {
+        // The chain answered; only storage failed. Retrying is the right move.
+        console.error(JSON.stringify({
+          message: "review write failed",
+          transaction: submission.transaction,
+          error: cause instanceof Error ? cause.message : String(cause),
+        }));
+        return c.json({ error: "could not record this review" }, 503);
+      }
     }
   );
+
+  app.post("/internal/retry", async (c) => {
+    if (!(await bearerMatches(c.req.header("authorization"), c.env.ADMIN_TOKEN))) {
+      return c.json({ error: "unauthorized" }, 401);
+    }
+    return c.json(await retryPending(c.env, 50, { rpc: resolveRpc as RetryRpcResolver }));
+  });
 
   app.get("/v1/reviews/recent", rateLimited((env) => env.GET_REVIEWS) as never, async (c) => {
     return c.json({ reviews: await new ReviewStore(c.env.DB).recent(100) });

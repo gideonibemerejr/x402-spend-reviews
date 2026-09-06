@@ -131,11 +131,39 @@ describe("POST /v1/reviews", () => {
     expect((await response.json<{ error: string }>()).error).toMatch(/no RPC endpoint configured for chain 1/);
   });
 
-  test("an unreachable chain is a server problem, not a rejected review", async () => {
+  test("an unreachable chain parks the review instead of losing it", async () => {
     const broken: RpcCall = async () => {
       throw new Error("connect ECONNREFUSED");
     };
     const api = harness(rpc(broken));
+    const response = await api.post(api.valid());
+    expect(response.status).toBe(202);
+    expect(await response.json()).toMatchObject({ status: "pending", verified: false });
+
+    // Parked, not published: reads serve verified reviews only.
+    expect((await (await api.page()).json<{ reviews: unknown[] }>()).reviews).toHaveLength(0);
+    const health = await (await api.get("/health")).json<{ pending: number }>();
+    expect(health.pending).toBeGreaterThan(0);
+  });
+
+  test("a parked review is still idempotent on repost", async () => {
+    const broken: RpcCall = async () => {
+      throw new Error("connect ECONNREFUSED");
+    };
+    const api = harness(rpc(broken));
+    const first = await api.post(api.valid());
+    const second = await api.post(api.valid());
+    expect(first.status).toBe(202);
+    // Already on record, so the repost replays the stored row rather than re-parking it.
+    expect(second.status).toBe(200);
+    expect(await second.json()).toEqual(await first.json());
+  });
+
+  test("with the pending path switched off an unreachable chain is refused outright", async () => {
+    const broken: RpcCall = async () => {
+      throw new Error("connect ECONNREFUSED");
+    };
+    const api = harness({ ...rpc(broken), allowPending: false });
     const response = await api.post(api.valid());
     expect(response.status).toBe(503);
     expect((await response.json<{ error: string }>()).error).toMatch(/could not reach the chain/);
@@ -180,7 +208,7 @@ describe("reads", () => {
     for (let i = 0; i < 40; i++) {
       const health = await api.get("/health");
       expect(health.status).toBe(200);
-      expect(await health.json()).toEqual({ ok: true, pending: 0 });
+      expect(await health.json()).toEqual({ ok: true, pending: expect.any(Number) });
     }
   });
 

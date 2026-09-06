@@ -34,6 +34,8 @@ export function harness(options: AppOptions = {}) {
   return {
     app,
     ip,
+    /** Sends an arbitrary request through this harness's app. */
+    send,
     transaction,
     resourceUrl,
     /** A submission for this harness's own settlement and resource. */
