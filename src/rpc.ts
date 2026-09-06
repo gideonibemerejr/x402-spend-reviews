@@ -1,5 +1,8 @@
 /** Minimal JSON-RPC over fetch. No client library, no provider abstraction. */
-import type { RpcCall } from "./verify.js";
+import type { RpcCall } from "./verify";
+
+/** Configuration source. Deliberately not Node's ProcessEnv: this file runs on Workers too. */
+export type RpcEnv = Record<string, string | undefined>;
 
 /**
  * Public endpoints used when no `RPC_URL_<chainId>` is configured. They are
@@ -11,7 +14,7 @@ export const PUBLIC_RPC_URLS: Readonly<Record<string, string>> = {
 };
 
 /** Resolves the RPC endpoint for a chain, preferring explicit configuration. */
-export function rpcUrlFor(chainId: string, env: NodeJS.ProcessEnv = process.env): string | undefined {
+export function rpcUrlFor(chainId: string, env: RpcEnv = {}): string | undefined {
   return env[`RPC_URL_${chainId}`] || PUBLIC_RPC_URLS[chainId];
 }
 
@@ -32,7 +35,7 @@ export class RpcError extends Error {
  */
 export function createRpc(
   chainId: string,
-  options: { env?: NodeJS.ProcessEnv; fetchImpl?: typeof fetch; timeoutMs?: number } = {}
+  options: { env?: RpcEnv; fetchImpl?: typeof fetch; timeoutMs?: number } = {}
 ): RpcCall | undefined {
   const url = rpcUrlFor(chainId, options.env);
   if (!url) return undefined;

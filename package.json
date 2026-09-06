@@ -4,30 +4,25 @@
   "description": "Verification server for x402-spend reviews: a review is accepted only when the settlement transaction proves the payment it claims.",
   "type": "module",
   "license": "MIT",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": "./dist/index.js"
-  },
-  "bin": {
-    "x402-spend-reviews": "dist/main.js"
-  },
-  "files": [
-    "dist",
-    "!dist/*.test.*",
-    "README.md",
-    "LICENSE"
-  ],
-  "engines": {
-    "node": ">=22.5"
-  },
   "scripts": {
-    "build": "tsc -p .",
-    "test": "npm run build && node --no-warnings --test \"dist/**/*.test.js\"",
-    "start": "node --no-warnings dist/main.js"
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit -p .",
+    "types": "wrangler types",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "migrate:local": "wrangler d1 migrations apply x402-spend-reviews --local",
+    "migrate:remote": "wrangler d1 migrations apply x402-spend-reviews --remote"
   },
   "devDependencies": {
-    "@types/node": "^22.10.2",
-    "typescript": "^5.7.2"
-  }
+    "@cloudflare/vitest-pool-workers": "^0.22.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11",
+    "wrangler": "^4.129.0"
+  },
+  "dependencies": {
+    "@hono/zod-validator": "^0.9.1",
+    "hono": "^4.13.7",
+    "zod": "^4.5.4"
+  },
+  "private": true
 }

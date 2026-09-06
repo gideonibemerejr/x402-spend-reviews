@@ -1,45 +1,18 @@
-/** SQLite persistence for verified reviews. */
-import { DatabaseSync } from "node:sqlite";
-import { randomUUID } from "node:crypto";
-import type { ReviewOutcome, ReviewSubmission } from "./review.js";
-import { REVIEW_OUTCOMES } from "./review.js";
+/** D1 persistence. The only file that knows SQL. */
+import type { ReviewOutcome, ReviewSubmission } from "./review";
+import { REVIEW_OUTCOMES } from "./review";
+import type { ReviewStatus, SettlementFacts } from "./state";
 
-/** Default database path used by the server entry point. */
-export const DEFAULT_DB_PATH = "x402-spend-reviews.db";
-
-/**
- * One row per settlement. The unique index on `(tx_hash, payer)` is the whole
- * anti-duplication rule: one settlement buys exactly one review, and a later
- * post for the same pair relabels it rather than adding a second voice.
- */
-const SCHEMA = `
-CREATE TABLE IF NOT EXISTS reviews (
-  id           TEXT PRIMARY KEY,
-  tx_hash      TEXT NOT NULL,
-  payer        TEXT NOT NULL,
-  resource_url TEXT NOT NULL,
-  network      TEXT NOT NULL,
-  asset        TEXT NOT NULL,
-  amount       TEXT NOT NULL,
-  pay_to       TEXT NOT NULL,
-  outcome      TEXT NOT NULL,
-  note         TEXT,
-  task_class   TEXT,
-  paid_ms      INTEGER,
-  ts           TEXT NOT NULL,
-  verified_at  TEXT NOT NULL,
-  json         TEXT NOT NULL
-);
-CREATE UNIQUE INDEX IF NOT EXISTS idx_reviews_settlement ON reviews (tx_hash, payer);
-CREATE INDEX IF NOT EXISTS idx_reviews_resource_url ON reviews (resource_url);
-CREATE INDEX IF NOT EXISTS idx_reviews_verified_at   ON reviews (verified_at);
-`;
-
-/** A stored review: what was submitted, plus the server's own identifiers. */
+/** A stored review: what was submitted, plus this server's own bookkeeping. */
 export interface StoredReview extends ReviewSubmission {
   id: string;
+  status: ReviewStatus;
+  verifyAttempts: number;
+  lastError?: string;
   /** When this server confirmed the settlement, not when the payment happened. */
-  verifiedAt: string;
+  verifiedAt?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 /** Outcome tallies for one resource. */
@@ -52,93 +25,192 @@ export interface ResourceReviews {
   reviews: StoredReview[];
 }
 
-/**
- * How a write landed. `created` is a new settlement, `updated` is the relabel
- * path for a settlement already on record, `duplicate` is the same verdict twice.
- */
-export type WriteResult =
-  | { status: "created" | "updated" | "duplicate"; review: StoredReview };
+/** Largest page of reviews returned for one resource. Counts are computed over the whole set. */
+export const RESOURCE_PAGE_SIZE = 100;
+
+interface Row {
+  id: string;
+  transaction: string;
+  payer: string;
+  resource_url: string;
+  task_class: string | null;
+  network: string;
+  asset: string;
+  amount: string;
+  pay_to: string;
+  outcome: string;
+  note: string | null;
+  paid_ms: number | null;
+  ts: string;
+  status: string;
+  verify_attempts: number;
+  last_error: string | null;
+  verified_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+const COLUMNS = `id, "transaction", payer, resource_url, task_class, network, asset, amount,
+  pay_to, outcome, note, paid_ms, ts, status, verify_attempts, last_error, verified_at,
+  created_at, updated_at`;
+
+function toReview(row: Row): StoredReview {
+  return {
+    schema: 1,
+    id: row.id,
+    transaction: row.transaction,
+    payer: row.payer,
+    resourceUrl: row.resource_url,
+    ...(row.task_class !== null ? { taskClass: row.task_class } : {}),
+    network: row.network,
+    asset: row.asset,
+    amount: row.amount,
+    payTo: row.pay_to,
+    outcome: row.outcome as ReviewOutcome,
+    ...(row.note !== null ? { note: row.note } : {}),
+    ...(row.paid_ms !== null ? { paidMs: row.paid_ms } : {}),
+    ts: row.ts,
+    status: row.status as ReviewStatus,
+    verifyAttempts: row.verify_attempts,
+    ...(row.last_error !== null ? { lastError: row.last_error } : {}),
+    ...(row.verified_at !== null ? { verifiedAt: row.verified_at } : {}),
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
+}
 
 const emptyCounts = (): OutcomeCounts =>
   Object.fromEntries(REVIEW_OUTCOMES.map((outcome) => [outcome, 0])) as OutcomeCounts;
 
-/** Persistence for verified reviews, backed by Node's built-in synchronous SQLite. */
-export class ReviewStore {
-  private readonly db: DatabaseSync;
+/** How a review should be written when a verification attempt concludes. */
+export interface WriteState {
+  status: ReviewStatus;
+  verifyAttempts: number;
+  lastError?: string;
+  stampVerifiedAt: boolean;
+}
 
-  constructor(path: string = DEFAULT_DB_PATH) {
-    this.db = new DatabaseSync(path);
-    this.db.exec("PRAGMA journal_mode = WAL;");
-    this.db.exec(SCHEMA);
+/**
+ * Reviews in D1.
+ *
+ * Hashes and addresses are stored lowercased so the unique index on
+ * `(transaction, payer)` holds regardless of how a client cased them.
+ */
+export class ReviewStore {
+  constructor(private readonly db: D1Database) {}
+
+  /** Looks up the single review for a settlement, whatever its status. */
+  async bySettlement(transaction: string, payer: string): Promise<StoredReview | undefined> {
+    const row = await this.db
+      .prepare(`SELECT ${COLUMNS} FROM reviews WHERE "transaction" = ? AND payer = ?`)
+      .bind(transaction.toLowerCase(), payer.toLowerCase())
+      .first<Row>();
+    return row ? toReview(row) : undefined;
+  }
+
+  /** Inserts a review that has just been through verification. */
+  async create(submission: ReviewSubmission, state: WriteState, now: Date = new Date()): Promise<StoredReview> {
+    const timestamp = now.toISOString();
+    const review: StoredReview = {
+      ...submission,
+      transaction: submission.transaction.toLowerCase(),
+      payer: submission.payer.toLowerCase(),
+      payTo: submission.payTo.toLowerCase(),
+      asset: submission.asset.toLowerCase(),
+      id: crypto.randomUUID(),
+      status: state.status,
+      verifyAttempts: state.verifyAttempts,
+      ...(state.lastError !== undefined ? { lastError: state.lastError } : {}),
+      ...(state.stampVerifiedAt ? { verifiedAt: timestamp } : {}),
+      createdAt: timestamp,
+      updatedAt: timestamp,
+    };
+    await this.db
+      .prepare(
+        `INSERT INTO reviews (${COLUMNS}) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      )
+      .bind(
+        review.id, review.transaction, review.payer, review.resourceUrl, review.taskClass ?? null,
+        review.network, review.asset, review.amount, review.payTo, review.outcome,
+        review.note ?? null, review.paidMs ?? null, review.ts, review.status,
+        review.verifyAttempts, review.lastError ?? null, review.verifiedAt ?? null,
+        review.createdAt, review.updatedAt
+      )
+      .run();
+    return review;
   }
 
   /**
-   * Records a verified submission.
+   * Applies a new verdict to a settlement already on record.
    *
-   * A settlement already on record is relabelled when the outcome differs and
-   * reported as a duplicate when it does not, so a caller changing their mind
-   * never creates a second review for the same payment.
+   * Only the verdict moves; the settlement facts are immutable once proved,
+   * which is what lets a replay skip the chain entirely.
    */
-  put(submission: ReviewSubmission, now: Date = new Date()): WriteResult {
-    const txHash = submission.transaction.toLowerCase();
-    const payer = submission.payer.toLowerCase();
-    const existing = this.bySettlement(txHash, payer);
+  async relabel(
+    id: string,
+    outcome: ReviewOutcome,
+    note: string | undefined,
+    now: Date = new Date()
+  ): Promise<void> {
+    await this.db
+      .prepare(`UPDATE reviews SET outcome = ?, note = ?, updated_at = ? WHERE id = ?`)
+      .bind(outcome, note ?? null, now.toISOString(), id)
+      .run();
+  }
 
-    if (existing) {
-      if (existing.outcome === submission.outcome) return { status: "duplicate", review: existing };
-      const review: StoredReview = { ...existing, outcome: submission.outcome, note: submission.note };
+  /** Returns verified reviews for one exact resource URL, newest first, with tallies over the whole set. */
+  async byResource(resourceUrl: string): Promise<ResourceReviews> {
+    const [rows, tallies] = await Promise.all([
       this.db
-        .prepare("UPDATE reviews SET outcome = ?, note = ?, json = ? WHERE id = ?")
-        .run(review.outcome, review.note ?? null, JSON.stringify(review), review.id);
-      return { status: "updated", review };
-    }
-
-    const review: StoredReview = { ...submission, id: randomUUID(), verifiedAt: now.toISOString() };
-    this.db
-      .prepare(
-        `INSERT INTO reviews
-           (id, tx_hash, payer, resource_url, network, asset, amount, pay_to,
-            outcome, note, task_class, paid_ms, ts, verified_at, json)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-      )
-      .run(
-        review.id, txHash, payer, review.resourceUrl, review.network, review.asset,
-        review.amount, review.payTo, review.outcome, review.note ?? null,
-        review.taskClass ?? null, review.paidMs ?? null, review.ts, review.verifiedAt,
-        JSON.stringify(review)
-      );
-    return { status: "created", review };
-  }
-
-  /** Looks up the single review for a settlement, if one exists. */
-  bySettlement(transaction: string, payer: string): StoredReview | undefined {
-    const row = this.db
-      .prepare("SELECT json FROM reviews WHERE tx_hash = ? AND payer = ?")
-      .get(transaction.toLowerCase(), payer.toLowerCase()) as { json: string } | undefined;
-    return row ? (JSON.parse(row.json) as StoredReview) : undefined;
-  }
-
-  /** Returns every review for one exact resource URL, newest first, with outcome tallies. */
-  byResource(resourceUrl: string): ResourceReviews {
-    const rows = this.db
-      .prepare("SELECT json FROM reviews WHERE resource_url = ? ORDER BY verified_at DESC, id DESC")
-      .all(resourceUrl) as { json: string }[];
-    const reviews = rows.map((row) => JSON.parse(row.json) as StoredReview);
+        .prepare(
+          `SELECT ${COLUMNS} FROM reviews
+           WHERE resource_url = ? AND status = 'verified'
+           ORDER BY verified_at DESC, id DESC LIMIT ?`
+        )
+        .bind(resourceUrl, RESOURCE_PAGE_SIZE)
+        .all<Row>(),
+      this.db
+        .prepare(
+          `SELECT outcome, COUNT(*) AS n FROM reviews
+           WHERE resource_url = ? AND status = 'verified' GROUP BY outcome`
+        )
+        .bind(resourceUrl)
+        .all<{ outcome: string; n: number }>(),
+    ]);
     const counts = emptyCounts();
-    for (const review of reviews) counts[review.outcome] += 1;
-    return { resourceUrl, counts, reviews };
+    for (const tally of tallies.results) {
+      if (tally.outcome in counts) counts[tally.outcome as ReviewOutcome] = tally.n;
+    }
+    return { resourceUrl, counts, reviews: rows.results.map(toReview) };
   }
 
   /** Returns the most recently verified reviews, newest first. */
-  recent(limit = 100): StoredReview[] {
-    const rows = this.db
-      .prepare("SELECT json FROM reviews ORDER BY verified_at DESC, id DESC LIMIT ?")
-      .all(limit) as { json: string }[];
-    return rows.map((row) => JSON.parse(row.json) as StoredReview);
+  async recent(limit = 100): Promise<StoredReview[]> {
+    const rows = await this.db
+      .prepare(
+        `SELECT ${COLUMNS} FROM reviews WHERE status = 'verified'
+         ORDER BY verified_at DESC, id DESC LIMIT ?`
+      )
+      .bind(limit)
+      .all<Row>();
+    return rows.results.map(toReview);
   }
 
-  /** Releases the underlying database handle. */
-  close(): void {
-    this.db.close();
+  /** How many reviews are waiting on a chain that could not be reached. */
+  async pendingCount(): Promise<number> {
+    const row = await this.db
+      .prepare(`SELECT COUNT(*) AS n FROM reviews WHERE status = 'pending'`)
+      .first<{ n: number }>();
+    return row?.n ?? 0;
   }
 }
+
+/** Narrows a stored review to the facts a resubmission is checked against. */
+export const settlementFacts = (review: StoredReview): SettlementFacts => ({
+  network: review.network,
+  asset: review.asset,
+  amount: review.amount,
+  payTo: review.payTo,
+  outcome: review.outcome,
+  ...(review.note !== undefined ? { note: review.note } : {}),
+});
