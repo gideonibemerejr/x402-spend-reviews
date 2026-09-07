@@ -5,14 +5,15 @@ import { bodyLimit } from "hono/body-limit";
 import { zValidator } from "@hono/zod-validator";
 import { renderPage } from "./page";
 import { describeIssues, ReviewSubmission } from "./review";
-import { createRpc } from "./rpc";
+import { defaultRpc } from "./rpc";
 import { applyVerification, decideSubmission } from "./state";
 import { retryPending, type RetryRpcResolver } from "./retry";
 import { ReviewStore, settlementFacts } from "./store";
 import { verifySettlement, type RpcCall } from "./verify";
+import { STATUS } from "./vocab";
 
-/** Resolves a JSON-RPC caller for a chain. Tests inject fixtures here so nothing reaches a chain. */
-export type RpcResolver = (chainId: string, env: Env) => RpcCall | undefined;
+/** Resolves a JSON-RPC caller for a network. Tests inject fixtures here so nothing reaches a chain. */
+export type RpcResolver = (network: string, env: Env) => RpcCall | undefined;
 
 export interface AppOptions {
   rpc?: RpcResolver;
@@ -27,15 +28,6 @@ export interface AppOptions {
 
 /** Largest accepted POST body. A review is a few hundred bytes; this guards the parser. */
 export const POST_BODY_LIMIT = 4096;
-
-/** The two chains 0.3 verifies. Naming them keeps the lookup honest instead of casting through Env. */
-const rpcUrlFromEnv = (env: Env, chainId: string): string | undefined =>
-  ({ "8453": env.RPC_URL_8453, "84532": env.RPC_URL_84532 })[chainId];
-
-const defaultRpc: RpcResolver = (chainId, env) => {
-  const url = rpcUrlFromEnv(env, chainId);
-  return createRpc(chainId, { env: url ? { [`RPC_URL_${chainId}`]: url } : {} });
-};
 
 /**
  * Compares a bearer token against the configured admin secret in constant time.
@@ -106,7 +98,7 @@ export function createApp(options: AppOptions = {}) {
     async (c) => {
       const submission = c.req.valid("json");
       const store = new ReviewStore(c.env.DB);
-      const existing = await store.bySettlement(submission.transaction, submission.payer);
+      const existing = await store.bySettlement(submission.network, submission.transaction, submission.payer);
       const decision = decideSubmission(submission, existing ? settlementFacts(existing) : undefined);
 
       if (decision.kind === "conflict") return c.json({ error: decision.reason }, 422);
@@ -116,18 +108,19 @@ export function createApp(options: AppOptions = {}) {
       if (decision.kind === "replay") {
         const row = existing!;
         if (decision.changed) await store.relabel(row.id, submission.outcome, submission.note);
-        return c.json({ id: row.id, status: row.status, verified: row.status === "verified" }, 200);
+        return c.json({ id: row.id, status: row.status, verified: row.status === STATUS.verified }, 200);
       }
 
-      const chainId = submission.network.slice("eip155:".length);
-      const rpc = resolveRpc(chainId, c.env);
-      if (!rpc) return c.json({ error: `no RPC endpoint configured for chain ${chainId}` }, 422);
+      const rpc = resolveRpc(submission.network, c.env);
+      if (!rpc) {
+        return c.json({ error: `no RPC endpoint configured for ${submission.network}` }, 422);
+      }
 
       let event;
       try {
         const result = await verifySettlement(submission, rpc);
         event = result.verified
-          ? ({ kind: "verified" } as const)
+          ? ({ kind: "verified", proof: result.proof } as const)
           : ({ kind: "rejected", reason: result.reason } as const);
       } catch (cause: unknown) {
         // The claim may well be true; this server simply could not check it.
@@ -144,7 +137,7 @@ export function createApp(options: AppOptions = {}) {
       }
       try {
         const created = await store.create(submission, transition);
-        return c.json({ id: created.id, status: created.status, verified: created.status === "verified" },
+        return c.json({ id: created.id, status: created.status, verified: created.status === STATUS.verified },
           transition.httpStatus);
       } catch (cause: unknown) {
         // The chain answered; only storage failed. Retrying is the right move.

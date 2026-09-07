@@ -1,6 +1,8 @@
 import { describe, expect, test } from "vitest";
 import { escapeHtml, formatAmount, renderPage, shortHash } from "../src/page";
+import { NETWORK } from "../src/network";
 import type { StoredReview } from "../src/store";
+import { PROOF } from "../src/vocab";
 import { harness } from "./helpers";
 
 const stored = (overrides: Partial<StoredReview> = {}): StoredReview => ({
@@ -16,6 +18,7 @@ const stored = (overrides: Partial<StoredReview> = {}): StoredReview => ({
   outcome: "used",
   ts: "2026-09-06T12:00:00.000Z",
   status: "verified",
+  proof: PROOF.paymentTraced,
   verifyAttempts: 1,
   verifiedAt: "2026-09-06T19:38:00.000Z",
   createdAt: "2026-09-06T19:38:00.000Z",
@@ -75,10 +78,41 @@ describe("the page", () => {
     expect(html).toContain("https://api.test/a&amp;b");
   });
 
-  test("the count line reports the verified total and the pending backlog", () => {
+  test("the count line names unconfirmed rows only when there are some", () => {
+    // A caveat that renders on every load is a caveat readers learn to skip.
     expect(renderPage([stored(), stored({ id: "r2" })], 3))
       .toContain("<b>2 verified</b> · newest first · 3 pending");
+    expect(renderPage([stored(), stored({ id: "r2", proof: PROOF.receiptOnly })], 3))
+      .toContain("<b>2 verified</b> · 1 payer unconfirmed · newest first · 3 pending");
     expect(renderPage([], 0)).toContain("<b>0 verified</b> · newest first · 0 pending");
+    expect(renderPage([stored()])).not.toContain("payer unconfirmed");
+  });
+
+  test("a Solana review links to solscan, naming the cluster on devnet", () => {
+    const signature = "4S55ApgNWn8YKQL5J2uuxtfZrYXQZqBs8BUJTqGv3us4cAefggxxMLavbor7u47x4BfUhDRkfFBpW2rJTU6YMxux";
+    const mainnet = renderPage([stored({ network: NETWORK.solanaMainnet, transaction: signature })]);
+    expect(mainnet).toContain(`href="https://solscan.io/tx/${signature}"`);
+
+    // Solscan defaults to mainnet, where a devnet signature simply does not exist.
+    const devnet = renderPage([stored({ network: NETWORK.solanaDevnet, transaction: signature })]);
+    expect(devnet).toContain(`href="https://solscan.io/tx/${signature}?cluster=devnet"`);
+  });
+
+  test("a payment proved only by the recipient's balance is marked, titled and dimmed", () => {
+    const html = renderPage([stored({ proof: PROOF.receiptOnly })]);
+    expect(html).toContain(`<tr class="dim">`);
+    expect(html).toContain(`class="unconf"`);
+    // The reason is written out, not left to the color of a dot.
+    expect(html).toContain("Payer unconfirmed:");
+    expect(html).toContain("Excluded from quality statistics.");
+    expect(html).toContain("aria-label=");
+  });
+
+  test("a traced payment carries no marker and no dimming", () => {
+    const html = renderPage([stored({ proof: PROOF.paymentTraced })]);
+    expect(html).not.toContain(`class="unconf"`);
+    expect(html).not.toContain(`<tr class="dim">`);
+    expect(html).not.toContain("Excluded from quality statistics.");
   });
 
   test("a note is shown under its endpoint, and omitted entirely when absent", () => {

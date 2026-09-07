@@ -1,7 +1,8 @@
 /** D1 persistence. The only file that knows SQL. */
-import type { ReviewOutcome, ReviewSubmission } from "./review";
-import { REVIEW_OUTCOMES } from "./review";
-import type { ReviewStatus, SettlementFacts } from "./state";
+import { foldCase } from "./network";
+import type { ReviewSubmission } from "./review";
+import type { SettlementFacts } from "./state";
+import { REVIEW_OUTCOMES, STATUS, type Proof, type ReviewOutcome, type ReviewStatus } from "./vocab";
 
 /** A stored review: what was submitted, plus this server's own bookkeeping. */
 export interface StoredReview extends ReviewSubmission {
@@ -11,6 +12,8 @@ export interface StoredReview extends ReviewSubmission {
   lastError?: string;
   /** When this server confirmed the settlement, not when the payment happened. */
   verifiedAt?: string;
+  /** How the payment was proved. Absent on rows that were never verified. */
+  proof?: Proof;
   createdAt: string;
   updatedAt: string;
 }
@@ -46,13 +49,14 @@ interface Row {
   verify_attempts: number;
   last_error: string | null;
   verified_at: string | null;
+  proof: string | null;
   created_at: string;
   updated_at: string;
 }
 
 const COLUMNS = `id, "transaction", payer, resource_url, task_class, network, asset, amount,
   pay_to, outcome, note, paid_ms, ts, status, verify_attempts, last_error, verified_at,
-  created_at, updated_at`;
+  proof, created_at, updated_at`;
 
 function toReview(row: Row): StoredReview {
   return {
@@ -74,6 +78,7 @@ function toReview(row: Row): StoredReview {
     verifyAttempts: row.verify_attempts,
     ...(row.last_error !== null ? { lastError: row.last_error } : {}),
     ...(row.verified_at !== null ? { verifiedAt: row.verified_at } : {}),
+    ...(row.proof !== null ? { proof: row.proof as Proof } : {}),
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -88,22 +93,30 @@ export interface WriteState {
   verifyAttempts: number;
   lastError?: string;
   stampVerifiedAt: boolean;
+  proof?: Proof;
 }
 
 /**
  * Reviews in D1.
  *
- * Hashes and addresses are stored lowercased so the unique index on
- * `(transaction, payer)` holds regardless of how a client cased them.
+ * Hashes and addresses are stored folded to their network's own spelling, so
+ * the unique index on `(transaction, payer)` holds regardless of how a client
+ * cased an EVM address — and holds just as well on Solana, where case is a
+ * digit rather than a decoration and nothing may be folded away.
  */
 export class ReviewStore {
   constructor(private readonly db: D1Database) {}
 
-  /** Looks up the single review for a settlement, whatever its status. */
-  async bySettlement(transaction: string, payer: string): Promise<StoredReview | undefined> {
+  /**
+   * Looks up the single review for a settlement, whatever its status.
+   *
+   * @param network - The settlement's network, which decides how its
+   *   identifiers are folded before the lookup.
+   */
+  async bySettlement(network: string, transaction: string, payer: string): Promise<StoredReview | undefined> {
     const row = await this.db
       .prepare(`SELECT ${COLUMNS} FROM reviews WHERE "transaction" = ? AND payer = ?`)
-      .bind(transaction.toLowerCase(), payer.toLowerCase())
+      .bind(foldCase(network, transaction), foldCase(network, payer))
       .first<Row>();
     return row ? toReview(row) : undefined;
   }
@@ -111,30 +124,32 @@ export class ReviewStore {
   /** Inserts a review that has just been through verification. */
   async create(submission: ReviewSubmission, state: WriteState, now: Date = new Date()): Promise<StoredReview> {
     const timestamp = now.toISOString();
+    const fold = (value: string) => foldCase(submission.network, value);
     const review: StoredReview = {
       ...submission,
-      transaction: submission.transaction.toLowerCase(),
-      payer: submission.payer.toLowerCase(),
-      payTo: submission.payTo.toLowerCase(),
-      asset: submission.asset.toLowerCase(),
+      transaction: fold(submission.transaction),
+      payer: fold(submission.payer),
+      payTo: fold(submission.payTo),
+      asset: fold(submission.asset),
       id: crypto.randomUUID(),
       status: state.status,
       verifyAttempts: state.verifyAttempts,
       ...(state.lastError !== undefined ? { lastError: state.lastError } : {}),
       ...(state.stampVerifiedAt ? { verifiedAt: timestamp } : {}),
+      ...(state.proof !== undefined ? { proof: state.proof } : {}),
       createdAt: timestamp,
       updatedAt: timestamp,
     };
     await this.db
       .prepare(
-        `INSERT INTO reviews (${COLUMNS}) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+        `INSERT INTO reviews (${COLUMNS}) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
       )
       .bind(
         review.id, review.transaction, review.payer, review.resourceUrl, review.taskClass ?? null,
         review.network, review.asset, review.amount, review.payTo, review.outcome,
         review.note ?? null, review.paidMs ?? null, review.ts, review.status,
         review.verifyAttempts, review.lastError ?? null, review.verifiedAt ?? null,
-        review.createdAt, review.updatedAt
+        review.proof ?? null, review.createdAt, review.updatedAt
       )
       .run();
     return review;
@@ -164,17 +179,17 @@ export class ReviewStore {
       this.db
         .prepare(
           `SELECT ${COLUMNS} FROM reviews
-           WHERE resource_url = ? AND status = 'verified'
+           WHERE resource_url = ? AND status = ?
            ORDER BY verified_at DESC, id DESC LIMIT ?`
         )
-        .bind(resourceUrl, RESOURCE_PAGE_SIZE)
+        .bind(resourceUrl, STATUS.verified, RESOURCE_PAGE_SIZE)
         .all<Row>(),
       this.db
         .prepare(
           `SELECT outcome, COUNT(*) AS n FROM reviews
-           WHERE resource_url = ? AND status = 'verified' GROUP BY outcome`
+           WHERE resource_url = ? AND status = ? GROUP BY outcome`
         )
-        .bind(resourceUrl)
+        .bind(resourceUrl, STATUS.verified)
         .all<{ outcome: string; n: number }>(),
     ]);
     const counts = emptyCounts();
@@ -188,10 +203,10 @@ export class ReviewStore {
   async recent(limit = 100): Promise<StoredReview[]> {
     const rows = await this.db
       .prepare(
-        `SELECT ${COLUMNS} FROM reviews WHERE status = 'verified'
+        `SELECT ${COLUMNS} FROM reviews WHERE status = ?
          ORDER BY verified_at DESC, id DESC LIMIT ?`
       )
-      .bind(limit)
+      .bind(STATUS.verified, limit)
       .all<Row>();
     return rows.results.map(toReview);
   }
@@ -206,10 +221,10 @@ export class ReviewStore {
     const rows = await this.db
       .prepare(
         `SELECT ${COLUMNS} FROM reviews
-         WHERE status = 'pending' AND verify_attempts < ?
+         WHERE status = ? AND verify_attempts < ?
          ORDER BY created_at ASC LIMIT ?`
       )
-      .bind(maxAttempts, limit)
+      .bind(STATUS.pending, maxAttempts, limit)
       .all<Row>();
     return rows.results.map(toReview);
   }
@@ -221,12 +236,13 @@ export class ReviewStore {
       .prepare(
         `UPDATE reviews
          SET status = ?, verify_attempts = ?, last_error = ?,
-             verified_at = COALESCE(?, verified_at), updated_at = ?
+             verified_at = COALESCE(?, verified_at), proof = COALESCE(?, proof),
+             updated_at = ?
          WHERE id = ?`
       )
       .bind(
         state.status, state.verifyAttempts, state.lastError ?? null,
-        state.stampVerifiedAt ? timestamp : null, timestamp, id
+        state.stampVerifiedAt ? timestamp : null, state.proof ?? null, timestamp, id
       )
       .run();
   }

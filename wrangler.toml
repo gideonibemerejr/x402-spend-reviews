@@ -26,7 +26,11 @@ head_sampling_rate = 0.01
 # Secrets only, never keys in this file:
 #   wrangler secret put RPC_URL_8453
 #   wrangler secret put RPC_URL_84532
+#   wrangler secret put RPC_URL_SOLANA
+#   wrangler secret put RPC_URL_SOLANA_DEVNET
 #   wrangler secret put ADMIN_TOKEN
+# The Solana endpoints are optional; without them the public cluster endpoints
+# are used, which throttle hard enough to park reviews as pending under load.
 
 [[d1_databases]]
 binding = "DB"

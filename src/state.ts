@@ -6,10 +6,9 @@
  * tested even while it is switched off in production, so enabling it is a code
  * change rather than a migration.
  */
+import { foldCase } from "./network";
 import type { ReviewSubmission } from "./review";
-
-/** Where a review sits in its verification lifecycle. */
-export type ReviewStatus = "pending" | "verified" | "rejected";
+import { STATUS, type Proof, type ReviewStatus } from "./vocab";
 
 /** Attempts after which an unverifiable review stops being retried. */
 export const MAX_VERIFY_ATTEMPTS = 5;
@@ -34,9 +33,22 @@ export type SubmissionDecision =
   | { kind: "replay"; changed: boolean }
   | { kind: "verify" };
 
-/** Addresses and chain ids are compared case-insensitively; amounts exactly. */
-const sameFact = (field: (typeof SETTLEMENT_FIELDS)[number], a: string, b: string) =>
-  field === "amount" ? a === b : a.toLowerCase() === b.toLowerCase();
+/**
+ * Amounts compare exactly; accounts compare however their network spells them.
+ *
+ * The fold is the network's, not a blanket `toLowerCase`: on Solana two
+ * addresses differing only in case are two different accounts, so folding them
+ * together would let one settlement's facts be matched by another's.
+ */
+const sameFact = (
+  field: (typeof SETTLEMENT_FIELDS)[number],
+  submission: SettlementFacts | ReviewSubmission,
+  existing: SettlementFacts
+) => {
+  if (field === "amount") return submission.amount === existing.amount;
+  if (field === "network") return submission.network.toLowerCase() === existing.network.toLowerCase();
+  return foldCase(submission.network, submission[field]) === foldCase(existing.network, existing[field]);
+};
 
 /**
  * Decides how to handle a submission for a settlement that may already be known.
@@ -51,7 +63,7 @@ export function decideSubmission(
   existing: SettlementFacts | undefined
 ): SubmissionDecision {
   if (!existing) return { kind: "verify" };
-  const differing = SETTLEMENT_FIELDS.filter((field) => !sameFact(field, submission[field], existing[field]));
+  const differing = SETTLEMENT_FIELDS.filter((field) => !sameFact(field, submission, existing));
   if (differing.length > 0) {
     return { kind: "conflict", reason: `settlement fields differ from stored review: ${differing.join(", ")}` };
   }
@@ -61,7 +73,7 @@ export function decideSubmission(
 
 /** The outcome of one verification attempt. */
 export type VerificationEvent =
-  | { kind: "verified" }
+  | { kind: "verified"; proof: Proof }
   | { kind: "rejected"; reason: string }
   | { kind: "unreachable"; reason: string };
 
@@ -76,6 +88,8 @@ export interface StateTransition {
   lastError?: string;
   /** Whether `verified_at` should be stamped now. */
   stampVerifiedAt: boolean;
+  /** How the payment was proved, on the transitions that proved one. */
+  proof?: Proof;
 }
 
 /**
@@ -95,13 +109,16 @@ export function applyVerification(
   const exists = context.current !== undefined;
 
   if (event.kind === "verified") {
-    return { status: "verified", store: true, httpStatus: 201, verifyAttempts, stampVerifiedAt: true };
+    return {
+      status: STATUS.verified, store: true, httpStatus: 201, verifyAttempts,
+      stampVerifiedAt: true, proof: event.proof,
+    };
   }
   if (event.kind === "rejected") {
     // A fresh claim that fails its check is refused outright and never stored;
     // an existing pending row is settled as rejected so it stops being retried.
     return {
-      status: "rejected",
+      status: STATUS.rejected,
       store: exists,
       httpStatus: 422,
       verifyAttempts,
@@ -111,7 +128,7 @@ export function applyVerification(
   }
   if (!context.allowPending) {
     return {
-      status: "pending",
+      status: STATUS.pending,
       store: false,
       httpStatus: 503,
       verifyAttempts,
@@ -121,7 +138,7 @@ export function applyVerification(
   }
   if (verifyAttempts >= MAX_VERIFY_ATTEMPTS) {
     return {
-      status: "rejected",
+      status: STATUS.rejected,
       store: true,
       httpStatus: 422,
       verifyAttempts,
@@ -130,7 +147,7 @@ export function applyVerification(
     };
   }
   return {
-    status: "pending",
+    status: STATUS.pending,
     store: true,
     httpStatus: 202,
     verifyAttempts,

@@ -1,14 +1,35 @@
 /** zod is the single source of truth for what a review submission may contain. */
 import { z } from "zod";
+import {
+  canonicalNetwork, familyOf, foldCase,
+  isEvmAddress, isEvmTxHash, isSvmAddress, isSvmSignature,
+} from "./network";
+import { FAMILY, OUTCOME, REASON } from "./vocab";
 
-/** Outcomes a caller may publish. `unlabeled` is deliberately absent: an unlabeled receipt has no verdict to review. */
-export const REVIEW_OUTCOMES = ["used", "retried", "discarded", "failed"] as const;
+/**
+ * How each network family spells the accounts and settlements it names.
+ *
+ * Checked here rather than per field, because which spelling is correct depends
+ * on a sibling field: `0x…` is a malformed account on Solana and a base58
+ * signature is a malformed settlement on Base.
+ */
+const SPELLING = {
+  [FAMILY.evm]: {
+    account: isEvmAddress,
+    accountMessage: "must be a 20-byte hex address",
+    settlement: isEvmTxHash,
+    settlementMessage: "must be a 32-byte hex hash",
+  },
+  [FAMILY.svm]: {
+    account: isSvmAddress,
+    accountMessage: "must be a base58 account address",
+    settlement: isSvmSignature,
+    settlementMessage: "must be a base58 transaction signature",
+  },
+} as const;
 
-/** A 20-byte EVM address. */
-export const Address = z.string().regex(/^0x[0-9a-fA-F]{40}$/, "must be a 20-byte hex address");
-
-/** A 32-byte transaction hash. */
-export const TxHash = z.string().regex(/^0x[0-9a-fA-F]{64}$/, "must be a 32-byte hex hash");
+/** The fields that name an account, all spelled the same way as each other. */
+const ACCOUNT_FIELDS = ["asset", "payTo", "payer"] as const;
 
 /**
  * Everything a client publishes about one settled call, and nothing else.
@@ -17,9 +38,9 @@ export const TxHash = z.string().regex(/^0x[0-9a-fA-F]{64}$/, "must be a 32-byte
  * (legs, byte counts, HTTP status, the local receipt id) are rejected outright
  * rather than silently dropped, so a client over-sharing finds out immediately.
  *
- * `asset` must be a contract address. Symbolic names are refused here so that
- * verification never has to guess which token a name meant, which would let a
- * review claiming one asset be proved by a transfer of another.
+ * `asset` must be a mint or contract address. Symbolic names are refused so
+ * that verification never has to guess which token a name meant, which would
+ * let a review claiming one asset be proved by a transfer of another.
  */
 export const ReviewSubmission = z
   .object({
@@ -34,29 +55,45 @@ export const ReviewSubmission = z
         return !url.search && !url.hash;
       }, "must have its query string and fragment stripped"),
     taskClass: z.string().max(64).optional(),
-    // 0.3 verifies EVM chains only; anything else is refused rather than stored unchecked.
-    network: z.string().regex(/^eip155:\d+$/, "must be an eip155 CAIP-2 chain id"),
-    asset: Address,
+    // Normalized before it is judged: a client naming `solana-mainnet-beta` or
+    // `base-mainnet` meant something unambiguous, and refusing it would cost a
+    // real review over a spelling this server does not own.
+    network: z
+      .string()
+      .transform(canonicalNetwork)
+      .refine((network) => familyOf(network) !== undefined, "must be an eip155 or solana CAIP-2 network id"),
+    // Spelled per family by the superRefine below, once the network is known.
+    asset: z.string(),
     amount: z.string().regex(/^\d{1,30}$/, "must be atomic units as a decimal string"),
-    payTo: Address,
-    transaction: TxHash,
-    payer: Address,
-    outcome: z.enum(REVIEW_OUTCOMES),
+    payTo: z.string(),
+    transaction: z.string(),
+    payer: z.string(),
+    outcome: z.enum(OUTCOME),
     note: z.string().max(500).optional(),
     paidMs: z.number().int().nonnegative().optional(),
     ts: z.iso.datetime("must be an ISO 8601 timestamp"),
   })
   .strict()
   // Paying yourself proves a transfer happened, not that a purchase did: the
-  // Transfer log would verify while the review behind it means nothing. Caught
+  // settlement would verify while the review behind it means nothing. Caught
   // here so the claim is refused before it costs an RPC round trip.
   .refine(
-    (submission) => submission.payer.toLowerCase() !== submission.payTo.toLowerCase(),
-    "payer and payTo are the same address"
-  );
-
-/** A published verdict about a paid resource. */
-export type ReviewOutcome = (typeof REVIEW_OUTCOMES)[number];
+    (submission) => foldCase(submission.network, submission.payer) !== foldCase(submission.network, submission.payTo),
+    REASON.selfPaymentAddress
+  )
+  .superRefine((submission, ctx) => {
+    const family = familyOf(submission.network);
+    if (!family) return;
+    const spelling = SPELLING[family];
+    for (const field of ACCOUNT_FIELDS) {
+      if (!spelling.account(submission[field])) {
+        ctx.addIssue({ code: "custom", path: [field], message: spelling.accountMessage });
+      }
+    }
+    if (!spelling.settlement(submission.transaction)) {
+      ctx.addIssue({ code: "custom", path: ["transaction"], message: spelling.settlementMessage });
+    }
+  });
 
 /** Everything a client publishes about one settled call. */
 export type ReviewSubmission = z.infer<typeof ReviewSubmission>;

@@ -1,8 +1,9 @@
 /** Shared wiring for route tests: a real Worker env, a fixture chain, no network. */
 import { createExecutionContext, env, waitOnExecutionContext } from "cloudflare:test";
 import { createApp, type AppOptions } from "../src/app";
-import { submission } from "../src/fixtures";
+import { submission, svmSubmission } from "../src/fixtures";
 import type { ReviewSubmission } from "../src/review";
+import { encodeBase58 } from "../src/solana-address";
 
 let harnessCount = 0;
 
@@ -21,6 +22,13 @@ export function harness(options: AppOptions = {}) {
   /** Settlement hashes derived from the harness id, so no two tests collide. */
   const hash = (n: number) => `0x${n.toString(16).padStart(64, "0")}`;
   const transaction = hash(id);
+
+  /** The same trick for Solana: a real 64-byte signature, unique to this harness. */
+  const signature = (n: number) => {
+    const bytes = new Uint8Array(64).fill(0xab);
+    new DataView(bytes.buffer).setUint32(0, 0x8000_0000 + n);
+    return encodeBase58(bytes);
+  };
   /** Reads are global, so each harness reviews its own resource to stay legible in isolation. */
   const resourceUrl = `https://api.test/paid/${id}`;
 
@@ -40,6 +48,9 @@ export function harness(options: AppOptions = {}) {
     resourceUrl,
     /** A submission for this harness's own settlement and resource. */
     valid: (overrides: Partial<ReviewSubmission> = {}) => submission({ transaction, resourceUrl, ...overrides }),
+    /** The same, settled on Solana devnet. */
+    validSvm: (overrides: Partial<ReviewSubmission> = {}) =>
+      svmSubmission({ transaction: signature(id), resourceUrl, ...overrides }),
     /** A second, distinct settlement for the same harness. */
     otherTransaction: hash(id + 1_000_000),
     /** The review page for this harness's own resource. */

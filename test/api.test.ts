@@ -1,6 +1,11 @@
 import { describe, expect, test, vi } from "vitest";
-import { FACILITATOR, receiptWith, rpcReturning, transferLog } from "../src/fixtures";
+import {
+  FACILITATOR, receiptWith, rpcReturning, SOL_PAYER, SOL_PAY_TO,
+  svmRpcReturning, svmTransaction, svmTransfer, transferLog,
+} from "../src/fixtures";
+import { NETWORK } from "../src/network";
 import type { RpcCall } from "../src/verify";
+import { PROOF } from "../src/vocab";
 import { harness } from "./helpers";
 
 const matching = () => rpcReturning(receiptWith([transferLog({})]));
@@ -126,14 +131,48 @@ describe("POST /v1/reviews", () => {
     expect((await (await api.page()).json<{ reviews: unknown[] }>()).reviews).toHaveLength(0);
   });
 
-  test("a non-EVM network is out of scope and never reaches the RPC", async () => {
+  test("a Solana settlement is verified and stored like any other", async () => {
+    const api = harness(rpc(svmRpcReturning(svmTransaction({ instructions: [svmTransfer()] }))));
+    const submitted = api.validSvm();
+    const created = await api.post(submitted);
+    expect(created.status).toBe(201);
+    expect(await created.json()).toMatchObject({ status: "verified", verified: true });
+
+    const page = await (await api.page())
+      .json<{ reviews: { transaction: string; payer: string; payTo: string; proof: string }[] }>();
+    expect(page.reviews).toHaveLength(1);
+    // Base58 is case-carrying, so the row must come back spelled exactly as sent.
+    expect(page.reviews[0].transaction).toBe(submitted.transaction);
+    expect(page.reviews[0].payer).toBe(SOL_PAYER);
+    expect(page.reviews[0].payTo).toBe(SOL_PAY_TO);
+    expect(page.reviews[0].proof).toBe(PROOF.paymentTraced);
+  });
+
+  test("a payment proved only by the recipient's balance is stored as such", async () => {
+    // The node returned no CPI trace, so the payer could not be established.
+    const api = harness(rpc(svmRpcReturning(svmTransaction({ inner: null }))));
+    expect((await api.post(api.validSvm())).status).toBe(201);
+
+    const page = await (await api.page()).json<{ reviews: { proof: string }[] }>();
+    expect(page.reviews[0].proof).toBe(PROOF.receiptOnly);
+  });
+
+  test("a network named the way clients spell it is normalised, not refused", async () => {
+    const api = harness(rpc(svmRpcReturning(svmTransaction({ instructions: [svmTransfer()] }))));
+    expect((await api.post(api.validSvm({ network: "solana-devnet" }))).status).toBe(201);
+
+    const page = await (await api.page()).json<{ reviews: { network: string }[] }>();
+    expect(page.reviews[0].network).toBe(NETWORK.solanaDevnet);
+  });
+
+  test("an unknown network family never reaches the RPC", async () => {
     const call = vi.fn<RpcCall>(async () => {
-      throw new Error("non-EVM networks must not be verified");
+      throw new Error("an unknown network must not be verified");
     });
     const api = harness(rpc(call));
-    const response = await api.post(api.valid({ network: "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp" }));
+    const response = await api.post(api.valid({ network: "sui:mainnet" }));
     expect(response.status).toBe(422);
-    expect((await response.json<{ error: string }>()).error).toMatch(/eip155/);
+    expect((await response.json<{ error: string }>()).error).toMatch(/eip155 or solana/);
     expect(call).not.toHaveBeenCalled();
   });
 
@@ -141,7 +180,8 @@ describe("POST /v1/reviews", () => {
     const api = harness(rpc(undefined));
     const response = await api.post(api.valid({ network: "eip155:1" }));
     expect(response.status).toBe(422);
-    expect((await response.json<{ error: string }>()).error).toMatch(/no RPC endpoint configured for chain 1/);
+    expect((await response.json<{ error: string }>()).error)
+      .toMatch(/no RPC endpoint configured for eip155:1/);
   });
 
   test("an unreachable chain parks the review instead of losing it", async () => {

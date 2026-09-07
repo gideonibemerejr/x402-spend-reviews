@@ -1,5 +1,7 @@
 import { expect, test } from "vitest";
-import { USDC_BY_CHAIN_ID, verifySettlement } from "../src/verify";
+import { verifySettlement } from "../src/verify";
+import { USDC_BY_CHAIN_ID } from "../src/verify-evm";
+import { PROOF } from "../src/vocab";
 import {
   FACILITATOR, PAYER, PAY_TO, USDC_BASE_SEPOLIA,
   receiptWith, rpcReturning, submission, transferLog,
@@ -12,13 +14,13 @@ test("USDC addresses match Circle's published contract list", () => {
 
 test("a matching transfer verifies", async () => {
   const rpc = rpcReturning(receiptWith([transferLog({})]));
-  expect(await verifySettlement(submission(), rpc)).toEqual({ verified: true });
+  expect(await verifySettlement(submission(), rpc)).toEqual({ verified: true, proof: PROOF.paymentTraced });
 });
 
 test("the payer is read from the transfer log, not the transaction sender", async () => {
   // EIP-3009: the facilitator broadcasts and pays gas, so tx.from is never the buyer.
   const rpc = rpcReturning(receiptWith([transferLog({ from: PAYER, to: PAY_TO })]));
-  expect(await verifySettlement(submission({ payer: PAYER }), rpc)).toEqual({ verified: true });
+  expect(await verifySettlement(submission({ payer: PAYER }), rpc)).toEqual({ verified: true, proof: PROOF.paymentTraced });
   expect(await verifySettlement(submission({ payer: FACILITATOR }), rpc)).toEqual({
     verified: false, reason: "no Transfer log sent by payer",
   });
@@ -48,7 +50,7 @@ test("a transfer of the right shape on the wrong contract is rejected", async ()
 test("an explicit asset address overrides the symbolic USDC lookup", async () => {
   const token = "0x1111111111111111111111111111111111111111";
   const rpc = rpcReturning(receiptWith([transferLog({ address: token })]));
-  expect(await verifySettlement(submission({ asset: token }), rpc)).toEqual({ verified: true });
+  expect(await verifySettlement(submission({ asset: token }), rpc)).toEqual({ verified: true, proof: PROOF.paymentTraced });
 });
 
 test("a missing transaction is rejected", async () => {
@@ -70,7 +72,7 @@ test("the matching transfer is found among unrelated logs", async () => {
     transferLog({ to: FACILITATOR, amount: "1" }),
     transferLog({}),
   ]));
-  expect(await verifySettlement(submission(), rpc)).toEqual({ verified: true });
+  expect(await verifySettlement(submission(), rpc)).toEqual({ verified: true, proof: PROOF.paymentTraced });
 });
 
 test("addresses compare case-insensitively", async () => {
@@ -79,5 +81,5 @@ test("addresses compare case-insensitively", async () => {
     submission({ payer: PAYER.toUpperCase().replace("0X", "0x"), payTo: PAY_TO.toLowerCase() }),
     rpc
   );
-  expect(result).toEqual({ verified: true });
+  expect(result).toEqual({ verified: true, proof: PROOF.paymentTraced });
 });

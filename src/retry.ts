@@ -4,10 +4,11 @@
  * A function, not a worker: the cron trigger and the admin route both call it,
  * and nothing here owns a schedule, a queue or a backoff policy.
  */
-import { createRpc } from "./rpc";
+import { defaultRpc } from "./rpc";
 import { applyVerification, MAX_VERIFY_ATTEMPTS, type VerificationEvent } from "./state";
 import { ReviewStore } from "./store";
 import { verifySettlement, type RpcCall } from "./verify";
+import { STATUS } from "./vocab";
 
 /** What one pass over the backlog did. Returned to the admin route and logged by the cron. */
 export interface RetryReport {
@@ -17,13 +18,8 @@ export interface RetryReport {
   stillPending: number;
 }
 
-/** Resolves a JSON-RPC caller for a chain. Tests inject fixtures here. */
-export type RetryRpcResolver = (chainId: string, env: Env) => RpcCall | undefined;
-
-const defaultRpc: RetryRpcResolver = (chainId, env) => {
-  const url = ({ "8453": env.RPC_URL_8453, "84532": env.RPC_URL_84532 })[chainId];
-  return createRpc(chainId, { env: url ? { [`RPC_URL_${chainId}`]: url } : {} });
-};
+/** Resolves a JSON-RPC caller for a network. Tests inject fixtures here. */
+export type RetryRpcResolver = (network: string, env: Env) => RpcCall | undefined;
 
 /**
  * Re-runs verification for pending reviews.
@@ -47,15 +43,16 @@ export async function retryPending(
   const report: RetryReport = { attempted: rows.length, verified: 0, rejected: 0, stillPending: 0 };
 
   for (const row of rows) {
-    const chainId = row.network.slice("eip155:".length);
-    const rpc = resolveRpc(chainId, env);
+    const rpc = resolveRpc(row.network, env);
     let event: VerificationEvent;
     if (!rpc) {
-      event = { kind: "unreachable", reason: `no RPC endpoint configured for chain ${chainId}` };
+      event = { kind: "unreachable", reason: `no RPC endpoint configured for ${row.network}` };
     } else {
       try {
         const result = await verifySettlement(row, rpc);
-        event = result.verified ? { kind: "verified" } : { kind: "rejected", reason: result.reason };
+        event = result.verified
+          ? { kind: "verified", proof: result.proof }
+          : { kind: "rejected", reason: result.reason };
       } catch (cause: unknown) {
         event = { kind: "unreachable", reason: cause instanceof Error ? cause.message : String(cause) };
       }
@@ -67,8 +64,8 @@ export async function retryPending(
       allowPending: true,
     });
     await store.applyRetry(row.id, transition, options.now);
-    if (transition.status === "verified") report.verified += 1;
-    else if (transition.status === "rejected") report.rejected += 1;
+    if (transition.status === STATUS.verified) report.verified += 1;
+    else if (transition.status === STATUS.rejected) report.rejected += 1;
     else report.stillPending += 1;
   }
 

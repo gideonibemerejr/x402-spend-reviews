@@ -2,7 +2,8 @@ import { describe, expect, test } from "vitest";
 import {
   applyVerification, decideSubmission, MAX_VERIFY_ATTEMPTS, type SettlementFacts,
 } from "../src/state";
-import { submission } from "../src/fixtures";
+import { submission, svmSubmission } from "../src/fixtures";
+import { PROOF } from "../src/vocab";
 
 const facts = (overrides: Partial<SettlementFacts> = {}): SettlementFacts => {
   const base = submission();
@@ -29,6 +30,17 @@ describe("decideSubmission", () => {
     expect(decideSubmission(submission(), upper)).toEqual({ kind: "replay", changed: false });
   });
 
+  test("on Solana two accounts differing only in case are two different accounts", () => {
+    // The EVM fold above is a fold; base58 case is a digit, so folding it would
+    // let one settlement's facts be matched by a different account's.
+    const base = svmSubmission();
+    const cased: SettlementFacts = {
+      network: base.network, asset: base.asset, amount: base.amount,
+      payTo: base.payTo.toUpperCase(), outcome: base.outcome,
+    };
+    expect(decideSubmission(base, cased).kind).toBe("conflict");
+  });
+
   test("one transaction cannot have carried two different amounts", () => {
     const result = decideSubmission(submission({ amount: "99" }), facts());
     expect(result).toEqual({ kind: "conflict", reason: "settlement fields differ from stored review: amount" });
@@ -42,10 +54,13 @@ describe("decideSubmission", () => {
 });
 
 describe("applyVerification", () => {
-  test("a matching log stores a verified review and stamps it", () => {
-    expect(applyVerification({ kind: "verified" })).toEqual({
+  test("a matching log stores a verified review, stamps it, and records how it was proved", () => {
+    expect(applyVerification({ kind: "verified", proof: PROOF.paymentTraced })).toEqual({
       status: "verified", store: true, httpStatus: 201, verifyAttempts: 1, stampVerifiedAt: true,
+      proof: PROOF.paymentTraced,
     });
+    expect(applyVerification({ kind: "verified", proof: PROOF.receiptOnly }).proof)
+      .toBe(PROOF.receiptOnly);
   });
 
   test("a fresh claim that fails its check is refused and never stored", () => {

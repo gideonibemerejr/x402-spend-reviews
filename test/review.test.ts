@@ -1,6 +1,7 @@
 import { expect, test } from "vitest";
 import { ReviewSubmission } from "../src/review";
-import { submission } from "../src/fixtures";
+import { SOL_PAYER, SOL_PAY_TO, submission, svmSubmission } from "../src/fixtures";
+import { NETWORK } from "../src/network";
 
 /** Asserts the schema refuses a body, naming the check that failed. */
 const rejects = (body: unknown, reason: RegExp) => {
@@ -74,6 +75,43 @@ test("a payer cannot review a payment to itself", () => {
   expect(ReviewSubmission.safeParse(submission()).success).toBe(true);
 });
 
-test("a non-EVM network is refused by the schema", () => {
-  rejects({ ...submission(), network: "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp" }, /eip155/);
+test("a network is normalized to CAIP-2 rather than refused over spelling", () => {
+  const network = (value: string, base = submission()) =>
+    ReviewSubmission.parse({ ...base, network: value }).network;
+
+  expect(network("base-sepolia")).toBe(NETWORK.baseSepolia);
+  expect(network("Base-Mainnet")).toBe(NETWORK.baseMainnet);
+  expect(network("solana-mainnet-beta", svmSubmission())).toBe(NETWORK.solanaMainnet);
+  expect(network("solana:devnet", svmSubmission())).toBe(NETWORK.solanaDevnet);
+  expect(network("solana", svmSubmission())).toBe(NETWORK.solanaMainnet);
+  // A chain with no verifier is normalized all the same, and refused later for
+  // want of an endpoint rather than for how it was spelled.
+  expect(network("polygon")).toBe("eip155:137");
+  expect(network("bsc")).toBe("eip155:56");
+  // An id that already is CAIP-2 passes through untouched, casing included:
+  // the Solana half of one is base58, where case is a digit.
+  expect(network(NETWORK.solanaMainnet, svmSubmission())).toBe(NETWORK.solanaMainnet);
+});
+
+test("a network belonging to no known family is refused", () => {
+  rejects({ ...submission(), network: "sui:mainnet" }, /eip155 or solana/);
+  rejects({ ...submission(), network: "nonsense" }, /eip155 or solana/);
+});
+
+test("accounts and settlements are spelled the way their own network spells them", () => {
+  rejects({ ...svmSubmission(), payer: submission().payer }, /payer: must be a base58 account address/);
+  rejects({ ...svmSubmission(), asset: submission().asset }, /asset: must be a base58 account address/);
+  rejects({ ...svmSubmission(), transaction: submission().transaction },
+    /transaction: must be a base58 transaction signature/);
+  rejects({ ...submission(), payer: SOL_PAYER }, /payer: must be a 20-byte hex address/);
+  expect(ReviewSubmission.safeParse(svmSubmission()).success).toBe(true);
+});
+
+test("a Solana settlement is a 64-byte signature, not merely base58", () => {
+  // An account address is base58 too, and is not a signature.
+  rejects({ ...svmSubmission(), transaction: SOL_PAYER }, /base58 transaction signature/);
+});
+
+test("a payer cannot review a payment to itself on Solana either", () => {
+  rejects({ ...svmSubmission(), payer: SOL_PAY_TO }, /payer and payTo are the same address/);
 });

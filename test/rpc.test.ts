@@ -1,4 +1,5 @@
 import { expect, test, vi } from "vitest";
+import { NETWORK } from "../src/network";
 import { createRpc, RPC_USER_AGENT, RpcError, rpcUrlFor } from "../src/rpc";
 
 const ok = (result: unknown) =>
@@ -8,7 +9,7 @@ const ok = (result: unknown) =>
 
 test("every call identifies itself, because public endpoints refuse unknown clients", async () => {
   const fetchImpl = vi.fn<typeof fetch>(async () => ok("0x1"));
-  const rpc = createRpc("84532", { fetchImpl });
+  const rpc = createRpc(NETWORK.baseSepolia, { fetchImpl });
   await rpc!("eth_chainId", []);
 
   const [, init] = fetchImpl.mock.calls[0];
@@ -19,14 +20,26 @@ test("every call identifies itself, because public endpoints refuse unknown clie
 });
 
 test("an explicit endpoint wins over the public fallback", () => {
-  expect(rpcUrlFor("84532")).toBe("https://sepolia.base.org");
-  expect(rpcUrlFor("8453")).toBe("https://mainnet.base.org");
-  expect(rpcUrlFor("84532", { RPC_URL_84532: "https://private.example" })).toBe("https://private.example");
-  expect(rpcUrlFor("1")).toBeUndefined();
+  expect(rpcUrlFor(NETWORK.baseSepolia)).toBe("https://sepolia.base.org");
+  expect(rpcUrlFor(NETWORK.baseMainnet)).toBe("https://mainnet.base.org");
+  expect(rpcUrlFor(NETWORK.baseSepolia, { RPC_URL_84532: "https://private.example" }))
+    .toBe("https://private.example");
+  expect(rpcUrlFor("eip155:1")).toBeUndefined();
 });
 
-test("a chain with no endpoint has no caller at all", () => {
-  expect(createRpc("1")).toBeUndefined();
+test("both Solana clusters have a public endpoint, overridable like any other", () => {
+  expect(rpcUrlFor(NETWORK.solanaMainnet)).toBe("https://api.mainnet-beta.solana.com");
+  expect(rpcUrlFor(NETWORK.solanaDevnet)).toBe("https://api.devnet.solana.com");
+  expect(rpcUrlFor(NETWORK.solanaDevnet, { RPC_URL_SOLANA_DEVNET: "https://private.example" }))
+    .toBe("https://private.example");
+  // The two clusters are configured apart: a mainnet key must not answer for devnet.
+  expect(rpcUrlFor(NETWORK.solanaMainnet, { RPC_URL_SOLANA_DEVNET: "https://private.example" }))
+    .toBe("https://api.mainnet-beta.solana.com");
+});
+
+test("a network with no endpoint has no caller at all", () => {
+  expect(createRpc("eip155:1")).toBeUndefined();
+  expect(createRpc("solana:unknown")).toBeUndefined();
 });
 
 test("transport, HTTP and JSON-RPC failures all surface as RpcError", async () => {
@@ -37,7 +50,7 @@ test("transport, HTTP and JSON-RPC failures all surface as RpcError", async () =
       { headers: { "content-type": "application/json" } })],
   ];
   for (const [name, fetchImpl] of cases) {
-    const rpc = createRpc("84532", { fetchImpl });
+    const rpc = createRpc(NETWORK.baseSepolia, { fetchImpl });
     await expect(rpc!("eth_chainId", []), name).rejects.toBeInstanceOf(RpcError);
   }
 });

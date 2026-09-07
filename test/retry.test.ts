@@ -1,6 +1,7 @@
 import { env } from "cloudflare:test";
 import { expect, test } from "vitest";
 import { receiptWith, transferLog, FACILITATOR } from "../src/fixtures";
+import { NETWORK } from "../src/network";
 import { retryPending, type RetryRpcResolver } from "../src/retry";
 import { MAX_VERIFY_ATTEMPTS } from "../src/state";
 import { ReviewStore } from "../src/store";
@@ -32,7 +33,8 @@ async function parked() {
 }
 
 const row = (api: { transaction: string }) =>
-  new ReviewStore(env.DB).bySettlement(api.transaction, "0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc");
+  new ReviewStore(env.DB)
+    .bySettlement(NETWORK.baseSepolia, api.transaction, "0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc");
 
 test("a parked review is published once the chain answers", async () => {
   const api = await parked();
@@ -104,7 +106,7 @@ test("a chain with no endpoint ages a review out instead of branding the claim f
   await retryPending(env, 50, { rpc: () => undefined });
   const stored = await row(api);
   expect(stored?.status).toBe("pending");
-  expect(stored?.lastError).toMatch(/no RPC endpoint configured for chain 84532/);
+  expect(stored?.lastError).toMatch(/no RPC endpoint configured for eip155:84532/);
 });
 
 test("the retry route is closed without a matching admin token", async () => {
