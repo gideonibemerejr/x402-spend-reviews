@@ -5,7 +5,7 @@ import { bodyLimit } from "hono/body-limit";
 import { zValidator } from "@hono/zod-validator";
 import { renderPage } from "./page";
 import { describeIssues, ReviewSubmission } from "./review";
-import { defaultRpc } from "./rpc";
+import { defaultRpc } from "./verify/rpc";
 import { applyVerification, decideSubmission } from "./state";
 import { retryPending, type RetryRpcResolver } from "./retry";
 import { ReviewStore, settlementFacts } from "./store";

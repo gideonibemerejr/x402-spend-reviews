@@ -1,6 +1,6 @@
 import { expect, test, vi } from "vitest";
 import { NETWORK } from "../src/network";
-import { createRpc, RPC_USER_AGENT, RpcError, rpcUrlFor } from "../src/rpc";
+import { createRpc, RPC_USER_AGENT, RpcError, rpcUrlFor } from "../src/verify/rpc";
 
 const ok = (result: unknown) =>
   new Response(JSON.stringify({ jsonrpc: "2.0", id: 1, result }), {

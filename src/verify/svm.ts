@@ -13,11 +13,11 @@
  * The balance delta of §3.4 is the documented fallback for when a node cannot
  * return the inner instructions, not the rule.
  */
-import { NETWORK } from "./network";
-import type { ReviewSubmission } from "./review";
+import { NETWORK } from "../network";
+import type { ReviewSubmission } from "../review";
 import { associatedTokenAddress, isPubkey } from "./solana-address";
-import { PROOF, REASON } from "./vocab";
-import type { RpcCall, VerificationResult } from "./verify";
+import { PROOF, REASON } from "../vocab";
+import type { RpcCall, VerificationResult } from "./index";
 
 /** The Solana clusters this server verifies. Any other `solana:` id is refused. */
 export const SOLANA_NETWORKS: readonly string[] = [NETWORK.solanaMainnet, NETWORK.solanaDevnet];

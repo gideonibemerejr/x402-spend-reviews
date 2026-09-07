@@ -1,6 +1,6 @@
 /** Minimal JSON-RPC over fetch. No client library, no provider abstraction. */
-import { NETWORK } from "./network";
-import type { RpcCall } from "./verify";
+import { NETWORK } from "../network";
+import type { RpcCall } from "./index";
 
 /** Configuration source. Deliberately not Node's ProcessEnv: this file runs on Workers too. */
 export type RpcEnv = Record<string, string | undefined>;

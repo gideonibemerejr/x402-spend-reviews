@@ -7,7 +7,7 @@
  * CAIP-2 rather than refused over spelling. Refusing one would cost a real
  * buyer a real review over a naming convention this server does not own.
  */
-import { decodeBase58, isPubkey } from "./solana-address";
+import { decodeBase58, isPubkey } from "./verify/solana-address";
 import { FAMILY, type NetworkFamily } from "./vocab";
 
 /** The CAIP-2 ids this server names. Verifying one is a separate question from naming it. */

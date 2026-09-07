@@ -4,7 +4,7 @@
  * A function, not a worker: the cron trigger and the admin route both call it,
  * and nothing here owns a schedule, a queue or a backoff policy.
  */
-import { defaultRpc } from "./rpc";
+import { defaultRpc } from "./verify/rpc";
 import { applyVerification, MAX_VERIFY_ATTEMPTS, type VerificationEvent } from "./state";
 import { ReviewStore } from "./store";
 import { verifySettlement, type RpcCall } from "./verify";

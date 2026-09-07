@@ -3,7 +3,7 @@ import { NETWORK } from "../src/network";
 import { verifySettlement } from "../src/verify";
 import {
   SPL_TOKEN_PROGRAM, TOKEN_2022_PROGRAM, USDC_BY_SOLANA_NETWORK, verifySvmSettlement,
-} from "../src/verify-svm";
+} from "../src/verify/svm";
 import { PROOF } from "../src/vocab";
 import {
   SOL_FEE_PAYER, SOL_OTHER, SOL_OTHER_ATA, SOL_OTHER_MINT, SOL_PAYER, SOL_PAYER_ATA,

@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 import { verifySettlement } from "../src/verify";
-import { USDC_BY_CHAIN_ID } from "../src/verify-evm";
+import { USDC_BY_CHAIN_ID } from "../src/verify/evm";
 import { PROOF } from "../src/vocab";
 import {
   FACILITATOR, PAYER, PAY_TO, USDC_BASE_SEPOLIA,

@@ -2,12 +2,12 @@ import { expect, test } from "vitest";
 import {
   ASSOCIATED_TOKEN_PROGRAM, associatedTokenAddress, decodeBase58, decodePubkey,
   encodeBase58, isOnCurve, isPubkey,
-} from "../src/solana-address";
+} from "../src/verify/solana-address";
 import {
   SOL_OTHER_ATA, SOL_OTHER, SOL_PAY_TO, SOL_PAY_TO_ATA, SOL_PAY_TO_ATA_2022,
   SOL_PAY_TO_ATA_OTHER_MINT, SOL_OTHER_MINT, USDC_SOLANA_DEVNET,
 } from "../src/fixtures";
-import { SPL_TOKEN_PROGRAM, TOKEN_2022_PROGRAM } from "../src/verify-svm";
+import { SPL_TOKEN_PROGRAM, TOKEN_2022_PROGRAM } from "../src/verify/svm";
 
 test("the associated token account program id matches its published address", () => {
   // A seed of every ATA derived here, so a wrong value would derive addresses

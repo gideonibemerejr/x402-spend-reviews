@@ -3,7 +3,7 @@ import { createExecutionContext, env, waitOnExecutionContext } from "cloudflare:
 import { createApp, type AppOptions } from "../src/app";
 import { submission, svmSubmission } from "../src/fixtures";
 import type { ReviewSubmission } from "../src/review";
-import { encodeBase58 } from "../src/solana-address";
+import { encodeBase58 } from "../src/verify/solana-address";
 
 let harnessCount = 0;
 

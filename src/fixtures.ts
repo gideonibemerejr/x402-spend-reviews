@@ -2,11 +2,11 @@
 import type { ReviewSubmission } from "./review";
 import type { RpcCall } from "./verify";
 import { OUTCOME } from "./vocab";
-import type { RpcLog, RpcTransactionReceipt } from "./verify-evm";
-import { TRANSFER_TOPIC } from "./verify-evm";
+import type { RpcLog, RpcTransactionReceipt } from "./verify/evm";
+import { TRANSFER_TOPIC } from "./verify/evm";
 import { NETWORK } from "./network";
-import type { ParsedInstruction, SvmTransaction, TokenBalance } from "./verify-svm";
-import { SPL_TOKEN_PROGRAM, USDC_BY_SOLANA_NETWORK } from "./verify-svm";
+import type { ParsedInstruction, SvmTransaction, TokenBalance } from "./verify/svm";
+import { SPL_TOKEN_PROGRAM, USDC_BY_SOLANA_NETWORK } from "./verify/svm";
 
 // --- EVM ---
 

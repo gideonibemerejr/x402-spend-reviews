@@ -6,11 +6,11 @@
  * transfer among a transaction's instructions on Solana — so each lives in its
  * own module and this one decides which is being asked for.
  */
-import { familyOf } from "./network";
-import type { ReviewSubmission } from "./review";
-import { FAMILY, REASON, type Proof } from "./vocab";
-import { verifyEvmSettlement } from "./verify-evm";
-import { verifySvmSettlement } from "./verify-svm";
+import { familyOf } from "../network";
+import type { ReviewSubmission } from "../review";
+import { FAMILY, REASON, type Proof } from "../vocab";
+import { verifyEvmSettlement } from "./evm";
+import { verifySvmSettlement } from "./svm";
 
 /** A JSON-RPC caller. Tests supply fixtures through this; nothing else touches the network. */
 export type RpcCall = (method: string, params: unknown[]) => Promise<unknown>;
