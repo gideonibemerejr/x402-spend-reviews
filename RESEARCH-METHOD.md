@@ -25,7 +25,10 @@ I run these as separate batches so that a quality label is never a side effect o
 whether the plumbing works.
 
 ### Axis 1 — Coverage
-*Can I verify a payment on the networks that matter?*
+
+_Can I verify a payment on the networks carrying the most endpoints?_
+
+I rank by endpoint count because it's the number I can cite. Solana leads on daily transactions, though, so this sample skews toward where endpoints are listed rather than where payments actually happen.
 
 Target networks, by listed endpoints (source: x402.fuchss.app/network, read 2026-09-06):
 Base 38,541 · Solana 1,619 · Base Sepolia 453 · Avalanche 261 · Arbitrum 92 · BNB 14.
@@ -33,7 +36,7 @@ Base 38,541 · Solana 1,619 · Base Sepolia 453 · Avalanche 261 · Arbitrum 92 
 - Solana: new verifier.
 - Avalanche, Arbitrum, BNB: EVM, so config only — USDC contract address and RPC per chain.
 - Deliverable: one verified review on each network, with tx hash.
-- I also normalise the network-name aliases that show up in the wild (`solana:mainnet`,
+- I also normalize the network-name aliases that show up in the wild (`solana:mainnet`,
   `solana-mainnet`, `solana-mainnet-beta`, `base-mainnet`, bare `polygon` / `bsc`) to CAIP-2
   rather than rejecting a payment over spelling.
 
@@ -134,7 +137,7 @@ exercise.
 
 - Single reviewer, single judgment. One rater, no inter-rater check.
 - Small n per category.
-- The sample is the best-graded endpoints, so nothing here generalises to the whole directory.
+- The sample is the best-graded endpoints, so nothing here generalizes to the whole directory.
 - Latency measured from one location.
 - I chose categories for checkability, and checkability correlates with simplicity. The
   hardest endpoints to grade are also where quality problems are most likely to hide.
