@@ -61,6 +61,11 @@ This is the finding. Everything above exists to make it credible.
   to categories where I can check the answer. Using their leaderboard is deliberate: I want
   to test the best case, not a random sample.
 - Deliverable: labeled outcomes with tx hashes, published, re-verifiable by anyone.
+- **Exclusion:** reviews where the payment could only be confirmed as *recipient credited*
+  rather than *payment traced* are excluded from the quality findings, because the payer
+  isn't attributable on that path. They still appear in the published dataset, marked, and
+  they still count for Axis 1 and Axis 2. This path only occurs under node indexing lag, so
+  I expect it to be rare; if it isn't, that itself goes in the report.
 
 ## The labeling rule (written once, applied to every call)
 
