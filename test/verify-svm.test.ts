@@ -219,10 +219,10 @@ test("both cluster ids route to the Solana rule, and no other does", async () =>
   }
   const unknown = "solana:4uhcVJyU9pJkvQyS88uRDiswHXSCkY3z";
   expect(await verifySettlement(svmSubmission({ network: unknown }), noRpc)).toEqual({
-    verified: false, reason: "network not supported in 0.3",
+    verified: false, reason: "network not supported in 0.2",
   });
   expect(await verifySettlement(svmSubmission({ network: "sui:mainnet" }), noRpc)).toEqual({
-    verified: false, reason: "network not supported in 0.3",
+    verified: false, reason: "network not supported in 0.2",
   });
 });
 

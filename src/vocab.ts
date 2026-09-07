@@ -77,7 +77,7 @@ export type NetworkFamily = (typeof FAMILY)[keyof typeof FAMILY];
  * rather than a member of a closed set.
  */
 export const REASON = {
-  networkUnsupported: "network not supported in 0.3",
+  networkUnsupported: "network not supported in 0.2",
   transactionNotFound: "transaction not found",
   transactionFailed: "transaction did not succeed on chain",
   noMetadata: "transaction has no metadata to verify against",

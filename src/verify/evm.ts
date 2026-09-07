@@ -62,7 +62,7 @@ function uint256(data: string): bigint | undefined {
  * name must be one this server actually knows, because falling back to the
  * chain's USDC for *any* name would verify a submission claiming some other
  * token against a USDC transfer — recording an asset the proof does not show.
- * USDC is the only symbolic name 0.3 recognises.
+ * USDC is the only symbolic name 0.2 recognizes.
  */
 function resolveToken(asset: string, chainId: string): string | undefined {
   if (isAddress(asset)) return asset;
