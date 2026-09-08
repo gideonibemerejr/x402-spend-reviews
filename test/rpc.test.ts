@@ -1,5 +1,5 @@
 import { expect, test, vi } from "vitest";
-import { NETWORK } from "../src/network";
+import { canonicalNetwork, NETWORK } from "../src/network";
 import { createRpc, RPC_USER_AGENT, RpcError, rpcUrlFor } from "../src/verify/rpc";
 
 const ok = (result: unknown) =>
@@ -35,6 +35,28 @@ test("both Solana clusters have a public endpoint, overridable like any other", 
   // The two clusters are configured apart: a mainnet key must not answer for devnet.
   expect(rpcUrlFor(NETWORK.solanaMainnet, { RPC_URL_SOLANA_DEVNET: "https://private.example" }))
     .toBe("https://api.mainnet-beta.solana.com");
+});
+
+test("every chain the alias table names resolves to a caller, not a refusal", () => {
+  // The method commits to five networks. A client writing any of their common
+  // names should reach an endpoint rather than a "no RPC endpoint configured".
+  for (const alias of [
+    "base", "base-mainnet", "base-sepolia",
+    "avalanche", "avalanche-fuji", "arbitrum", "arbitrum-one",
+    "bsc", "bnb", "binance-smart-chain",
+    "solana", "solana-mainnet-beta", "solana-devnet",
+  ]) {
+    expect(createRpc(canonicalNetwork(alias)), alias).toBeDefined();
+  }
+});
+
+test("each chain reads its own secret and no other", () => {
+  expect(rpcUrlFor(NETWORK.avalanche, { RPC_URL_43114: "https://avax.example" }))
+    .toBe("https://avax.example");
+  expect(rpcUrlFor(NETWORK.arbitrumOne, { RPC_URL_43114: "https://avax.example" }))
+    .toBe("https://arb1.arbitrum.io/rpc");
+  expect(rpcUrlFor(NETWORK.bnbSmartChain, { RPC_URL_56: "https://bnb.example" }))
+    .toBe("https://bnb.example");
 });
 
 test("a network with no endpoint has no caller at all", () => {

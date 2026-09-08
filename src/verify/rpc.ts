@@ -14,6 +14,10 @@ export type RpcEnv = Record<string, string | undefined>;
 export const PUBLIC_RPC_URLS: Readonly<Record<string, string>> = {
   [NETWORK.baseMainnet]: "https://mainnet.base.org",
   [NETWORK.baseSepolia]: "https://sepolia.base.org",
+  [NETWORK.avalanche]: "https://api.avax.network/ext/bc/C/rpc",
+  [NETWORK.avalancheFuji]: "https://api.avax-test.network/ext/bc/C/rpc",
+  [NETWORK.arbitrumOne]: "https://arb1.arbitrum.io/rpc",
+  [NETWORK.bnbSmartChain]: "https://bsc-dataseed.binance.org",
   [NETWORK.solanaMainnet]: "https://api.mainnet-beta.solana.com",
   [NETWORK.solanaDevnet]: "https://api.devnet.solana.com",
 };
@@ -27,6 +31,10 @@ export const PUBLIC_RPC_URLS: Readonly<Record<string, string>> = {
 export const RPC_ENV_VAR: Readonly<Record<string, string>> = {
   [NETWORK.baseMainnet]: "RPC_URL_8453",
   [NETWORK.baseSepolia]: "RPC_URL_84532",
+  [NETWORK.avalanche]: "RPC_URL_43114",
+  [NETWORK.avalancheFuji]: "RPC_URL_43113",
+  [NETWORK.arbitrumOne]: "RPC_URL_42161",
+  [NETWORK.bnbSmartChain]: "RPC_URL_56",
   [NETWORK.solanaMainnet]: "RPC_URL_SOLANA",
   [NETWORK.solanaDevnet]: "RPC_URL_SOLANA_DEVNET",
 };
@@ -95,6 +103,10 @@ export function createRpc(
 export const rpcEnvFrom = (env: Env): RpcEnv => ({
   RPC_URL_8453: env.RPC_URL_8453,
   RPC_URL_84532: env.RPC_URL_84532,
+  RPC_URL_43114: env.RPC_URL_43114,
+  RPC_URL_43113: env.RPC_URL_43113,
+  RPC_URL_42161: env.RPC_URL_42161,
+  RPC_URL_56: env.RPC_URL_56,
   RPC_URL_SOLANA: env.RPC_URL_SOLANA,
   RPC_URL_SOLANA_DEVNET: env.RPC_URL_SOLANA_DEVNET,
 });

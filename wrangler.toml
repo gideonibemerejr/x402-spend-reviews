@@ -24,8 +24,12 @@ enabled = true
 head_sampling_rate = 0.01
 
 # Secrets only, never keys in this file:
-#   wrangler secret put RPC_URL_8453
-#   wrangler secret put RPC_URL_84532
+#   wrangler secret put RPC_URL_8453             # Base
+#   wrangler secret put RPC_URL_84532            # Base Sepolia
+#   wrangler secret put RPC_URL_43114            # Avalanche
+#   wrangler secret put RPC_URL_43113            # Avalanche Fuji
+#   wrangler secret put RPC_URL_42161            # Arbitrum One
+#   wrangler secret put RPC_URL_56               # BNB Smart Chain
 #   wrangler secret put RPC_URL_SOLANA
 #   wrangler secret put RPC_URL_SOLANA_DEVNET
 #   wrangler secret put ADMIN_TOKEN

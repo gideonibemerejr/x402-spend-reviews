@@ -7,9 +7,29 @@ import {
   receiptWith, rpcReturning, submission, transferLog,
 } from "../src/fixtures";
 
+// https://developers.circle.com/stablecoins/usdc-contract-addresses — each of
+// these was read off that page in the session that added it, not recalled.
 test("USDC addresses match Circle's published contract list", () => {
   expect(USDC_BY_CHAIN_ID["8453"]).toBe("0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913");
   expect(USDC_BY_CHAIN_ID["84532"]).toBe("0x036CbD53842c5426634e7929541eC2318f3dCF7e");
+  expect(USDC_BY_CHAIN_ID["43114"]).toBe("0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E");
+  expect(USDC_BY_CHAIN_ID["43113"]).toBe("0x5425890298aed601595a70AB815c96711a31Bc65");
+  expect(USDC_BY_CHAIN_ID["42161"]).toBe("0xaf88d065e77c8cC2239327C5EDb3A432268e5831");
+});
+
+test("BNB Smart Chain has no USDC entry, because Circle publishes none", () => {
+  // Not an oversight and not a TODO. Circle lists no native USDC for chain 56,
+  // so anything put here would be a bridged token wearing the name — which is
+  // exactly the substitution the symbolic lookup exists to prevent.
+  expect(USDC_BY_CHAIN_ID["56"]).toBeUndefined();
+});
+
+test("the native USDC is used, never the bridged one that shares its name", () => {
+  // Avalanche and Arbitrum both carry an older bridged USDC.e alongside Circle's
+  // native issue. Verifying against the wrong one would prove a transfer of a
+  // different asset than the review claims.
+  expect(USDC_BY_CHAIN_ID["43114"]).not.toBe("0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664");
+  expect(USDC_BY_CHAIN_ID["42161"]).not.toBe("0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8");
 });
 
 test("a matching transfer verifies", async () => {

@@ -21,6 +21,16 @@ export const TRANSFER_TOPIC = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11
 export const USDC_BY_CHAIN_ID: Readonly<Record<string, string>> = {
   "8453": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
   "84532": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+  "43114": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+  "43113": "0x5425890298aed601595a70AB815c96711a31Bc65",
+  "42161": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+  // BNB Smart Chain (56) is deliberately absent. Circle publishes no native
+  // USDC for it — not on the mainnet table, the testnet table, or as a bridged
+  // asset — so there is no address here that would meet the standard the other
+  // five were held to. What circulates there as "USDC" is Binance-Peg, a
+  // different issuer with different redemption. Reviews on chain 56 still
+  // verify: `asset` is a contract address the submission names, and the
+  // symbolic lookup below is the only thing this map feeds.
 };
 
 /** One log entry as returned by `eth_getTransactionReceipt`. */
