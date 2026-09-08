@@ -53,7 +53,7 @@ the five as directly comparable. I verify BNB payments the same way regardless, 
 is an address the submission names.
 
 - Solana: new verifier.
-- Avalanche, Arbitrum, BNB: EVM, so config only — USDC contract address and RPC per chain.
+- Avalanche, Arbitrum: EVM, so config only — USDC contract address and RPC per chain. BNB: RPC only, per the note above.
 - Deliverable: one verified review on each network, with tx hash.
 - I also normalize the network-name aliases that show up in the wild (`solana:mainnet`,
   `solana-mainnet`, `solana-mainnet-beta`, `base-mainnet`, bare `polygon` / `bsc`) to CAIP-2
