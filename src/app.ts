@@ -120,14 +120,14 @@ export function createApp(options: AppOptions = {}) {
       try {
         const result = await verifySettlement(submission, rpc);
         event = result.verified
-          ? ({ kind: "verified", proof: result.proof } as const)
+          ? ({ kind: "verified", proof: result.proof, amount: result.amount } as const)
           : ({ kind: "rejected", reason: result.reason } as const);
       } catch (cause: unknown) {
         // The claim may well be true; this server simply could not check it.
         event = { kind: "unreachable", reason: cause instanceof Error ? cause.message : String(cause) } as const;
       }
 
-      const transition = applyVerification(event, { allowPending });
+      const transition = applyVerification(event, { allowPending, claimedAmount: submission.amount });
       if (!transition.store) {
         const body =
           transition.httpStatus === 503

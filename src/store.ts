@@ -14,6 +14,11 @@ export interface StoredReview extends ReviewSubmission {
   verifiedAt?: string;
   /** How the payment was proved. Absent on rows that were never verified. */
   proof?: Proof;
+  /**
+   * What the settlement actually moved, when it exceeded {@link amount}.
+   * Absent when the chain matched the claim.
+   */
+  settledAmount?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -50,13 +55,14 @@ interface Row {
   last_error: string | null;
   verified_at: string | null;
   proof: string | null;
+  settled_amount: string | null;
   created_at: string;
   updated_at: string;
 }
 
 const COLUMNS = `id, "transaction", payer, resource_url, task_class, network, asset, amount,
   pay_to, outcome, note, paid_ms, ts, status, verify_attempts, last_error, verified_at,
-  proof, created_at, updated_at`;
+  proof, settled_amount, created_at, updated_at`;
 
 function toReview(row: Row): StoredReview {
   return {
@@ -79,6 +85,7 @@ function toReview(row: Row): StoredReview {
     ...(row.last_error !== null ? { lastError: row.last_error } : {}),
     ...(row.verified_at !== null ? { verifiedAt: row.verified_at } : {}),
     ...(row.proof !== null ? { proof: row.proof as Proof } : {}),
+    ...(row.settled_amount !== null ? { settledAmount: row.settled_amount } : {}),
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -94,6 +101,7 @@ export interface WriteState {
   lastError?: string;
   stampVerifiedAt: boolean;
   proof?: Proof;
+  settledAmount?: string;
 }
 
 /**
@@ -137,19 +145,20 @@ export class ReviewStore {
       ...(state.lastError !== undefined ? { lastError: state.lastError } : {}),
       ...(state.stampVerifiedAt ? { verifiedAt: timestamp } : {}),
       ...(state.proof !== undefined ? { proof: state.proof } : {}),
+      ...(state.settledAmount !== undefined ? { settledAmount: state.settledAmount } : {}),
       createdAt: timestamp,
       updatedAt: timestamp,
     };
     await this.db
       .prepare(
-        `INSERT INTO reviews (${COLUMNS}) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+        `INSERT INTO reviews (${COLUMNS}) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
       )
       .bind(
         review.id, review.transaction, review.payer, review.resourceUrl, review.taskClass ?? null,
         review.network, review.asset, review.amount, review.payTo, review.outcome,
         review.note ?? null, review.paidMs ?? null, review.ts, review.status,
         review.verifyAttempts, review.lastError ?? null, review.verifiedAt ?? null,
-        review.proof ?? null, review.createdAt, review.updatedAt
+        review.proof ?? null, review.settledAmount ?? null, review.createdAt, review.updatedAt
       )
       .run();
     return review;
@@ -237,12 +246,13 @@ export class ReviewStore {
         `UPDATE reviews
          SET status = ?, verify_attempts = ?, last_error = ?,
              verified_at = COALESCE(?, verified_at), proof = COALESCE(?, proof),
-             updated_at = ?
+             settled_amount = COALESCE(?, settled_amount), updated_at = ?
          WHERE id = ?`
       )
       .bind(
         state.status, state.verifyAttempts, state.lastError ?? null,
-        state.stampVerifiedAt ? timestamp : null, state.proof ?? null, timestamp, id
+        state.stampVerifiedAt ? timestamp : null, state.proof ?? null,
+        state.settledAmount ?? null, timestamp, id
       )
       .run();
   }

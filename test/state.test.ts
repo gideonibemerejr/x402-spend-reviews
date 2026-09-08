@@ -54,13 +54,28 @@ describe("decideSubmission", () => {
 });
 
 describe("applyVerification", () => {
+  const verified = (overrides: { proof?: typeof PROOF.paymentTraced | typeof PROOF.receiptOnly; amount?: string } = {}) =>
+    ({ kind: "verified", proof: overrides.proof ?? PROOF.paymentTraced, amount: overrides.amount ?? "10000" }) as const;
+
   test("a matching log stores a verified review, stamps it, and records how it was proved", () => {
-    expect(applyVerification({ kind: "verified", proof: PROOF.paymentTraced })).toEqual({
+    expect(applyVerification(verified(), { claimedAmount: "10000" })).toEqual({
       status: "verified", store: true, httpStatus: 201, verifyAttempts: 1, stampVerifiedAt: true,
       proof: PROOF.paymentTraced,
     });
-    expect(applyVerification({ kind: "verified", proof: PROOF.receiptOnly }).proof)
+    expect(applyVerification(verified({ proof: PROOF.receiptOnly }), { claimedAmount: "10000" }).proof)
       .toBe(PROOF.receiptOnly);
+  });
+
+  test("a settlement that moved exactly what was claimed records no second figure", () => {
+    expect(applyVerification(verified({ amount: "10000" }), { claimedAmount: "10000" }).settledAmount)
+      .toBeUndefined();
+  });
+
+  test("a settlement that moved more than the claim records what it actually moved", () => {
+    // The claim itself is never rewritten: idempotency compares against it.
+    const t = applyVerification(verified({ amount: "12345" }), { claimedAmount: "10000" });
+    expect(t.settledAmount).toBe("12345");
+    expect(t.status).toBe("verified");
   });
 
   test("a fresh claim that fails its check is refused and never stored", () => {

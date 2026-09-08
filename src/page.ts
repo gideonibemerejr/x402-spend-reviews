@@ -29,6 +29,10 @@ const EXPLORERS: Readonly<Record<string, (transaction: string) => string>> = {
  * Written out rather than left to the color: a reader who cannot see the
  * amber, or who is reading the markup, still learns why the row is set apart.
  */
+const SETTLED_TITLE =
+  "The settlement moved more than this review claimed. The exact-SVM scheme allows an " +
+  "overpayment, so the figure below is what the chain actually transferred.";
+
 const UNCONFIRMED_TITLE =
   "Payer unconfirmed: the node returned no instruction trace, so this payment was verified " +
   "from the recipient balance rising rather than from the transfer itself. " +
@@ -107,6 +111,7 @@ const STYLE = `
   td.amt,th.amt{text-align:right}
   .pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12.5px;font-weight:600;line-height:1.6;color:#0c0f12}
   .pill.used{background:var(--used)} .pill.retried{background:var(--retried)} .pill.discarded,.pill.failed{background:var(--bad)}
+  .settled{color:var(--muted);font-size:12.5px;font-weight:400;cursor:help}
   .unconf{color:var(--unconf);margin-left:7px;font-size:10px;vertical-align:2px;cursor:help}
   tbody tr.dim td{color:var(--muted)}
   tbody tr.dim td a{color:#7e8ea8}
@@ -143,6 +148,11 @@ function row(review: StoredReview): string {
   // hidden: it is still a real payment, and the dataset says so either way.
   const unconfirmed = review.proof === PROOF.receiptOnly;
   const title = escapeHtml(UNCONFIRMED_TITLE);
+  // The claim stays the headline figure; what the chain actually moved goes
+  // underneath it, so the two are never confused for one another.
+  const settled = review.settledAmount
+    ? `<div class="settled" title="${escapeHtml(SETTLED_TITLE)}">${escapeHtml(formatAmount(review.settledAmount))} paid</div>`
+    : "";
   const marker = unconfirmed
     ? `<span class="unconf" role="img" title="${title}" aria-label="${title}">\u25c6</span>`
     : "";
@@ -151,7 +161,7 @@ function row(review: StoredReview): string {
         <td><a class="ep" href="${url}" title="${url}" rel="noopener noreferrer">${escapeHtml(displayUrl(review.resourceUrl))}</a>${note}</td>
         <td class="hide-sm">${review.taskClass ? escapeHtml(review.taskClass) : "\u2014"}</td>
         <td><span class="pill ${outcome}">${outcome}</span>${marker}</td>
-        <td class="amt mono" title="${escapeHtml(review.amount)} atomic units">${escapeHtml(formatAmount(review.amount))} USDC</td>
+        <td class="amt mono" title="${escapeHtml(review.amount)} atomic units">${escapeHtml(formatAmount(review.amount))} USDC${settled}</td>
         <td class="hide-sm mono">${escapeHtml(review.network)}</td>
         <td class="mono">${txCell}</td>
         <td class="hide-sm">${escapeHtml(formatTimestamp(review.verifiedAt))}</td>

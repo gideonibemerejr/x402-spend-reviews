@@ -73,7 +73,7 @@ export function decideSubmission(
 
 /** The outcome of one verification attempt. */
 export type VerificationEvent =
-  | { kind: "verified"; proof: Proof }
+  | { kind: "verified"; proof: Proof; amount: string }
   | { kind: "rejected"; reason: string }
   | { kind: "unreachable"; reason: string };
 
@@ -90,6 +90,11 @@ export interface StateTransition {
   stampVerifiedAt: boolean;
   /** How the payment was proved, on the transitions that proved one. */
   proof?: Proof;
+  /**
+   * What the chain actually moved, when that is not what the client claimed.
+   * Absent when the two agree, which is the ordinary case.
+   */
+  settledAmount?: string;
 }
 
 /**
@@ -100,18 +105,31 @@ export interface StateTransition {
  * @param context.verifyAttempts - Attempts already recorded.
  * @param context.allowPending - Whether an unreachable chain may park the row as `pending`.
  *   With this off, an unreachable chain is a 503 and nothing is stored.
+ * @param context.claimedAmount - The amount the submission claimed, so a
+ *   settlement that moved more can be recorded as having done so. The claim
+ *   itself is never rewritten: idempotency compares against it, so replacing it
+ *   with the observed figure would make an honest repost look like a different
+ *   settlement.
  */
 export function applyVerification(
   event: VerificationEvent,
-  context: { current?: ReviewStatus; verifyAttempts?: number; allowPending?: boolean } = {}
+  context: {
+    current?: ReviewStatus;
+    verifyAttempts?: number;
+    allowPending?: boolean;
+    claimedAmount?: string;
+  } = {}
 ): StateTransition {
   const verifyAttempts = (context.verifyAttempts ?? 0) + 1;
   const exists = context.current !== undefined;
 
   if (event.kind === "verified") {
+    const overpaid =
+      context.claimedAmount !== undefined && event.amount !== context.claimedAmount;
     return {
       status: STATUS.verified, store: true, httpStatus: 201, verifyAttempts,
       stampVerifiedAt: true, proof: event.proof,
+      ...(overpaid ? { settledAmount: event.amount } : {}),
     };
   }
   if (event.kind === "rejected") {

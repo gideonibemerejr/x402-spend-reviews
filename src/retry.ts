@@ -51,7 +51,7 @@ export async function retryPending(
       try {
         const result = await verifySettlement(row, rpc);
         event = result.verified
-          ? { kind: "verified", proof: result.proof }
+          ? { kind: "verified", proof: result.proof, amount: result.amount }
           : { kind: "rejected", reason: result.reason };
       } catch (cause: unknown) {
         event = { kind: "unreachable", reason: cause instanceof Error ? cause.message : String(cause) };
@@ -62,6 +62,7 @@ export async function retryPending(
       current: row.status,
       verifyAttempts: row.verifyAttempts,
       allowPending: true,
+      claimedAmount: row.amount,
     });
     await store.applyRetry(row.id, transition, options.now);
     if (transition.status === STATUS.verified) report.verified += 1;

@@ -17,12 +17,11 @@ export type RpcCall = (method: string, params: unknown[]) => Promise<unknown>;
 
 /**
  * Verification outcome. `reason` names the single check that failed, for the
- * 422 body. A pass says how the payment was proved, and may carry the amount
- * actually moved on chain, which the exact-SVM scheme allows to exceed the
- * amount claimed.
+ * 422 body. A pass says how the payment was proved and what actually moved on
+ * chain, which the exact-SVM scheme allows to exceed the amount claimed.
  */
 export type VerificationResult =
-  | { verified: true; proof: Proof; amount?: string }
+  | { verified: true; proof: Proof; amount: string }
   | { verified: false; reason: string };
 
 /**

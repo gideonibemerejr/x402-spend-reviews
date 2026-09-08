@@ -127,8 +127,11 @@ export async function verifyEvmSettlement(
   if (toPayTo.length === 0) {
     return { verified: false, reason: REASON.noTransferToPayTo };
   }
-  if (!toPayTo.some((log) => uint256(log.data) === expected)) {
+  const settled = toPayTo.find((log) => uint256(log.data) === expected);
+  if (!settled) {
     return { verified: false, reason: `no Transfer log from payer to payTo for amount ${submission.amount}` };
   }
-  return { verified: true, proof: PROOF.paymentTraced };
+  // Exact by construction on EVM, so this never differs from the claim. Returned
+  // all the same, so both families answer the same shape.
+  return { verified: true, proof: PROOF.paymentTraced, amount: uint256(settled.data)!.toString() };
 }

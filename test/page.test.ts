@@ -68,6 +68,21 @@ describe("the page", () => {
     expect(html).toContain('title="5001 atomic units"');
   });
 
+  test("an overpaid settlement shows both figures, the claim on top", () => {
+    const html = renderPage([stored({ amount: "10000", settledAmount: "12345" })]);
+    expect(html).toContain("0.010000 USDC");
+    expect(html).toContain(`<div class="settled"`);
+    expect(html).toContain("0.012345 paid");
+    expect(html).toContain("The settlement moved more than this review claimed.");
+  });
+
+  test("a settlement matching its claim shows one figure and no explanation", () => {
+    const html = renderPage([stored({ amount: "10000" })]);
+    expect(html).toContain("0.010000 USDC");
+    expect(html).not.toContain(`<div class="settled"`);
+    expect(html).not.toContain("moved more than this review claimed");
+  });
+
   test("values from the database cannot inject markup", () => {
     const html = renderPage([stored({
       taskClass: '<script>alert("x")</script>',

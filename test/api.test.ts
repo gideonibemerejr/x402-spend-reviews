@@ -165,6 +165,53 @@ describe("POST /v1/reviews", () => {
     expect(page.reviews[0].network).toBe(NETWORK.solanaDevnet);
   });
 
+  test("an overpayment is recorded as what the chain moved, not as what was claimed", async () => {
+    // The scheme tolerates paying more than the quote; the review still claims
+    // the quote, and the row carries both figures.
+    const api = harness(rpc(svmRpcReturning(svmTransaction({
+      instructions: [svmTransfer({ amount: "12345" })],
+    }))));
+    expect((await api.post(api.validSvm({ amount: "10000" }))).status).toBe(201);
+
+    const page = await (await api.page())
+      .json<{ reviews: { amount: string; settledAmount?: string }[] }>();
+    expect(page.reviews[0].amount).toBe("10000");
+    expect(page.reviews[0].settledAmount).toBe("12345");
+  });
+
+  test("a settlement that matched the claim carries no second figure", async () => {
+    const api = harness(rpc(svmRpcReturning(svmTransaction({ instructions: [svmTransfer()] }))));
+    expect((await api.post(api.validSvm({ amount: "10000" }))).status).toBe(201);
+
+    const page = await (await api.page())
+      .json<{ reviews: { settledAmount?: string }[] }>();
+    expect(page.reviews[0].settledAmount).toBeUndefined();
+  });
+
+  test("reposting an overpaid settlement replays rather than reading as a conflict", async () => {
+    // The regression the column exists to prevent: had the observed figure been
+    // written into `amount`, this repost would differ from the stored row and be
+    // refused as a second settlement for one transaction.
+    const api = harness(rpc(svmRpcReturning(svmTransaction({
+      instructions: [svmTransfer({ amount: "12345" })],
+    }))));
+    const first = await api.post(api.validSvm({ amount: "10000" }));
+    const second = await api.post(api.validSvm({ amount: "10000" }));
+    expect(first.status).toBe(201);
+    expect(second.status).toBe(200);
+    expect(await second.json()).toEqual(await first.json());
+  });
+
+  test("paying less than the claim is still refused", async () => {
+    const api = harness(rpc(svmRpcReturning(svmTransaction({
+      instructions: [svmTransfer({ amount: "9999" })],
+    }))));
+    const response = await api.post(api.validSvm({ amount: "10000" }));
+    expect(response.status).toBe(422);
+    expect((await response.json<{ error: string }>()).error)
+      .toMatch(/less than the required 10000/);
+  });
+
   test("an unknown network family never reaches the RPC", async () => {
     const call = vi.fn<RpcCall>(async () => {
       throw new Error("an unknown network must not be verified");
