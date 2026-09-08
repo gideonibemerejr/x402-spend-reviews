@@ -207,15 +207,32 @@ server-to-server act no browser should be talked into performing on someone's be
   "payTo": "0x...",
   "transaction": "0x...",
   "payer": "0x...",
-  "outcome": "used",
+  "outcome": "useful",
   "note": "clean answer",
   "paidMs": 412,
   "ts": "2026-09-06T12:00:00.000Z"
 }
 ```
 
-`outcome` is one of `used`, `retried`, `discarded`, `failed`. `unlabeled` is rejected: an
-unlabeled receipt has no verdict to publish.
+`outcome` is `useful` or `not_useful`. Two, not four: the response either gave the buyer what they
+wrote down before paying or it did not, and whether they then retried or went elsewhere is recovery
+from that failure rather than a third kind of outcome. `unlabeled` is rejected — an unlabeled
+receipt has no verdict to publish — and the four labels used before 0.3 are refused **by name**,
+saying what replaced them rather than answering "invalid option".
+
+`reason` is **required** when the outcome is `not_useful` and **refused** when it is `useful`,
+because "it worked" is not a finding about anything. One of `no_response`, `empty`, `malformed`,
+`wrong`, `stale`, `insufficient` — a closed set, so reasons aggregate across calls instead of each
+describing one. `wrong`, `empty` and `malformed` are kept apart deliberately: the difference between
+an endpoint that is broken and one that is lying is a different finding about a seller, and a single
+failure rate throws it away.
+
+`recovery` is optional everywhere and is never an outcome: `none`, `retried_same`, `went_elsewhere`,
+`abandoned`. Free-text `note` stays alongside the code, so specifics survive without polluting the
+closed set.
+
+Cost per useful result is spend ÷ the count of `useful`. Everything spent reaching `not_useful` is
+waste, however it was recovered.
 
 On Solana the same fields are base58 rather than hex: `network` is a `solana:` id, `asset` is a
 mint, `payTo` and `payer` are account addresses, and `transaction` is a 64-byte signature.

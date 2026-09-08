@@ -2,6 +2,7 @@ import { expect, test } from "vitest";
 import { ReviewSubmission } from "../src/review";
 import { SOL_PAYER, SOL_PAY_TO, submission, svmSubmission } from "../src/fixtures";
 import { NETWORK } from "../src/network";
+import { OUTCOME, REASON, RECOVERY } from "../src/vocab";
 
 /** Asserts the schema refuses a body, naming the check that failed. */
 const rejects = (body: unknown, reason: RegExp) => {
@@ -28,6 +29,39 @@ test("a settlement is required to have something to verify", () => {
   rejects({ ...submission(), payer: undefined }, /payer/);
   rejects({ ...submission(), transaction: "0xabc" }, /32-byte hex hash/);
   rejects({ ...submission(), payer: "not-an-address" }, /20-byte hex address/);
+});
+
+test("a failure has to say why, in a word from the closed set", () => {
+  rejects({ ...submission(), outcome: OUTCOME.notUseful },
+    /reason: is required when outcome is `not_useful`/);
+  rejects({ ...submission(), outcome: OUTCOME.notUseful, reason: "just bad" }, /reason/);
+  expect(ReviewSubmission.safeParse(
+    { ...submission(), outcome: OUTCOME.notUseful, reason: REASON.wrong }).success).toBe(true);
+});
+
+test("a success has nothing to explain, so a reason on one is refused", () => {
+  // "It worked" is not a finding about anything.
+  rejects({ ...submission(), outcome: OUTCOME.useful, reason: REASON.wrong },
+    /reason: must be absent when outcome is `useful`/);
+});
+
+test("the four old labels are refused by name, not as an invalid option", () => {
+  for (const retired of ["used", "retried", "discarded", "failed"]) {
+    rejects({ ...submission(), outcome: retired },
+      new RegExp(`\\\`${retired}\\\` is no longer an outcome`));
+  }
+  rejects({ ...submission(), outcome: "unlabeled" }, /must be `useful` or `not_useful`/);
+});
+
+test("recovery is a separate axis, optional and never an outcome", () => {
+  // Retrying and going elsewhere are both recovery from the same failure.
+  const failed = { ...submission(), outcome: OUTCOME.notUseful, reason: REASON.empty };
+  for (const recovery of Object.values(RECOVERY)) {
+    expect(ReviewSubmission.safeParse({ ...failed, recovery }).success, recovery).toBe(true);
+  }
+  expect(ReviewSubmission.safeParse({ ...failed, recovery: "gave_up" }).success).toBe(false);
+  // Absent is fine everywhere, including on a success.
+  expect(ReviewSubmission.safeParse(submission()).success).toBe(true);
 });
 
 test("a resource URL still carrying a query string or fragment is rejected", () => {

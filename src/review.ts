@@ -4,7 +4,7 @@ import {
   canonicalNetwork, familyOf, foldCase,
   isEvmAddress, isEvmTxHash, isSvmAddress, isSvmSignature,
 } from "./network";
-import { FAMILY, OUTCOME, REASON } from "./vocab";
+import { FAMILY, OUTCOME, REASON, RECOVERY, REJECTION, RETIRED_OUTCOMES } from "./vocab";
 
 /**
  * How each network family spells the accounts and settlements it names.
@@ -68,7 +68,16 @@ export const ReviewSubmission = z
     payTo: z.string(),
     transaction: z.string(),
     payer: z.string(),
-    outcome: z.enum(OUTCOME),
+    // Named rather than left to zod's "invalid option": a client still sending
+    // one of the four old labels is told what replaced it.
+    outcome: z.enum(OUTCOME, {
+      error: (issue) =>
+        RETIRED_OUTCOMES.includes(issue.input as (typeof RETIRED_OUTCOMES)[number])
+          ? `\`${String(issue.input)}\` is no longer an outcome: use \`${OUTCOME.useful}\`, or \`${OUTCOME.notUseful}\` with a reason`
+          : `must be \`${OUTCOME.useful}\` or \`${OUTCOME.notUseful}\``,
+    }),
+    reason: z.enum(REASON).optional(),
+    recovery: z.enum(RECOVERY).optional(),
     note: z.string().max(500).optional(),
     paidMs: z.number().int().nonnegative().optional(),
     ts: z.iso.datetime("must be an ISO 8601 timestamp"),
@@ -79,9 +88,26 @@ export const ReviewSubmission = z
   // here so the claim is refused before it costs an RPC round trip.
   .refine(
     (submission) => foldCase(submission.network, submission.payer) !== foldCase(submission.network, submission.payTo),
-    REASON.selfPaymentAddress
+    REJECTION.selfPaymentAddress
   )
   .superRefine((submission, ctx) => {
+    // A failure has to say why, in a word from the closed set, so reasons
+    // aggregate across calls. A success has nothing to explain: "it worked" is
+    // not a finding about anything, so a reason there is refused rather than
+    // stored as noise.
+    if (submission.outcome === OUTCOME.notUseful && submission.reason === undefined) {
+      ctx.addIssue({
+        code: "custom", path: ["reason"],
+        message: `is required when outcome is \`${OUTCOME.notUseful}\``,
+      });
+    }
+    if (submission.outcome === OUTCOME.useful && submission.reason !== undefined) {
+      ctx.addIssue({
+        code: "custom", path: ["reason"],
+        message: `must be absent when outcome is \`${OUTCOME.useful}\``,
+      });
+    }
+
     const family = familyOf(submission.network);
     if (!family) return;
     const spelling = SPELLING[family];

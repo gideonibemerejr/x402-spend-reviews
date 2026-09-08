@@ -2,7 +2,10 @@
 import { foldCase } from "./network";
 import type { ReviewSubmission } from "./review";
 import type { SettlementFacts } from "./state";
-import { REVIEW_OUTCOMES, STATUS, type Proof, type ReviewOutcome, type ReviewStatus } from "./vocab";
+import {
+  REVIEW_OUTCOMES, STATUS,
+  type Proof, type ReviewOutcome, type ReviewReason, type ReviewRecovery, type ReviewStatus,
+} from "./vocab";
 
 /** A stored review: what was submitted, plus this server's own bookkeeping. */
 export interface StoredReview extends ReviewSubmission {
@@ -47,6 +50,8 @@ interface Row {
   amount: string;
   pay_to: string;
   outcome: string;
+  reason: string | null;
+  recovery: string | null;
   note: string | null;
   paid_ms: number | null;
   ts: string;
@@ -61,7 +66,7 @@ interface Row {
 }
 
 const COLUMNS = `id, "transaction", payer, resource_url, task_class, network, asset, amount,
-  pay_to, outcome, note, paid_ms, ts, status, verify_attempts, last_error, verified_at,
+  pay_to, outcome, reason, recovery, note, paid_ms, ts, status, verify_attempts, last_error, verified_at,
   proof, settled_amount, created_at, updated_at`;
 
 function toReview(row: Row): StoredReview {
@@ -77,6 +82,8 @@ function toReview(row: Row): StoredReview {
     amount: row.amount,
     payTo: row.pay_to,
     outcome: row.outcome as ReviewOutcome,
+    ...(row.reason !== null ? { reason: row.reason as ReviewReason } : {}),
+    ...(row.recovery !== null ? { recovery: row.recovery as ReviewRecovery } : {}),
     ...(row.note !== null ? { note: row.note } : {}),
     ...(row.paid_ms !== null ? { paidMs: row.paid_ms } : {}),
     ts: row.ts,
@@ -151,11 +158,12 @@ export class ReviewStore {
     };
     await this.db
       .prepare(
-        `INSERT INTO reviews (${COLUMNS}) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+        `INSERT INTO reviews (${COLUMNS}) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
       )
       .bind(
         review.id, review.transaction, review.payer, review.resourceUrl, review.taskClass ?? null,
         review.network, review.asset, review.amount, review.payTo, review.outcome,
+        review.reason ?? null, review.recovery ?? null,
         review.note ?? null, review.paidMs ?? null, review.ts, review.status,
         review.verifyAttempts, review.lastError ?? null, review.verifiedAt ?? null,
         review.proof ?? null, review.settledAmount ?? null, review.createdAt, review.updatedAt
@@ -172,13 +180,18 @@ export class ReviewStore {
    */
   async relabel(
     id: string,
-    outcome: ReviewOutcome,
-    note: string | undefined,
+    verdict: { outcome: ReviewOutcome; reason?: ReviewReason; recovery?: ReviewRecovery; note?: string },
     now: Date = new Date()
   ): Promise<void> {
     await this.db
-      .prepare(`UPDATE reviews SET outcome = ?, note = ?, updated_at = ? WHERE id = ?`)
-      .bind(outcome, note ?? null, now.toISOString(), id)
+      .prepare(
+        `UPDATE reviews SET outcome = ?, reason = ?, recovery = ?, note = ?, updated_at = ?
+         WHERE id = ?`
+      )
+      .bind(
+        verdict.outcome, verdict.reason ?? null, verdict.recovery ?? null,
+        verdict.note ?? null, now.toISOString(), id
+      )
       .run();
   }
 
@@ -273,5 +286,7 @@ export const settlementFacts = (review: StoredReview): SettlementFacts => ({
   amount: review.amount,
   payTo: review.payTo,
   outcome: review.outcome,
+  ...(review.reason !== undefined ? { reason: review.reason } : {}),
+  ...(review.recovery !== undefined ? { recovery: review.recovery } : {}),
   ...(review.note !== undefined ? { note: review.note } : {}),
 });

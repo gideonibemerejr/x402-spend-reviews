@@ -16,7 +16,7 @@
 import { NETWORK } from "../network";
 import type { ReviewSubmission } from "../review";
 import { associatedTokenAddress, isPubkey } from "./solana-address";
-import { PROOF, REASON } from "../vocab";
+import { PROOF, REJECTION } from "../vocab";
 import type { RpcCall, VerificationResult } from "./index";
 
 /** The Solana clusters this server verifies. Any other `solana:` id is refused. */
@@ -226,11 +226,11 @@ export async function verifySvmSettlement(
   rpc: RpcCall
 ): Promise<VerificationResult> {
   if (!SOLANA_NETWORKS.includes(submission.network)) {
-    return { verified: false, reason: REASON.networkUnsupported };
+    return { verified: false, reason: REJECTION.networkUnsupported };
   }
   // Refused before the round trip: paying yourself proves a transfer, not a purchase.
   if (submission.payer === submission.payTo) {
-    return { verified: false, reason: REASON.selfPaymentAccount };
+    return { verified: false, reason: REJECTION.selfPaymentAccount };
   }
   for (const field of ["asset", "payTo", "payer"] as const) {
     if (!isPubkey(submission[field])) {
@@ -239,19 +239,19 @@ export async function verifySvmSettlement(
   }
   const required = atomic(submission.amount);
   if (required === undefined) {
-    return { verified: false, reason: REASON.malformedAmount };
+    return { verified: false, reason: REJECTION.malformedAmount };
   }
 
   const transaction = (await rpc("getTransaction", [
     submission.transaction,
     { encoding: "jsonParsed", maxSupportedTransactionVersion: 0 },
   ])) as SvmTransaction | null | undefined;
-  if (!transaction) return { verified: false, reason: REASON.transactionNotFound };
+  if (!transaction) return { verified: false, reason: REJECTION.transactionNotFound };
   if (!transaction.meta) {
-    return { verified: false, reason: REASON.noMetadata };
+    return { verified: false, reason: REJECTION.noMetadata };
   }
   if (transaction.meta.err != null) {
-    return { verified: false, reason: REASON.transactionFailed };
+    return { verified: false, reason: REJECTION.transactionFailed };
   }
 
   // The associated token account address commits to owner, mint and token
@@ -283,13 +283,13 @@ export async function verifySvmSettlement(
   const matches = candidates.filter((transfer) => transfer.amount >= required);
 
   if (matches.length > 1) {
-    return { verified: false, reason: REASON.ambiguousTransfers };
+    return { verified: false, reason: REJECTION.ambiguousTransfers };
   }
   if (matches.length === 1) {
     const match = matches[0]!;
     const payer = match.authority ?? ownerOfTokenAccount(transaction, match.source);
     if (payer === undefined) {
-      return { verified: false, reason: REASON.unattributedTransfer };
+      return { verified: false, reason: REJECTION.unattributedTransfer };
     }
     if (payer !== submission.payer) {
       return { verified: false, reason: `transfer was authorized by ${payer}, not by payer ${submission.payer}` };

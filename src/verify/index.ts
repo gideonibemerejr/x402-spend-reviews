@@ -8,7 +8,7 @@
  */
 import { familyOf } from "../network";
 import type { ReviewSubmission } from "../review";
-import { FAMILY, REASON, type Proof } from "../vocab";
+import { FAMILY, REJECTION, type Proof } from "../vocab";
 import { verifyEvmSettlement } from "./evm";
 import { verifySvmSettlement } from "./svm";
 
@@ -41,6 +41,6 @@ export async function verifySettlement(
     case FAMILY.svm:
       return verifySvmSettlement(submission, rpc);
     default:
-      return { verified: false, reason: REASON.networkUnsupported };
+      return { verified: false, reason: REJECTION.networkUnsupported };
   }
 }

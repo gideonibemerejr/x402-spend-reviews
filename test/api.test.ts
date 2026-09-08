@@ -5,7 +5,7 @@ import {
 } from "../src/fixtures";
 import { NETWORK } from "../src/network";
 import type { RpcCall } from "../src/verify";
-import { PROOF } from "../src/vocab";
+import { OUTCOME, PROOF, REASON, RECOVERY } from "../src/vocab";
 import { harness } from "./helpers";
 
 const matching = () => rpcReturning(receiptWith([transferLog({})]));
@@ -24,7 +24,7 @@ describe("POST /v1/reviews", () => {
     expect(listed.status).toBe(200);
     const page = await listed.json<{ resourceUrl: string; counts: Record<string, number>; reviews: { id: string; note: string; payer: string }[] }>();
     expect(page.resourceUrl).toBe(api.resourceUrl);
-    expect(page.counts).toEqual({ used: 1, retried: 0, discarded: 0, failed: 0 });
+    expect(page.counts).toEqual({ useful: 1, not_useful: 0 });
     expect(page.reviews[0].id).toBe(body.id);
     expect(page.reviews[0].note).toBe("worth it");
     // Reviews are public and name the buyer; that is disclosed, not hidden.
@@ -65,10 +65,11 @@ describe("POST /v1/reviews", () => {
 
   test("a changed verdict relabels in place rather than adding a second voice", async () => {
     const api = harness(rpc(matching()));
-    const created = await api.post(api.valid({ outcome: "used", note: "worth it" }));
+    const created = await api.post(api.valid({ outcome: OUTCOME.useful, note: "worth it" }));
     const { id } = await created.json<{ id: string }>();
 
-    const changed = await api.post(api.valid({ outcome: "discarded", note: "stale" }));
+    const changed = await api.post(
+      api.valid({ outcome: OUTCOME.notUseful, reason: REASON.stale, note: "stale" }));
     expect(changed.status).toBe(200);
     expect((await changed.json<{ id: string }>()).id).toBe(id);
 
@@ -76,7 +77,7 @@ describe("POST /v1/reviews", () => {
       .json<{ counts: Record<string, number>; reviews: { note: string }[] }>();
     expect(page.reviews).toHaveLength(1);
     expect(page.reviews[0].note).toBe("stale");
-    expect(page.counts).toEqual({ used: 0, retried: 0, discarded: 1, failed: 0 });
+    expect(page.counts).toEqual({ useful: 0, not_useful: 1 });
   });
 
   test("notes are editable on their own", async () => {
@@ -212,6 +213,39 @@ describe("POST /v1/reviews", () => {
       .toMatch(/less than the required 10000/);
   });
 
+  test("a failing verdict round trips with its reason and recovery", async () => {
+    const api = harness(rpc(matching()));
+    const posted = await api.post(api.valid({
+      outcome: OUTCOME.notUseful, reason: REASON.wrong,
+      recovery: RECOVERY.wentElsewhere, note: "confidently wrong coordinates",
+    }));
+    expect(posted.status).toBe(201);
+
+    const page = await (await api.page()).json<{
+      counts: Record<string, number>;
+      reviews: { outcome: string; reason: string; recovery: string; note: string }[];
+    }>();
+    expect(page.reviews[0]).toMatchObject({
+      outcome: "not_useful", reason: "wrong", recovery: "went_elsewhere",
+      note: "confidently wrong coordinates",
+    });
+    expect(page.counts).toEqual({ useful: 0, not_useful: 1 });
+  });
+
+  test("relabeling swaps the whole verdict, not just the outcome", async () => {
+    const api = harness(rpc(matching()));
+    await api.post(api.valid({ outcome: OUTCOME.notUseful, reason: REASON.empty }));
+    const again = await api.post(api.valid({
+      outcome: OUTCOME.notUseful, reason: REASON.wrong, recovery: RECOVERY.abandoned,
+    }));
+    expect(again.status).toBe(200);
+
+    const page = await (await api.page())
+      .json<{ reviews: { reason: string; recovery: string }[] }>();
+    expect(page.reviews[0].reason).toBe("wrong");
+    expect(page.reviews[0].recovery).toBe("abandoned");
+  });
+
   test("an unknown network family never reaches the RPC", async () => {
     const call = vi.fn<RpcCall>(async () => {
       throw new Error("an unknown network must not be verified");
@@ -291,11 +325,11 @@ describe("reads", () => {
     const page = await (await api.page())
       .json<{ counts: Record<string, number>; reviews: unknown[] }>();
     expect(page.reviews).toHaveLength(1);
-    expect(page.counts).toEqual({ used: 1, retried: 0, discarded: 0, failed: 0 });
+    expect(page.counts).toEqual({ useful: 1, not_useful: 0 });
 
     const empty = await (await api.get("/v1/reviews?resource=https%3A%2F%2Fapi.test%2Fnever-reviewed"))
       .json<{ counts: Record<string, number> }>();
-    expect(empty.counts).toEqual({ used: 0, retried: 0, discarded: 0, failed: 0 });
+    expect(empty.counts).toEqual({ useful: 0, not_useful: 0 });
   });
 
   test("the resource parameter is required", async () => {

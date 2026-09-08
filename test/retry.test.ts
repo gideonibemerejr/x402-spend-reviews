@@ -51,7 +51,7 @@ test("a parked review is published once the chain answers", async () => {
   // Only now does it reach readers.
   const page = await (await api.page()).json<{ reviews: unknown[]; counts: Record<string, number> }>();
   expect(page.reviews).toHaveLength(1);
-  expect(page.counts.used).toBe(1);
+  expect(page.counts.useful).toBe(1);
 });
 
 test("a parked review the chain contradicts is settled as rejected and never published", async () => {

@@ -10,12 +10,18 @@
  * are for reading the code.
  */
 
-/** What a buyer concluded about a paid call. */
+/**
+ * What a buyer concluded about a paid call. Two outcomes, not four.
+ *
+ * The response either gave the buyer what they wrote down before paying, or it
+ * did not. Whether they then retried, went elsewhere or gave up is what happened
+ * *after* the failure — recovery, recorded separately — rather than a third kind
+ * of outcome. Cost per useful result is spend divided by the count of `useful`;
+ * everything spent reaching `not_useful` is waste, however it was recovered.
+ */
 export const OUTCOME = {
-  used: "used",
-  retried: "retried",
-  discarded: "discarded",
-  failed: "failed",
+  useful: "useful",
+  notUseful: "not_useful",
 } as const;
 
 /**
@@ -23,6 +29,53 @@ export const OUTCOME = {
  * an unlabeled receipt has no verdict to review.
  */
 export type ReviewOutcome = (typeof OUTCOME)[keyof typeof OUTCOME];
+
+/**
+ * The outcome labels this server accepted before the binary model.
+ *
+ * Kept only so a client still sending one is told what replaced it, rather than
+ * being handed a bare "invalid option".
+ */
+export const RETIRED_OUTCOMES = ["used", "retried", "discarded", "failed"] as const;
+
+/**
+ * Why a response was not useful. Required on `not_useful`, forbidden on
+ * `useful` — "it worked" is not a finding about anything.
+ *
+ * A closed set so reasons aggregate across calls instead of describing one.
+ * `wrong`, `empty` and `malformed` are kept apart deliberately: the difference
+ * between an endpoint that is broken and one that is lying is a different
+ * finding about a seller, and collapsing them into a single failure rate throws
+ * that away. The free-text `note` carries the specifics alongside the code.
+ */
+export const REASON = {
+  noResponse: "no_response",
+  empty: "empty",
+  malformed: "malformed",
+  wrong: "wrong",
+  stale: "stale",
+  insufficient: "insufficient",
+} as const;
+
+export type ReviewReason = (typeof REASON)[keyof typeof REASON];
+
+export const REVIEW_REASONS = Object.values(REASON);
+
+/**
+ * What the buyer did after a response that was not useful.
+ *
+ * A separate axis, never an outcome: retrying and going elsewhere are both
+ * recovery from the same failure and both cost money. Optional everywhere,
+ * because it is often not worth recording.
+ */
+export const RECOVERY = {
+  none: "none",
+  retriedSame: "retried_same",
+  wentElsewhere: "went_elsewhere",
+  abandoned: "abandoned",
+} as const;
+
+export type ReviewRecovery = (typeof RECOVERY)[keyof typeof RECOVERY];
 
 /** The outcomes in declaration order, for tallies that must name all of them. */
 export const REVIEW_OUTCOMES = Object.values(OUTCOME);
@@ -72,12 +125,15 @@ export type NetworkFamily = (typeof FAMILY)[keyof typeof FAMILY];
 /**
  * Reasons a settlement can fail its check, as the 422 body states them.
  *
+ * Distinct from {@link REASON}, which is why a *response* was not useful. This
+ * one is why a *payment* could not be proved; they never mix.
+ *
  * Only the fixed ones live here. A reason that names an address or an amount is
  * written where it is raised, because it is a sentence about one transaction
  * rather than a member of a closed set.
  */
-export const REASON = {
-  networkUnsupported: "network not supported in 0.2",
+export const REJECTION = {
+  networkUnsupported: "network not supported in 0.3",
   transactionNotFound: "transaction not found",
   transactionFailed: "transaction did not succeed on chain",
   noMetadata: "transaction has no metadata to verify against",
@@ -92,4 +148,4 @@ export const REASON = {
   selfPaymentAddress: "payer and payTo are the same address",
 } as const;
 
-export type RejectionReason = (typeof REASON)[keyof typeof REASON];
+export type RejectionReason = (typeof REJECTION)[keyof typeof REJECTION];

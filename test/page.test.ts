@@ -2,7 +2,7 @@ import { describe, expect, test } from "vitest";
 import { escapeHtml, formatAmount, renderPage, shortHash } from "../src/page";
 import { NETWORK } from "../src/network";
 import type { StoredReview } from "../src/store";
-import { PROOF } from "../src/vocab";
+import { OUTCOME, PROOF, REASON } from "../src/vocab";
 import { harness } from "./helpers";
 
 const stored = (overrides: Partial<StoredReview> = {}): StoredReview => ({
@@ -15,7 +15,7 @@ const stored = (overrides: Partial<StoredReview> = {}): StoredReview => ({
   payTo: "0x976EA74026E726554dB657fA54763abd0C3a0aa9",
   transaction: `0x${"ab".repeat(32)}`,
   payer: "0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc",
-  outcome: "used",
+  outcome: OUTCOME.useful,
   ts: "2026-09-06T12:00:00.000Z",
   status: "verified",
   proof: PROOF.paymentTraced,
@@ -93,14 +93,35 @@ describe("the page", () => {
     expect(html).toContain("https://api.test/a&amp;b");
   });
 
+  test("the count line splits useful from not useful", () => {
+    expect(renderPage([stored(), stored({ id: "r2" })], 3))
+      .toContain("<b>2 useful</b> · 0 not useful · newest first · 3 pending");
+    expect(renderPage([
+      stored(),
+      stored({ id: "r2", outcome: OUTCOME.notUseful, reason: REASON.wrong }),
+    ], 3)).toContain("<b>1 useful</b> · 1 not useful · newest first · 3 pending");
+    expect(renderPage([], 0)).toContain("<b>0 useful</b> · 0 not useful · newest first · 0 pending");
+  });
+
   test("the count line names unconfirmed rows only when there are some", () => {
     // A caveat that renders on every load is a caveat readers learn to skip.
-    expect(renderPage([stored(), stored({ id: "r2" })], 3))
-      .toContain("<b>2 verified</b> · newest first · 3 pending");
     expect(renderPage([stored(), stored({ id: "r2", proof: PROOF.receiptOnly })], 3))
-      .toContain("<b>2 verified</b> · 1 payer unconfirmed · newest first · 3 pending");
-    expect(renderPage([], 0)).toContain("<b>0 verified</b> · newest first · 0 pending");
+      .toContain("· 1 payer unconfirmed · newest first · 3 pending");
     expect(renderPage([stored()])).not.toContain("payer unconfirmed");
+  });
+
+  test("a failing outcome shows its reason as plain text, not a second pill", () => {
+    const html = renderPage([stored({ outcome: OUTCOME.notUseful, reason: REASON.wrong })]);
+    expect(html).toContain(`<span class="pill not_useful">not useful</span>`);
+    expect(html).toContain(`<span class="reason">wrong</span>`);
+    // One pill per row is a signal; six reason colours would be a rash.
+    expect(html).not.toContain(`<span class="pill wrong"`);
+  });
+
+  test("a useful outcome carries no reason at all", () => {
+    const html = renderPage([stored({ outcome: OUTCOME.useful })]);
+    expect(html).toContain(`<span class="pill useful">useful</span>`);
+    expect(html).not.toContain(`class="reason"`);
   });
 
   test("a Solana review links to solscan, naming the cluster on devnet", () => {

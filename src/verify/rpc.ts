@@ -51,7 +51,7 @@ export function rpcUrlFor(network: string, env: RpcEnv = {}): string | undefined
  * happen rather than a cosmetic detail.
  */
 export const RPC_USER_AGENT =
-  "x402-spend-reviews/0.2 (+github.com/gideonibemerejr/x402-spend-reviews)";
+  "x402-spend-reviews/0.3 (+github.com/gideonibemerejr/x402-spend-reviews)";
 
 /** Raised when the endpoint is unreachable, slow, or answers with a JSON-RPC error. */
 export class RpcError extends Error {

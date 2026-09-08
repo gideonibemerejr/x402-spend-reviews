@@ -3,7 +3,7 @@ import {
   applyVerification, decideSubmission, MAX_VERIFY_ATTEMPTS, type SettlementFacts,
 } from "../src/state";
 import { submission, svmSubmission } from "../src/fixtures";
-import { PROOF } from "../src/vocab";
+import { OUTCOME, PROOF, REASON } from "../src/vocab";
 
 const facts = (overrides: Partial<SettlementFacts> = {}): SettlementFacts => {
   const base = submission();
@@ -21,8 +21,16 @@ describe("decideSubmission", () => {
   });
 
   test("a changed verdict is a replay that needs writing", () => {
-    expect(decideSubmission(submission({ outcome: "discarded" }), facts())).toEqual({ kind: "replay", changed: true });
+    const failed = submission({ outcome: OUTCOME.notUseful, reason: REASON.wrong });
+    expect(decideSubmission(failed, facts())).toEqual({ kind: "replay", changed: true });
     expect(decideSubmission(submission({ note: "new" }), facts())).toEqual({ kind: "replay", changed: true });
+    // A relabel that only swaps the reason is still a relabel.
+    expect(decideSubmission(submission({ outcome: OUTCOME.notUseful, reason: REASON.empty }),
+      { ...facts(), outcome: OUTCOME.notUseful, reason: REASON.wrong }))
+      .toEqual({ kind: "replay", changed: true });
+    // And one that changes nothing is not.
+    expect(decideSubmission(failed, { ...facts(), outcome: OUTCOME.notUseful, reason: REASON.wrong }))
+      .toEqual({ kind: "replay", changed: false });
   });
 
   test("settlement facts compare case-insensitively except the amount", () => {

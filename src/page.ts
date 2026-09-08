@@ -9,7 +9,7 @@
  */
 import { NETWORK } from "./network";
 import type { StoredReview } from "./store";
-import { PROOF, PROOF_LABEL } from "./vocab";
+import { OUTCOME, PROOF, PROOF_LABEL } from "./vocab";
 
 const REPO_CLIENT = "https://github.com/gideonibemerejr/x402-spend";
 const REPO_SERVER = "https://github.com/gideonibemerejr/x402-spend-reviews";
@@ -110,7 +110,8 @@ const STYLE = `
   td.mono,th.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px}
   td.amt,th.amt{text-align:right}
   .pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12.5px;font-weight:600;line-height:1.6;color:#0c0f12}
-  .pill.used{background:var(--used)} .pill.retried{background:var(--retried)} .pill.discarded,.pill.failed{background:var(--bad)}
+  .pill.useful{background:var(--used)} .pill.not_useful{background:var(--bad)}
+  .reason{color:var(--muted);font-size:12.5px;margin-left:7px}
   .settled{color:var(--muted);font-size:12.5px;font-weight:400;cursor:help}
   .unconf{color:var(--unconf);margin-left:7px;font-size:10px;vertical-align:2px;cursor:help}
   tbody tr.dim td{color:var(--muted)}
@@ -138,6 +139,9 @@ function row(review: StoredReview): string {
   const hash = escapeHtml(review.transaction);
   const short = escapeHtml(shortHash(review.transaction));
   const outcome = escapeHtml(review.outcome);
+  // Plain muted text rather than a second pill: one pill per row is a signal,
+  // two is decoration, and six reason colours would be a rash.
+  const reason = review.reason ? `<span class="reason">${escapeHtml(review.reason)}</span>` : "";
 
   const txCell = explorer
     ? `<a href="${escapeHtml(explorer)}" title="${hash}" rel="noopener noreferrer">${short}</a>`
@@ -160,7 +164,7 @@ function row(review: StoredReview): string {
   return `      <tr${unconfirmed ? ` class="dim"` : ""}>
         <td><a class="ep" href="${url}" title="${url}" rel="noopener noreferrer">${escapeHtml(displayUrl(review.resourceUrl))}</a>${note}</td>
         <td class="hide-sm">${review.taskClass ? escapeHtml(review.taskClass) : "\u2014"}</td>
-        <td><span class="pill ${outcome}">${outcome}</span>${marker}</td>
+        <td><span class="pill ${outcome}">${escapeHtml(review.outcome.replace("_", " "))}</span>${reason}${marker}</td>
         <td class="amt mono" title="${escapeHtml(review.amount)} atomic units">${escapeHtml(formatAmount(review.amount))} USDC${settled}</td>
         <td class="hide-sm mono">${escapeHtml(review.network)}</td>
         <td class="mono">${txCell}</td>
@@ -178,6 +182,8 @@ export function renderPage(reviews: StoredReview[], pending = 0): string {
   // Shown only when there is something to say. A caveat that renders "0" on
   // every load is a caveat readers learn to skip, which is the same reason a
   // traced row carries no badge at all. The JSON keeps `proof` on every row.
+  const useful = reviews.filter((review) => review.outcome === OUTCOME.useful).length;
+  const notUseful = reviews.length - useful;
   const receiptOnly = reviews.filter((review) => review.proof === PROOF.receiptOnly).length;
   const unconfirmed = receiptOnly > 0 ? ` \u00b7 ${receiptOnly} ${PROOF_LABEL[PROOF.receiptOnly]}` : "";
   const table = reviews.length
@@ -223,7 +229,7 @@ ${STYLE}
     </nav>
   </header>
 
-  <div class="count"><i></i><b>${reviews.length} verified</b>${unconfirmed} \u00b7 newest first \u00b7 ${pending} pending</div>
+  <div class="count"><i></i><b>${useful} useful</b> \u00b7 ${notUseful} not useful${unconfirmed} \u00b7 newest first \u00b7 ${pending} pending</div>
 
 ${table}
 

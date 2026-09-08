@@ -5,7 +5,7 @@
  */
 import { referenceOf } from "../network";
 import type { ReviewSubmission } from "../review";
-import { PROOF, REASON } from "../vocab";
+import { PROOF, REJECTION } from "../vocab";
 import type { RpcCall, VerificationResult } from "./index";
 
 /** `keccak256("Transfer(address,address,uint256)")`. */
@@ -105,10 +105,10 @@ export async function verifyEvmSettlement(
     | null
     | undefined;
   if (!receipt || !Array.isArray(receipt.logs)) {
-    return { verified: false, reason: REASON.transactionNotFound };
+    return { verified: false, reason: REJECTION.transactionNotFound };
   }
   if (receipt.status !== "0x1") {
-    return { verified: false, reason: REASON.transactionFailed };
+    return { verified: false, reason: REJECTION.transactionFailed };
   }
 
   const transfers = receipt.logs.filter(
@@ -128,14 +128,14 @@ export async function verifyEvmSettlement(
     return from !== undefined && sameAddress(from, submission.payer);
   });
   if (fromPayer.length === 0) {
-    return { verified: false, reason: REASON.noTransferFromPayer };
+    return { verified: false, reason: REJECTION.noTransferFromPayer };
   }
   const toPayTo = fromPayer.filter((log) => {
     const to = addressFromTopic(log.topics[2]);
     return to !== undefined && sameAddress(to, submission.payTo);
   });
   if (toPayTo.length === 0) {
-    return { verified: false, reason: REASON.noTransferToPayTo };
+    return { verified: false, reason: REJECTION.noTransferToPayTo };
   }
   const settled = toPayTo.find((log) => uint256(log.data) === expected);
   if (!settled) {

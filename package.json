@@ -1,6 +1,6 @@
 {
   "name": "x402-spend-reviews",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Verification server for x402-spend reviews: a review is accepted only when the settlement transaction proves the payment it claims.",
   "type": "module",
   "license": "MIT",

@@ -58,7 +58,7 @@ export function submission(overrides: Partial<ReviewSubmission> = {}): ReviewSub
     payTo: PAY_TO,
     transaction: TX_HASH,
     payer: PAYER,
-    outcome: OUTCOME.used,
+    outcome: OUTCOME.useful,
     ts: "2026-09-06T12:00:00.000Z",
     ...overrides,
   };
@@ -203,7 +203,7 @@ export function svmSubmission(overrides: Partial<ReviewSubmission> = {}): Review
     payTo: SOL_PAY_TO,
     transaction: SOL_SIGNATURE,
     payer: SOL_PAYER,
-    outcome: OUTCOME.used,
+    outcome: OUTCOME.useful,
     ts: "2026-09-06T12:00:00.000Z",
     ...overrides,
   };

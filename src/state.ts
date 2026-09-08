@@ -24,6 +24,8 @@ export const SETTLEMENT_FIELDS = ["network", "asset", "amount", "payTo"] as cons
 /** The stored facts a resubmission is checked against. */
 export type SettlementFacts = Pick<ReviewSubmission, (typeof SETTLEMENT_FIELDS)[number]> & {
   outcome: ReviewSubmission["outcome"];
+  reason?: ReviewSubmission["reason"];
+  recovery?: ReviewSubmission["recovery"];
   note?: string;
 };
 
@@ -67,7 +69,13 @@ export function decideSubmission(
   if (differing.length > 0) {
     return { kind: "conflict", reason: `settlement fields differ from stored review: ${differing.join(", ")}` };
   }
-  const changed = existing.outcome !== submission.outcome || (existing.note ?? undefined) !== submission.note;
+  // The whole verdict, not just the outcome: a relabel that only swaps the
+  // reason or the recovery is still a relabel and still has to be written.
+  const changed =
+    existing.outcome !== submission.outcome ||
+    (existing.reason ?? undefined) !== submission.reason ||
+    (existing.recovery ?? undefined) !== submission.recovery ||
+    (existing.note ?? undefined) !== submission.note;
   return { kind: "replay", changed };
 }
 

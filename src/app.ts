@@ -107,7 +107,7 @@ export function createApp(options: AppOptions = {}) {
       // entirely. That is what makes POST safe to retry blindly.
       if (decision.kind === "replay") {
         const row = existing!;
-        if (decision.changed) await store.relabel(row.id, submission.outcome, submission.note);
+        if (decision.changed) await store.relabel(row.id, submission);
         return c.json({ id: row.id, status: row.status, verified: row.status === STATUS.verified }, 200);
       }
 
