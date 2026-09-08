@@ -46,6 +46,12 @@ I rank by endpoint count because it's the number I can cite. Solana leads on dai
 Target networks, by listed endpoints (source: x402.fuchss.app/network, read 2026-09-06):
 Base 38,541 · Solana 1,619 · Base Sepolia 453 · Avalanche 261 · Arbitrum 92 · BNB 14.
 
+Circle publishes no native USDC on BNB Smart Chain. What trades there under that name is
+Binance-Peg USDC — a different issuer with different redemption. A BNB review is therefore
+denominated in a different asset from the other four networks, and I don't treat prices across
+the five as directly comparable. I verify BNB payments the same way regardless, since the asset
+is an address the submission names.
+
 - Solana: new verifier.
 - Avalanche, Arbitrum, BNB: EVM, so config only — USDC contract address and RPC per chain.
 - Deliverable: one verified review on each network, with tx hash.
