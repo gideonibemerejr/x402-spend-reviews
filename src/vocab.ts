@@ -133,7 +133,14 @@ export type NetworkFamily = (typeof FAMILY)[keyof typeof FAMILY];
  * rather than a member of a closed set.
  */
 export const REJECTION = {
-  networkUnsupported: "network not supported in 0.3",
+  /**
+   * No version in this message. It carried one, and the one it carried was
+   * wrong at 0.2 and wrong again at 0.3, because a release number in a
+   * client-facing string is a value that has to be remembered at a moment when
+   * nobody is thinking about it. Which networks are supported is answerable
+   * from the README and from this server's own behaviour.
+   */
+  networkUnsupported: "network not supported",
   transactionNotFound: "transaction not found",
   transactionFailed: "transaction did not succeed on chain",
   noMetadata: "transaction has no metadata to verify against",
