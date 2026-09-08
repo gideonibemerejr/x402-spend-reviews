@@ -19,6 +19,19 @@ endpoints that pass every external check will return responses a buyer cannot us
 that share to be non-trivial. If it turns out to be zero, that is the finding and I publish
 it as such.
 
+**Secondary prediction, about the shape of the failures:** most of what I find will be
+mechanically detectable — `empty`, `malformed`, `insufficient`, `no_response` — and
+**`wrong` will be rare, or hard to catch.** Confidently incorrect answers are the failure I
+expect to be hardest to surface.
+
+If that holds it is the more interesting result, because small and invisible is a worse
+problem than large and obvious: a `wrong` answer is the one that propagates into whatever the
+agent produces. And note the bias it runs against — my checkability rule deliberately selects
+for conditions where `wrong` *can* be caught, since I only buy where I already know the right
+answer. A real buyer usually doesn't. So if `wrong` stays rare even under conditions optimized
+to detect it, then in production it is effectively undetectable by a single buyer, and only
+corroboration across buyers could surface it.
+
 ## Three axes, three batches, one report
 
 I run these as separate batches so that a quality label is never a side effect of testing
@@ -62,9 +75,16 @@ could use?_
 
 This is the finding. Everything above exists to make it credible.
 
-- Sample frame: x402 Trust's top-25 leaderboard — their highest-graded endpoints — filtered
-  to categories where I can check the answer. Using their leaderboard is deliberate: I want
-  to test the best case, not a random sample.
+- Sample frame: x402 Trust's **grade A** endpoints, sampled across **distinct providers**,
+  filtered to categories where I can check the answer. Sampling their top grade is
+  deliberate: I want to test the best case, not a random sample.
+- I do not use their top-25 leaderboard, even though it is the obvious frame. Every one of
+  the visible top ten is a proxy route on a single host, so a sample drawn from it would
+  measure one provider rather than whether a grade predicts quality.
+- The obvious version of this question is already answered and I don't re-ask it. x402 Trust
+  publishes the grade distribution — 36.4% of monitored endpoints grade F, 16.3% grade A — so
+  "most endpoints are bad" is public knowledge. The open question is the narrow one: **of the
+  endpoints that grade A, how many deliver.**
 - Deliverable: labeled outcomes with tx hashes, published, re-verifiable by anyone.
 - **Exclusion:** reviews where the payment could only be confirmed as _recipient credited_
   rather than _payment traced_ are excluded from the quality findings, because the payer
@@ -74,18 +94,55 @@ This is the finding. Everything above exists to make it credible.
 
 ## The labeling rule (written once, applied to every call)
 
-**`used` means the response answered the question I wrote down before I paid.**
+There are two outcomes, not four:
 
-Before each call I record one line: what I'm asking for, and what a correct answer looks
-like. Then:
+1. **The response gave me what I wrote down before I paid.**
+2. **It didn't.**
 
-- `used` — I got what I asked for and could act on it
-- `discarded` — it responded, but the answer was wrong, empty, or useless for what I asked
-- `retried` — I had to call again, or call somewhere else, to get the answer
-- `failed` — no response, an error, or I paid and got nothing
+Everything else — whether I retried, went elsewhere, or gave up — is what happened *after*
+outcome 2, not a third outcome. Retrying and discarding are both recovery from the same
+failure and both cost money.
+
+Before each call I record one line: what I'm asking for, and what a correct answer looks like.
+Then I ask one question of the response: **did it give me that?**
+
+**Cost per useful result is spend ÷ count of outcome 1.** Everything spent reaching outcome 2
+is waste, however I recovered.
 
 The pre-written expected answer is what makes the dataset defensible. Without it the label is
 my mood.
+
+### Reasons, for outcome 2 only
+
+Outcome 1 needs no reason — "it worked" is not a finding about anything. Outcome 2 gets a
+short code from a fixed set, so that reasons aggregate across calls rather than describing one:
+
+| code | meaning |
+|---|---|
+| `no_response` | transport error, timeout, or non-2xx after payment |
+| `empty` | well-formed, and nothing in it |
+| `malformed` | didn't match the advertised shape |
+| `wrong` | well-formed, plausible, and incorrect |
+| `stale` | correct once, out of date now |
+| `insufficient` | right kind of answer, not enough of it |
+
+Plus an optional free-text note, so the specific detail survives without polluting the codes.
+
+The distinction between `wrong`, `empty` and `malformed` is the distinction between an endpoint
+that is broken and one that is lying. Those are different findings about a seller and I don't
+collapse them into a single failure rate.
+
+### Why the labeling is by hand
+
+Not because automation isn't ready. **The human correction is the signal the tool is built to
+capture.** In production, the label arrives when whoever the agent serves says "that's wrong,"
+and the agent relays it. Doing it by hand here is a faithful instance of the primary signal,
+not a stopgap — with the expected answer written first, so the correction is grounded rather
+than a reaction.
+
+That is also why these labels are the reference set: any automatic labeler built later gets
+validated against them, and its agreement rate published alongside anything it computes.
+Validating a labeler against itself would prove nothing.
 
 ## Category selection (the checkability rule)
 
@@ -100,16 +157,16 @@ In scope, anchor category first:
   ever.**
 
   **Forward geocoding (name + address in, coordinates out), 8 Blueprint venues:**
-  - `used` if the returned point is within 100 meters of the coordinate I already hold for
-    that venue. `discarded` beyond that, or if it returns a point in the wrong city.
+  - Outcome 1 if the returned point is within 100 meters of the coordinate I already hold for
+    that venue. Outcome 2 beyond that, or if it returns a point in the wrong city.
   - 100 m absorbs the legitimate difference between a building centroid, a street entrance
     and a parcel center without letting a wrong-block answer through. My reference
     coordinates are not survey-grade either; they are what the platform used in production.
 
   **Reverse geocoding (coordinates in, address out), 8 different Blueprint venues:**
-  - `used` if the street number and street name match the address I hold, ignoring
-    formatting differences (abbreviations, casing, suite numbers, ZIP+4). `discarded` if
-    either differs, or if it returns a neighboring address.
+  - Outcome 1 if the street number and street name match the address I hold, ignoring
+    formatting differences (abbreviations, casing, suite numbers, ZIP+4). Outcome 2 if either
+    differs, or if it returns a neighboring address.
   - A returned business name is a bonus, not part of the pass condition.
 
 - **Web search** — checkable in the strict sense first, in a judgmental sense second. Both
@@ -119,8 +176,8 @@ In scope, anchor category first:
   **Known-answer lookups:**
   - Factual queries where the answer is fixed and I can verify it — World Cup goal scorers,
     the year a named venue opened, anything checkable against a public source in seconds.
-  - `used` if the correct answer is present and correct in the results. `discarded` if it's
-    absent, or if the results assert something wrong.
+  - Outcome 1 if the correct answer is present and correct in the results. Outcome 2 if it's
+    absent (`empty` or `insufficient`), or if the results assert something wrong (`wrong`).
   - Queries spread across four difficulty tiers, two each, because a failure means something
     different in each: **easy and famous** (baseline coverage), **specific but public**
     (index depth), **recent** (index freshness), **precise numeric** (returns the value, not
@@ -132,15 +189,15 @@ In scope, anchor category first:
 
   **Web search relevance:**
   - Open queries where there's no single right answer, graded on whether the results are
-    on-topic and current. `used` if on-topic and current enough to act on; `discarded` if
-    off-topic, stale, or empty. This is the softer standard and I label it as such.
+    on-topic and current. Outcome 1 if on-topic and current enough to act on; outcome 2 if
+    off-topic (`wrong`), out of date (`stale`), or empty (`empty`). This is the softer standard and I label it as such.
 
-- **Weather** — a location whose conditions I can observe directly. `used` if the value is
-  correct at the time of the call, within the endpoint's own advertised resolution.
-  `discarded` if wrong, for the wrong location, or materially stale.
+- **Weather** — a location whose conditions I can observe directly. Outcome 1 if the value is
+  correct at the time of the call, within the endpoint's own advertised resolution. Outcome 2
+  if wrong (`wrong`), for the wrong location (`wrong`), or materially out of date (`stale`).
 
-- **Price / market lookups** — verifiable against a public source in seconds. `used` if
-  within 1% of spot at call time, `discarded` otherwise. Crypto rather than equities, because
+- **Price / market lookups** — verifiable against a public source in seconds. Outcome 1 if
+  within 1% of spot at call time, outcome 2 (`stale` or `wrong`) otherwise. Crypto rather than equities, because
   it trades 24/7 and there's no market-hours ambiguity.
 
 Out of scope for run 001: trading signals, DeFi yield analysis, whale movements, "insights" —
@@ -165,12 +222,16 @@ trial-checked first.
 
 ## Protocol
 
-1. Freeze the sample. Pull the leaderboard and record it — endpoint, grade, score, price,
-   network — _before_ I pay anyone. The list doesn't change once the run starts.
-2. Write the question and the expected answer for each call, in advance, one line each.
+1. Freeze the sample. Pull the grade A endpoints across distinct providers and record them —
+   endpoint, grade, score, price, network — _before_ I pay anyone. The list doesn't change once
+   the run starts.
+2. Write the question and the expected answer for each call, in advance, one line each, and
+   commit that file before any payment. The expected answers exist in git before the run, so
+   nobody has to take my word for when they were written.
 3. Pay. One call per endpoint, same dedicated wallet throughout.
-4. Label immediately, against what I wrote down. No re-labeling later to tidy the dataset; if
-   a label does change, I record that it changed and why.
+4. Label immediately, against what I wrote down: outcome 1 or 2, plus a reason code and an
+   optional note when it's 2. No re-labeling later to tidy the dataset; if a label does change,
+   I record that it changed and why.
 5. Publish every row, including the ones where the endpoint did fine.
 
 ## Wallet and spend
