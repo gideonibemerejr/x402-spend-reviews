@@ -54,10 +54,42 @@ is an address the submission names.
 
 - Solana: new verifier.
 - Avalanche, Arbitrum: EVM, so config only — USDC contract address and RPC per chain. BNB: RPC only, per the note above.
-- Deliverable: one verified review on each network, with tx hash.
+- Deliverable: one verified review on each network, with tx hash. **Amended 2026-09-14: four
+  networks, not five.** See below — BNB has no endpoint this run can buy from.
 - I also normalize the network-name aliases that show up in the wild (`solana:mainnet`,
   `solana-mainnet`, `solana-mainnet-beta`, `base-mainnet`, bare `polygon` / `bsc`) to CAIP-2
   rather than rejecting a payment over spelling.
+
+**Amendment, 2026-09-14, at the sample freeze and before any payment: Axis 1 covers four
+networks. BNB is reported as unreachable under this frame rather than bought.**
+
+Freezing the sample turned up something the endpoint count alone didn't show. All 13 BNB Chain
+endpoints in the catalog belong to a single provider, every one grades B, and every one is DeFi
+yield, bridge quotes or intents — precisely the categories this run puts out of scope because
+grading them would be a guess rather than a judgment. There is no BNB endpoint that is both
+grade A and in a category I can check, and there is no BNB provider to spread across even if I
+dropped the grade filter.
+
+I could buy one BNB call outside the frame purely to fill the axis. I don't, because of what it
+would and wouldn't show. It would prove that a chain I had already configured verifies a payment
+— which the test suite establishes more cheaply — from an endpoint whose category I excluded as
+ungradeable. The row would then need excluding from Axis 3 anyway, so the only thing bought is a
+tick in a table, at the cost of a paragraph explaining why the tick doesn't mean what a reader
+would take it to mean.
+
+The honest version is shorter and says more: **BNB's entire presence in this catalog is one
+provider, grade B, in categories out of scope.** That is an observation about the ecosystem, not
+a gap in the run. A chain with 13 listed endpoints and one operator behind them is not a chain
+with a supply of things to buy, and a coverage axis that reported a green tick there would be
+describing my configuration rather than the ecosystem's.
+
+What this does not change: the verifier still supports BNB, still refuses it the same way when an
+RPC is missing, and the note above about Binance-Peg USDC still holds for anyone who does submit
+a BNB review. The capability is built and tested. What is absent is something in scope to spend
+on, and that absence is the finding.
+
+(Counts read 2026-09-06 put BNB at 14 listed endpoints; the 2026-09-14 freeze found 13. Neither
+number changes the conclusion.)
 
 ### Axis 2 — Reach
 
@@ -230,10 +262,13 @@ trial-checked first.
 
 1. Freeze the sample. Pull the grade A endpoints across distinct providers and record them —
    endpoint, grade, score, price, network — _before_ I pay anyone. The list doesn't change once
-   the run starts.
+   the run starts. **Done 2026-09-14:** 34 calls across 11 distinct providers, in
+   `x402-spend/examples/run-001.json`, with the selection and what the frame could not supply
+   written up in `x402-spend/examples/run-001-sample.md`.
 2. Write the question and the expected answer for each call, in advance, one line each, and
    commit that file before any payment. The expected answers exist in git before the run, so
-   nobody has to take my word for when they were written.
+   nobody has to take my word for when they were written. They go in the same file as step 1,
+   which the run harness refuses to start without.
 3. Pay. One call per endpoint, same dedicated wallet throughout.
 4. Label immediately, against what I wrote down: outcome 1 or 2, plus a reason code and an
    optional note when it's 2. No re-labeling later to tidy the dataset; if a label does change,
