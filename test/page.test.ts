@@ -106,8 +106,33 @@ describe("the page", () => {
   test("the count line names unconfirmed rows only when there are some", () => {
     // A caveat that renders on every load is a caveat readers learn to skip.
     expect(renderPage([stored(), stored({ id: "r2", proof: PROOF.receiptOnly })], 3))
-      .toContain("· 1 payer unconfirmed · newest first · 3 pending");
+      .toContain("· 1 payer unconfirmed, not counted · newest first · 3 pending");
     expect(renderPage([stored()])).not.toContain("payer unconfirmed");
+  });
+
+  test("an unattributed row is shown but kept out of the tallies", () => {
+    // The method excludes `receipt_only` from quality findings: the recipient
+    // was credited but not demonstrably by this payer, so the row cannot
+    // support a claim about what a buyer got.
+    const html = renderPage([
+      stored({ id: "r1", outcome: OUTCOME.useful }),
+      stored({ id: "r2", outcome: OUTCOME.useful, proof: PROOF.receiptOnly }),
+    ]);
+    expect(html).toContain("<b>1 useful</b>");
+    expect(html).toContain("1 payer unconfirmed, not counted");
+    // Still published, still visible: excluded from the count, not the dataset.
+    // Both rows render their outcome pill while the tally counts one.
+    expect(html.match(/<span class="pill useful">/g)).toHaveLength(2);
+  });
+
+  test("an unattributed not_useful row is excluded from both tallies", () => {
+    const html = renderPage([
+      stored({ id: "r1", outcome: OUTCOME.notUseful, reason: REASON.wrong }),
+      stored({ id: "r2", outcome: OUTCOME.notUseful, reason: REASON.wrong, proof: PROOF.receiptOnly }),
+    ]);
+    expect(html).toContain("<b>0 useful</b>");
+    expect(html).toContain("1 not useful");
+    expect(html).not.toContain("2 not useful");
   });
 
   test("a failing outcome shows its reason as plain text, not a second pill", () => {

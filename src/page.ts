@@ -182,10 +182,16 @@ export function renderPage(reviews: StoredReview[], pending = 0): string {
   // Shown only when there is something to say. A caveat that renders "0" on
   // every load is a caveat readers learn to skip, which is the same reason a
   // traced row carries no badge at all. The JSON keeps `proof` on every row.
-  const useful = reviews.filter((review) => review.outcome === OUTCOME.useful).length;
-  const notUseful = reviews.length - useful;
-  const receiptOnly = reviews.filter((review) => review.proof === PROOF.receiptOnly).length;
-  const unconfirmed = receiptOnly > 0 ? ` \u00b7 ${receiptOnly} ${PROOF_LABEL[PROOF.receiptOnly]}` : "";
+  // The tallies count only payments that were actually traced. A row proved
+  // as `receipt_only` shows the recipient was credited but not by whom, so it
+  // cannot support a claim about what a buyer got — the method excludes it from
+  // quality findings, and a count line that quietly included it would be the
+  // published version of that mistake. The row stays in the table, marked.
+  const attributed = reviews.filter((review) => review.proof === PROOF.paymentTraced);
+  const useful = attributed.filter((review) => review.outcome === OUTCOME.useful).length;
+  const notUseful = attributed.length - useful;
+  const receiptOnly = reviews.length - attributed.length;
+  const unconfirmed = receiptOnly > 0 ? ` \u00b7 ${receiptOnly} ${PROOF_LABEL[PROOF.receiptOnly]}, not counted` : "";
   const table = reviews.length
     ? `  <div class="scroll">
   <table>

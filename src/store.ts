@@ -3,7 +3,7 @@ import { foldCase } from "./network";
 import type { ReviewSubmission } from "./review";
 import type { SettlementFacts } from "./state";
 import {
-  REVIEW_OUTCOMES, REVIEW_SCHEMA_VERSION, STATUS,
+  PROOF, REVIEW_OUTCOMES, REVIEW_SCHEMA_VERSION, STATUS,
   type Proof, type ReviewOutcome, type ReviewReason, type ReviewRecovery, type ReviewStatus,
 } from "./vocab";
 
@@ -32,7 +32,19 @@ export type OutcomeCounts = Record<ReviewOutcome, number>;
 /** Aggregated reviews for one resource URL. */
 export interface ResourceReviews {
   resourceUrl: string;
+  /**
+   * Outcome tallies over rows whose payment was actually traced.
+   *
+   * Rows proved only as `receipt_only` are excluded: the recipient was seen to
+   * be credited but nobody can say who credited them, so the review is not
+   * attributable to a payer and a quality finding resting on it rests on
+   * nothing. They stay in `reviews`, marked, and they still count toward
+   * coverage and reach. The method says to exclude them; this is where that
+   * stops being a note and becomes behaviour.
+   */
   counts: OutcomeCounts;
+  /** How many verified rows were left out of {@link counts}, so the exclusion is visible. */
+  excludedUnattributed: number;
   reviews: StoredReview[];
 }
 
@@ -208,17 +220,26 @@ export class ReviewStore {
         .all<Row>(),
       this.db
         .prepare(
-          `SELECT outcome, COUNT(*) AS n FROM reviews
-           WHERE resource_url = ? AND status = ? GROUP BY outcome`
+          `SELECT outcome, proof, COUNT(*) AS n FROM reviews
+           WHERE resource_url = ? AND status = ? GROUP BY outcome, proof`
         )
         .bind(resourceUrl, STATUS.verified)
-        .all<{ outcome: string; n: number }>(),
+        .all<{ outcome: string; proof: string | null; n: number }>(),
     ]);
     const counts = emptyCounts();
+    let excludedUnattributed = 0;
     for (const tally of tallies.results) {
+      // Only a traced payment carries a known payer. A null proof predates the
+      // column and is no better evidenced than `receipt_only`, so it is
+      // excluded on the same grounds rather than counted on the strength of
+      // having been written earlier.
+      if (tally.proof !== PROOF.paymentTraced) {
+        excludedUnattributed += tally.n;
+        continue;
+      }
       if (tally.outcome in counts) counts[tally.outcome as ReviewOutcome] = tally.n;
     }
-    return { resourceUrl, counts, reviews: rows.results.map(toReview) };
+    return { resourceUrl, counts, excludedUnattributed, reviews: rows.results.map(toReview) };
   }
 
   /** Returns the most recently verified reviews, newest first. */

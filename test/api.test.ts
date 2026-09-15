@@ -22,9 +22,15 @@ describe("POST /v1/reviews", () => {
 
     const listed = await api.page();
     expect(listed.status).toBe(200);
-    const page = await listed.json<{ resourceUrl: string; counts: Record<string, number>; reviews: { id: string; note: string; payer: string }[] }>();
+    const page = await listed.json<{
+      resourceUrl: string;
+      counts: Record<string, number>;
+      excludedUnattributed: number;
+      reviews: { id: string; note: string; payer: string }[];
+    }>();
     expect(page.resourceUrl).toBe(api.resourceUrl);
     expect(page.counts).toEqual({ useful: 1, not_useful: 0 });
+    expect(page.excludedUnattributed).toBe(0);
     expect(page.reviews[0].id).toBe(body.id);
     expect(page.reviews[0].note).toBe("worth it");
     // Reviews are public and name the buyer; that is disclosed, not hidden.
@@ -154,8 +160,18 @@ describe("POST /v1/reviews", () => {
     const api = harness(rpc(svmRpcReturning(svmTransaction({ inner: null }))));
     expect((await api.post(api.validSvm())).status).toBe(201);
 
-    const page = await (await api.page()).json<{ reviews: { proof: string }[] }>();
+    const page = await (await api.page()).json<{
+      reviews: { proof: string }[];
+      counts: Record<string, number>;
+      excludedUnattributed: number;
+    }>();
     expect(page.reviews[0].proof).toBe(PROOF.receiptOnly);
+    // Published and visible, but out of the quality tallies: the recipient was
+    // credited and nobody can say by whom, so the row cannot support a finding
+    // about what a buyer got. The method excludes it; this is where that is
+    // enforced rather than merely written down.
+    expect(page.counts).toEqual({ useful: 0, not_useful: 0 });
+    expect(page.excludedUnattributed).toBe(1);
   });
 
   test("a network named the way clients spell it is normalised, not refused", async () => {

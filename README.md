@@ -182,7 +182,7 @@ afterwards.
 
 ```
 POST /v1/reviews          → 201 verified | 200 replayed | 202 pending | 422 | 429 | 503
-GET  /v1/reviews?resource=<url>  → { resourceUrl, counts, reviews }
+GET  /v1/reviews?resource=<url>  → { resourceUrl, counts, excludedUnattributed, reviews }
 GET  /v1/reviews/recent   → { reviews }   last 100 verified, newest first
 GET  /health              → { ok, pending }
 POST /internal/retry      → Authorization: Bearer <ADMIN_TOKEN>; runs one retry pass
@@ -245,6 +245,14 @@ mint, `payTo` and `payer` are account addresses, and `transaction` is a 64-byte 
 Every verified review served back carries `proof`, either `payment_traced` or `receipt_only`, on
 every row whatever its value. The page hides that caveat when there is nothing to say; the JSON
 never does.
+
+**Only traced payments are counted.** `counts` on `/v1/reviews`, and the useful/not-useful tally on
+the page, are computed over rows proved as `payment_traced`. A `receipt_only` row shows that the
+recipient was credited but not by whom, so it cannot support a claim about what a buyer got. Those
+rows are still stored, still served, and still shown — marked, and named in
+`excludedUnattributed` beside the counts — because excluding a row from a finding is not the same
+as hiding it. They still count toward coverage and reach, which ask whether a payment happened
+rather than whether it was worth making.
 
 ## Running it
 
