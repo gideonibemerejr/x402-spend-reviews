@@ -1,6 +1,6 @@
 import { expect, test, vi } from "vitest";
 import { canonicalNetwork, NETWORK } from "../src/network";
-import { createRpc, RPC_USER_AGENT, RpcError, rpcUrlFor } from "../src/verify/rpc";
+import { createRpc, RPC_USER_AGENT, RpcError, rpcEndpointFor, rpcUrlFor } from "../src/verify/rpc";
 
 const ok = (result: unknown) =>
   new Response(JSON.stringify({ jsonrpc: "2.0", id: 1, result }), {
@@ -75,4 +75,57 @@ test("transport, HTTP and JSON-RPC failures all surface as RpcError", async () =
     const rpc = createRpc(NETWORK.baseSepolia, { fetchImpl });
     await expect(rpc!("eth_chainId", []), name).rejects.toBeInstanceOf(RpcError);
   }
+});
+
+test("a configured endpoint's key never appears in the error it raises", async () => {
+  // These messages reach unauthenticated callers as the `detail` of a 503, and
+  // every major provider issues endpoints with the key in the path. A test
+  // rather than a comment, because the leak reappears the moment someone
+  // interpolates the URL back into a message for debugging.
+  const KEY = "sk_live_do_not_leak_me";
+  const env = { RPC_URL_8453: `https://base-mainnet.g.alchemy.com/v2/${KEY}` };
+  const rpc = createRpc(NETWORK.baseMainnet, {
+    env,
+    fetchImpl: (async () => new Response("nope", { status: 429 })) as unknown as typeof fetch,
+  })!;
+  const error = await rpc("eth_getTransactionReceipt", ["0x0"]).catch((e: unknown) => e);
+  expect(error).toBeInstanceOf(RpcError);
+  expect((error as Error).message).not.toContain(KEY);
+  expect((error as Error).message).toContain("base-mainnet.g.alchemy.com");
+});
+
+test("a transport failure names the host and not the URL either", async () => {
+  const KEY = "another_secret";
+  const rpc = createRpc(NETWORK.baseMainnet, {
+    env: { RPC_URL_8453: `https://rpc.example/${KEY}` },
+    fetchImpl: (async () => { throw new Error("socket hang up"); }) as unknown as typeof fetch,
+  })!;
+  const error = await rpc("eth_getTransactionReceipt", ["0x0"]).catch((e: unknown) => e);
+  expect((error as Error).message).not.toContain(KEY);
+});
+
+test("an unconfigured network says so in the error, so a 429 is diagnosable", async () => {
+  // The difference between "the public endpoint is throttling us" and "our
+  // provider is throttling us" is the difference between a missing secret and
+  // a billing problem, and the URL alone does not distinguish them.
+  const rpc = createRpc(NETWORK.baseMainnet, {
+    fetchImpl: (async () => new Response("nope", { status: 429 })) as unknown as typeof fetch,
+  })!;
+  const error = await rpc("eth_getTransactionReceipt", ["0x0"]).catch((e: unknown) => e);
+  expect((error as Error).message).toContain("public fallback, no endpoint configured");
+});
+
+test("rpcEndpointFor says where each endpoint came from", () => {
+  expect(rpcEndpointFor(NETWORK.baseMainnet)).toEqual({
+    url: "https://mainnet.base.org", configured: false,
+  });
+  expect(rpcEndpointFor(NETWORK.baseMainnet, { RPC_URL_8453: "https://private.example" })).toEqual({
+    url: "https://private.example", configured: true,
+  });
+  // An empty secret is not a configured endpoint. Wrangler will happily store
+  // one, and treating it as configured would mean falling back silently while
+  // the error claimed an endpoint was set.
+  expect(rpcEndpointFor(NETWORK.baseMainnet, { RPC_URL_8453: "" })).toEqual({
+    url: "https://mainnet.base.org", configured: false,
+  });
 });
