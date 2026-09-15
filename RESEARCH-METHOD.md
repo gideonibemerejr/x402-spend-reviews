@@ -343,6 +343,32 @@ spend accounting than to a quality signal. I publish that in the same words as a
 result. Saying so in advance is what makes this an experiment instead of a marketing
 exercise.
 
+## Exploratory findings
+
+Everything above is confirmatory: it tests what I declared before paying. The run will also
+surface things nobody declared in advance, and those go in their own section of the report,
+labeled as exploratory.
+
+The distinction is not cosmetic. A confirmatory finding answers a question asked before the
+data existed. An exploratory one is something I noticed while looking, so I can't rule out that
+I noticed it because it was there to be noticed. Exploratory findings are hypothesis-generating;
+they don't carry the pre-registered claim and the report says so where they appear.
+
+Rules I hold myself to for that section:
+
+- **They never change a label.** Grading against something not pre-registered would break the
+  one property this document exists to protect. Observations go in the report, not into the
+  dataset's outcome column.
+- **Mechanical before interpretive.** "These two responses agree to eight decimal places and
+  both name the same upstream" is an observation. "These endpoints are resellers" is an
+  inference from it. Both can appear; which is which gets stated.
+- **They are not presented as though they were tested.** No claim that an exploratory pattern
+  generalizes beyond the 34 rows it was seen in.
+
+Announcing the section in advance is itself part of the pre-registration: it means exploratory
+findings were planned for as a category, rather than a heading invented after the fact to house
+whatever turned up.
+
 ## Known limits
 
 - Single reviewer, single judgment. One rater, no inter-rater check.
