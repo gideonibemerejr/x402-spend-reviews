@@ -3,6 +3,7 @@ import { escapeHtml, formatAmount, renderPage, shortHash } from "../src/page";
 import { NETWORK } from "../src/network";
 import type { StoredReview } from "../src/store";
 import { OUTCOME, PROOF, REASON, REVIEW_SCHEMA_VERSION } from "../src/vocab";
+import { REGISTRY_URL } from "../src/app";
 import { harness } from "./helpers";
 
 const stored = (overrides: Partial<StoredReview> = {}): StoredReview => ({
@@ -222,13 +223,10 @@ test("GET / serves the verified reviews as HTML", async () => {
   ] }) });
   expect((await api.post(api.valid({ taskClass: "web-search" }))).status).toBe(201);
 
+  // The registry moved to the site; the root is kept as a redirect for one
+  // release because the workers.dev URL is published. `renderPage` is still
+  // covered directly above — it stays until that release has shipped.
   const response = await api.get("/");
-  expect(response.status).toBe(200);
-  expect(response.headers.get("content-type")).toMatch(/text\/html/);
-
-  const html = await response.text();
-  expect(html).toContain(api.transaction);
-  expect(html).toContain(`https://sepolia.basescan.org/tx/${api.transaction}`);
-  expect(html).toContain("web-search");
-  expect(html).toContain("0.010000");
+  expect(response.status).toBe(301);
+  expect(response.headers.get("location")).toBe(REGISTRY_URL);
 });

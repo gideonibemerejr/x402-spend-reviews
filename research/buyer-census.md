@@ -41,11 +41,13 @@ single filter, whereas Etherscan's `topic2` takes one value and would need one c
 range. The node method got cheaper as the frame got wider, not more expensive.
 
 **Arbitrum and Avalanche will need a paid Etherscan plan or a node — decided 2026-09-15: not
-scanned, and not paid for.** Base carries ~96% of the catalogued endpoint population; Arbitrum and
-Avalanche hold 353 between them, and the aggregator finding already holds on Base. Paying to
-confirm on 353 endpoints what 15,583 already show is money spent on a result the frame does not
-need. If it matters later, a public node with a head-block freshness guard does it for free, and
-the failure modes that guard has to cover are now known and written down above.
+scanned, and not paid for.** 15,161 of the 15,583 catalogued resources are reachable on Base —
+97.3%. Arbitrum carries 67 distinct `payTo` addresses and Avalanche 6, and only **3 of those 69 are
+not already in the Base seller set**; exactly one catalogued resource is Arbitrum-exclusive and none
+is Avalanche-exclusive. Scanning those chains would re-measure the same sellers on a different rail
+rather than reach new ones, and the aggregator finding already holds on Base. If it matters later,
+a public node with a head-block freshness guard does it for free, and the failure modes that guard
+has to cover are now known and written down above.
 
 ## Completeness — what was verified
 

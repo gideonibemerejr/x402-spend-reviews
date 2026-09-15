@@ -39,6 +39,9 @@ export const POST_BODY_LIMIT = 4096;
  * to. Anything server-side can still call them — CORS is a browser rule — and
  * localhost is listed so the site's own `next dev` works against production.
  */
+/** Where the registry lives now. The root redirects here. */
+export const REGISTRY_URL = "https://x402spend.dev/registry";
+
 export const DEMO_ORIGINS = [
   "https://x402spend.dev",
   "https://www.x402spend.dev",
@@ -97,13 +100,14 @@ export function createApp(options: AppOptions = {}) {
   app.use("/v1/verify", cors({ origin: DEMO_ORIGINS, allowMethods: ["POST", "OPTIONS"] }));
   app.use("/v1/probe", cors({ origin: DEMO_ORIGINS, allowMethods: ["POST", "OPTIONS"] }));
 
-  // The dataset is meant to be checkable by anyone, so it has a page of its own:
-  // rendered on the server, no client JavaScript, readable from view-source.
-  app.get("/", rateLimited((env) => env.GET_REVIEWS) as never, async (c) => {
-    const store = new ReviewStore(c.env.DB);
-    const [reviews, pending] = await Promise.all([store.recent(100), store.pendingCount()]);
-    return c.html(renderPage(reviews, pending));
-  });
+  // The registry now lives on the site, so every human-facing surface is in one
+  // place and this Worker serves JSON. The route is kept for one release rather
+  // than removed, because the workers.dev URL is published and a dead root is a
+  // worse answer than a redirect. 301, because the page has genuinely moved.
+  //
+  // `renderPage` and its tests stay until that release has shipped; they are
+  // what this falls back to if the move has to be undone.
+  app.get("/", (c) => c.redirect(REGISTRY_URL, 301));
 
   // Exempt from rate limiting: a health check that can be throttled is not a health check.
   app.get("/health", async (c) => {
