@@ -1,0 +1,4611 @@
+{
+  "meta": {
+    "chain": "eip155:8453",
+    "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "fromBlock": 50038284,
+    "toBlock": 51334284,
+    "rangesTotal": 683,
+    "rangesFailed": 0,
+    "failed": [],
+    "sellers": [
+      "0x0550779cfbc832657a8bb46bac9f359a5ad038b8",
+      "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+      "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+      "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+      "0x5f7254f252ef9b9f92b6b4f2cf91205ed7a96c7a",
+      "0xb86f95ef5fa904318ea9df3b59adce099b478fc4",
+      "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+      "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9",
+      "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+    ],
+    "rawLogs": 19531,
+    "transfers": 18978,
+    "generatedAt": "2026-09-15T07:39:53.515Z",
+    "note": "Payer is Transfer.from (the buyer). tx.from is the facilitator and is deliberately not used.",
+    "windowDays": 30,
+    "distinctPayers": 356,
+    "settlements": 18978
+  },
+  "payers": [
+    {
+      "payer": "0x9d3d9410be95fa1d230734b961997427fc61d837",
+      "settlements": 3901,
+      "usdc": 130.675,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea"
+      ],
+      "distinctDays": 30,
+      "firstSeen": "2026-08-16T08:33:05.000Z",
+      "lastSeen": "2026-09-15T07:25:51.000Z"
+    },
+    {
+      "payer": "0x902dcf34e53695bdea2ffb354b1a2e58bd598256",
+      "settlements": 3820,
+      "usdc": 90.14297,
+      "distinctSellers": 2,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 29,
+      "firstSeen": "2026-08-17T04:39:43.000Z",
+      "lastSeen": "2026-09-14T18:39:55.000Z"
+    },
+    {
+      "payer": "0x27abcddd44c4959ac729d080703e677f13a3248c",
+      "settlements": 745,
+      "usdc": 10.541,
+      "distinctSellers": 5,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x5f7254f252ef9b9f92b6b4f2cf91205ed7a96c7a",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 9,
+      "firstSeen": "2026-08-21T00:56:09.000Z",
+      "lastSeen": "2026-09-11T22:26:17.000Z"
+    },
+    {
+      "payer": "0x5e95cd8d85d0dc7069a9eaa9e92017bc4903a55e",
+      "settlements": 649,
+      "usdc": 1.8965,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 18,
+      "firstSeen": "2026-08-16T16:04:11.000Z",
+      "lastSeen": "2026-09-10T20:16:11.000Z"
+    },
+    {
+      "payer": "0x2d3af92df6129878509f152e531e1bec2b34c423",
+      "settlements": 645,
+      "usdc": 11.847,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 11,
+      "firstSeen": "2026-08-17T08:23:19.000Z",
+      "lastSeen": "2026-09-10T17:00:13.000Z"
+    },
+    {
+      "payer": "0x7be382509dd88d3758f0dc9f953ee34e31d411b7",
+      "settlements": 590,
+      "usdc": 1.305,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 8,
+      "firstSeen": "2026-09-08T06:04:49.000Z",
+      "lastSeen": "2026-09-15T06:35:27.000Z"
+    },
+    {
+      "payer": "0x4824dd3974a423c2f254338e85f9e744f3b04654",
+      "settlements": 415,
+      "usdc": 7.395,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x5f7254f252ef9b9f92b6b4f2cf91205ed7a96c7a"
+      ],
+      "distinctDays": 30,
+      "firstSeen": "2026-08-16T13:34:11.000Z",
+      "lastSeen": "2026-09-14T18:54:21.000Z"
+    },
+    {
+      "payer": "0x8f5d312edcfe6188acd10966289547646729dcc7",
+      "settlements": 343,
+      "usdc": 0.8325,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-28T06:05:59.000Z",
+      "lastSeen": "2026-08-28T20:49:25.000Z"
+    },
+    {
+      "payer": "0x531d5c71c7cd051a4d14ec8afcb0c7d5788bcb25",
+      "settlements": 317,
+      "usdc": 15.85,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-06T21:29:59.000Z",
+      "lastSeen": "2026-09-07T19:37:39.000Z"
+    },
+    {
+      "payer": "0xe62acde958a67c3637cb62a8ae61315110421b5a",
+      "settlements": 280,
+      "usdc": 1.4,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 10,
+      "firstSeen": "2026-08-28T16:45:09.000Z",
+      "lastSeen": "2026-09-06T16:01:15.000Z"
+    },
+    {
+      "payer": "0xc59e74ed6386b2a12d892fff2509a6965a0498dc",
+      "settlements": 233,
+      "usdc": 1.1521,
+      "distinctSellers": 6,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 5,
+      "firstSeen": "2026-08-23T01:42:37.000Z",
+      "lastSeen": "2026-09-03T03:57:13.000Z"
+    },
+    {
+      "payer": "0x2e26eb6109690c0a467aaa9535e5ee6da2a7ddde",
+      "settlements": 231,
+      "usdc": 1.0465,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-25T21:01:21.000Z",
+      "lastSeen": "2026-08-26T05:11:19.000Z"
+    },
+    {
+      "payer": "0x69e1a9d8890cee862ef17c653229ca97adec8a19",
+      "settlements": 189,
+      "usdc": 3.5206,
+      "distinctSellers": 5,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 11,
+      "firstSeen": "2026-08-31T07:33:01.000Z",
+      "lastSeen": "2026-09-15T07:01:25.000Z"
+    },
+    {
+      "payer": "0xebd6abe90406bbfad858f19553dcc4633c2fe2e0",
+      "settlements": 181,
+      "usdc": 0.181,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 17,
+      "firstSeen": "2026-08-26T12:17:57.000Z",
+      "lastSeen": "2026-09-11T00:02:07.000Z"
+    },
+    {
+      "payer": "0x643c9ae0abb375aa894b3db3f03dff34f39f02fd",
+      "settlements": 178,
+      "usdc": 3.7836,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 31,
+      "firstSeen": "2026-08-16T08:37:33.000Z",
+      "lastSeen": "2026-09-15T03:53:37.000Z"
+    },
+    {
+      "payer": "0x2b53edf9f8335a68dd31b3e9489a15781676fe2a",
+      "settlements": 175,
+      "usdc": 4.3196,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 31,
+      "firstSeen": "2026-08-16T08:38:33.000Z",
+      "lastSeen": "2026-09-15T05:58:31.000Z"
+    },
+    {
+      "payer": "0x7a0af307d108c98fe29caa505798b99ea90ed772",
+      "settlements": 172,
+      "usdc": 1.648,
+      "distinctSellers": 2,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 14,
+      "firstSeen": "2026-08-24T00:02:07.000Z",
+      "lastSeen": "2026-09-13T16:18:11.000Z"
+    },
+    {
+      "payer": "0xd50d2454acd0015ee41ef7522fc41fcef79829af",
+      "settlements": 171,
+      "usdc": 4.1012,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 31,
+      "firstSeen": "2026-08-16T07:56:43.000Z",
+      "lastSeen": "2026-09-15T07:36:41.000Z"
+    },
+    {
+      "payer": "0x9a6d0d6677377b7356a850e0dec00473244c9715",
+      "settlements": 168,
+      "usdc": 4.0024,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 29,
+      "firstSeen": "2026-08-16T08:07:39.000Z",
+      "lastSeen": "2026-09-15T06:54:59.000Z"
+    },
+    {
+      "payer": "0x2b9efb60ae03c39f7684a9ae6eb202cd9dca41a4",
+      "settlements": 167,
+      "usdc": 4.0213,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 31,
+      "firstSeen": "2026-08-16T07:53:17.000Z",
+      "lastSeen": "2026-09-15T05:19:13.000Z"
+    },
+    {
+      "payer": "0x460833149aceb362925a230090315735f81a2127",
+      "settlements": 166,
+      "usdc": 3.1284,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 31,
+      "firstSeen": "2026-08-16T08:33:59.000Z",
+      "lastSeen": "2026-09-15T04:04:35.000Z"
+    },
+    {
+      "payer": "0x9bac0cfa9b3b7cfc66145eb6823e93527c4db0c3",
+      "settlements": 163,
+      "usdc": 3.0092,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 31,
+      "firstSeen": "2026-08-16T07:46:39.000Z",
+      "lastSeen": "2026-09-15T04:14:33.000Z"
+    },
+    {
+      "payer": "0x3e9f20304893e1a6555b2ea1b3b87c31dcaf4165",
+      "settlements": 163,
+      "usdc": 2.9302,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 31,
+      "firstSeen": "2026-08-16T08:07:47.000Z",
+      "lastSeen": "2026-09-15T05:26:03.000Z"
+    },
+    {
+      "payer": "0xcae31081f49272357690122a400a81e6f7afaafe",
+      "settlements": 161,
+      "usdc": 3.8448,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 31,
+      "firstSeen": "2026-08-16T08:29:27.000Z",
+      "lastSeen": "2026-09-15T04:23:37.000Z"
+    },
+    {
+      "payer": "0x57d3af387e083f92597010d25b38ee281874cb39",
+      "settlements": 158,
+      "usdc": 3.5988,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 30,
+      "firstSeen": "2026-08-16T08:12:09.000Z",
+      "lastSeen": "2026-09-15T06:53:55.000Z"
+    },
+    {
+      "payer": "0xf0686745dc961c50f67ba2f994b8d19cd875258e",
+      "settlements": 157,
+      "usdc": 3.698,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 30,
+      "firstSeen": "2026-08-16T07:51:39.000Z",
+      "lastSeen": "2026-09-15T07:21:47.000Z"
+    },
+    {
+      "payer": "0x67cd08e1060efc0c820e08d62a3306dd863610b3",
+      "settlements": 154,
+      "usdc": 3.85,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8"
+      ],
+      "distinctDays": 5,
+      "firstSeen": "2026-09-10T07:02:23.000Z",
+      "lastSeen": "2026-09-14T21:13:59.000Z"
+    },
+    {
+      "payer": "0x64590094d053604081d027a1da926f2a97b18599",
+      "settlements": 153,
+      "usdc": 3.3242,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 31,
+      "firstSeen": "2026-08-16T09:01:03.000Z",
+      "lastSeen": "2026-09-15T04:44:31.000Z"
+    },
+    {
+      "payer": "0x0acd1c9373adef4598b44b844d9f6f6cfd7c11f5",
+      "settlements": 152,
+      "usdc": 3.6752,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 30,
+      "firstSeen": "2026-08-16T07:44:35.000Z",
+      "lastSeen": "2026-09-15T05:16:15.000Z"
+    },
+    {
+      "payer": "0x8ca364ec02307923505e9ded210fef622de62d15",
+      "settlements": 152,
+      "usdc": 3.8096,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 29,
+      "firstSeen": "2026-08-17T05:10:45.000Z",
+      "lastSeen": "2026-09-15T07:06:45.000Z"
+    },
+    {
+      "payer": "0x91f17a0e69d61bb078506beee7323fa10f04f880",
+      "settlements": 152,
+      "usdc": 1.4396,
+      "distinctSellers": 5,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 7,
+      "firstSeen": "2026-09-09T06:07:43.000Z",
+      "lastSeen": "2026-09-15T06:03:51.000Z"
+    },
+    {
+      "payer": "0x941923fdb9c1bcb2212311a7a153f6d59e6057aa",
+      "settlements": 151,
+      "usdc": 3.199,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 30,
+      "firstSeen": "2026-08-17T04:44:31.000Z",
+      "lastSeen": "2026-09-15T05:40:55.000Z"
+    },
+    {
+      "payer": "0x33463419cbc23c7cc8b49409c35d199ca897993c",
+      "settlements": 150,
+      "usdc": 2.3292,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 31,
+      "firstSeen": "2026-08-16T08:21:03.000Z",
+      "lastSeen": "2026-09-15T07:32:59.000Z"
+    },
+    {
+      "payer": "0x71264527f868f3ef24dd1ea842666cb02ef7004d",
+      "settlements": 147,
+      "usdc": 3.2802,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 30,
+      "firstSeen": "2026-08-17T05:07:45.000Z",
+      "lastSeen": "2026-09-15T06:13:21.000Z"
+    },
+    {
+      "payer": "0x83625022553b9b1def4f020c2c9f943e54cb2615",
+      "settlements": 144,
+      "usdc": 3.935,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea"
+      ],
+      "distinctDays": 8,
+      "firstSeen": "2026-08-18T19:05:49.000Z",
+      "lastSeen": "2026-09-15T07:13:59.000Z"
+    },
+    {
+      "payer": "0xff9f8d44a0dad1e3a929b40a0933fdde0fd40e32",
+      "settlements": 143,
+      "usdc": 2.9154,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 30,
+      "firstSeen": "2026-08-16T08:04:19.000Z",
+      "lastSeen": "2026-09-14T04:18:55.000Z"
+    },
+    {
+      "payer": "0x89c0003ab32b3756a31fda726fab03966cfdc6fb",
+      "settlements": 142,
+      "usdc": 0.7287,
+      "distinctSellers": 4,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 16,
+      "firstSeen": "2026-08-28T13:25:55.000Z",
+      "lastSeen": "2026-09-14T08:00:25.000Z"
+    },
+    {
+      "payer": "0xf5c5455b4ce98762709b28b40ed9e52466eaa03b",
+      "settlements": 138,
+      "usdc": 2.804,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 31,
+      "firstSeen": "2026-08-16T07:43:21.000Z",
+      "lastSeen": "2026-09-15T05:25:37.000Z"
+    },
+    {
+      "payer": "0x2abc38e747b14d2471e8c44dc02e5ccfe6b61a8d",
+      "settlements": 138,
+      "usdc": 4.608,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 30,
+      "firstSeen": "2026-08-17T03:05:31.000Z",
+      "lastSeen": "2026-09-15T05:48:59.000Z"
+    },
+    {
+      "payer": "0x902d8f35055c8a0a25fc8307b97992c471772256",
+      "settlements": 135,
+      "usdc": 0.002055,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 12,
+      "firstSeen": "2026-08-16T08:07:27.000Z",
+      "lastSeen": "2026-09-13T18:42:47.000Z"
+    },
+    {
+      "payer": "0x0fcbd49bf5faa1a132835e66ecf065bedd5a8774",
+      "settlements": 124,
+      "usdc": 4.1036,
+      "distinctSellers": 4,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 21,
+      "firstSeen": "2026-08-23T01:38:53.000Z",
+      "lastSeen": "2026-09-14T07:09:03.000Z"
+    },
+    {
+      "payer": "0xbb5dc827367e34e5fc663a4d86451b12aaeb71a9",
+      "settlements": 87,
+      "usdc": 1.1736,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 9,
+      "firstSeen": "2026-09-05T23:08:23.000Z",
+      "lastSeen": "2026-09-13T14:12:07.000Z"
+    },
+    {
+      "payer": "0x1ebec4da2f7dd4880a5e397b36e09743cffc12d8",
+      "settlements": 65,
+      "usdc": 0.7637,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 8,
+      "firstSeen": "2026-09-08T05:34:47.000Z",
+      "lastSeen": "2026-09-15T05:29:11.000Z"
+    },
+    {
+      "payer": "0x86a454d9a407dcc16ab53116cff3483241e3822f",
+      "settlements": 64,
+      "usdc": 1.89,
+      "distinctSellers": 4,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 4,
+      "firstSeen": "2026-08-22T13:15:35.000Z",
+      "lastSeen": "2026-09-10T19:40:25.000Z"
+    },
+    {
+      "payer": "0xc9c7b38c0942914fc8ea12063bc92dcd3b581670",
+      "settlements": 55,
+      "usdc": 0.6037,
+      "distinctSellers": 6,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 9,
+      "firstSeen": "2026-09-04T09:23:49.000Z",
+      "lastSeen": "2026-09-12T12:07:41.000Z"
+    },
+    {
+      "payer": "0x0bbd2fec713482d888b6d7d7ea7ec8c632297aa8",
+      "settlements": 52,
+      "usdc": 0.326384,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea"
+      ],
+      "distinctDays": 15,
+      "firstSeen": "2026-08-20T07:03:07.000Z",
+      "lastSeen": "2026-09-09T11:05:05.000Z"
+    },
+    {
+      "payer": "0x170d9d961388deac17b0ae5bbe75218fe003fa10",
+      "settlements": 50,
+      "usdc": 0.1705,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 9,
+      "firstSeen": "2026-09-01T12:03:23.000Z",
+      "lastSeen": "2026-09-12T12:04:17.000Z"
+    },
+    {
+      "payer": "0x54e163e9b8edda194d83f46add921bfa5fc5f4e0",
+      "settlements": 49,
+      "usdc": 0.2611,
+      "distinctSellers": 5,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 6,
+      "firstSeen": "2026-08-16T23:39:51.000Z",
+      "lastSeen": "2026-09-15T07:34:09.000Z"
+    },
+    {
+      "payer": "0xd10616149e2b967316f9a82c1af4dda6d3608d1d",
+      "settlements": 46,
+      "usdc": 0.1275,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 5,
+      "firstSeen": "2026-08-31T08:11:23.000Z",
+      "lastSeen": "2026-09-10T14:12:17.000Z"
+    },
+    {
+      "payer": "0xca11d50b661310a915b34ff17b7e9e9f74c1388b",
+      "settlements": 44,
+      "usdc": 0.36,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 5,
+      "firstSeen": "2026-08-16T08:05:05.000Z",
+      "lastSeen": "2026-08-20T20:11:01.000Z"
+    },
+    {
+      "payer": "0x0cceaffd99a97ada5876a98979f7ee553cd068cd",
+      "settlements": 42,
+      "usdc": 3.48,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-14T21:23:13.000Z",
+      "lastSeen": "2026-09-15T03:29:03.000Z"
+    },
+    {
+      "payer": "0x1b205071515667bca455af1b69a83fd91b2769b3",
+      "settlements": 41,
+      "usdc": 0.356,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 4,
+      "firstSeen": "2026-08-16T09:00:53.000Z",
+      "lastSeen": "2026-08-19T09:03:31.000Z"
+    },
+    {
+      "payer": "0x3bdfe762f739bd22978150bc0f258fe10cc182d6",
+      "settlements": 41,
+      "usdc": 0.00041,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-28T15:23:59.000Z",
+      "lastSeen": "2026-08-29T14:03:21.000Z"
+    },
+    {
+      "payer": "0x8d2a47cbd262e1bc5ee0645c81899f9896957d37",
+      "settlements": 40,
+      "usdc": 0.064,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-04T11:59:51.000Z",
+      "lastSeen": "2026-09-06T14:49:55.000Z"
+    },
+    {
+      "payer": "0x26e8134ecc3af5cce32f34b03e7bd2f318b25158",
+      "settlements": 35,
+      "usdc": 0.7,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-01T23:23:59.000Z",
+      "lastSeen": "2026-09-02T00:34:01.000Z"
+    },
+    {
+      "payer": "0xa04e96a990cab43eeeb904dbd83ae39b1bcfba3f",
+      "settlements": 35,
+      "usdc": 0.184,
+      "distinctSellers": 5,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-06T22:06:13.000Z",
+      "lastSeen": "2026-09-13T15:36:27.000Z"
+    },
+    {
+      "payer": "0xe3badbd4f38214b9eae528a1a5398f6678f63fb3",
+      "settlements": 34,
+      "usdc": 0.3228,
+      "distinctSellers": 9,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8",
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0x5f7254f252ef9b9f92b6b4f2cf91205ed7a96c7a",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 5,
+      "firstSeen": "2026-09-03T12:53:11.000Z",
+      "lastSeen": "2026-09-14T19:49:39.000Z"
+    },
+    {
+      "payer": "0x2a079176ec3ac96cc094e9413f9d7bb54cd17bae",
+      "settlements": 32,
+      "usdc": 0.2318,
+      "distinctSellers": 8,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8",
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-25T23:40:27.000Z",
+      "lastSeen": "2026-08-26T22:51:37.000Z"
+    },
+    {
+      "payer": "0x6777e11fb0a7917b8110b7dab9188aa3f6d23986",
+      "settlements": 30,
+      "usdc": 0.373,
+      "distinctSellers": 7,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 9,
+      "firstSeen": "2026-08-20T12:54:25.000Z",
+      "lastSeen": "2026-09-04T07:02:11.000Z"
+    },
+    {
+      "payer": "0xcf98e5e2dbe0eabad95e9df7c54400e94c1efe7e",
+      "settlements": 30,
+      "usdc": 0.33,
+      "distinctSellers": 7,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0x5f7254f252ef9b9f92b6b4f2cf91205ed7a96c7a",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-06T20:08:11.000Z",
+      "lastSeen": "2026-09-06T20:26:53.000Z"
+    },
+    {
+      "payer": "0xa6dbb455811dc818e5cbf1495e5a6a6773cace04",
+      "settlements": 29,
+      "usdc": 0.193,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0x5f7254f252ef9b9f92b6b4f2cf91205ed7a96c7a"
+      ],
+      "distinctDays": 17,
+      "firstSeen": "2026-08-16T19:17:35.000Z",
+      "lastSeen": "2026-09-09T14:00:49.000Z"
+    },
+    {
+      "payer": "0x6a133be133820be5b0aec580cb1e282fbdf58477",
+      "settlements": 29,
+      "usdc": 0.286,
+      "distinctSellers": 4,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 3,
+      "firstSeen": "2026-08-31T11:09:27.000Z",
+      "lastSeen": "2026-09-10T11:27:47.000Z"
+    },
+    {
+      "payer": "0xb646a104cc03404a2883eb160ead5d471cf56e56",
+      "settlements": 27,
+      "usdc": 0.3271,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 9,
+      "firstSeen": "2026-08-19T20:43:45.000Z",
+      "lastSeen": "2026-09-11T10:42:11.000Z"
+    },
+    {
+      "payer": "0xc507d39678309b2389744526a7cd86e236c6c750",
+      "settlements": 26,
+      "usdc": 0.272,
+      "distinctSellers": 4,
+      "sellers": [
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0x5f7254f252ef9b9f92b6b4f2cf91205ed7a96c7a",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 9,
+      "firstSeen": "2026-08-17T05:36:51.000Z",
+      "lastSeen": "2026-09-14T06:32:59.000Z"
+    },
+    {
+      "payer": "0xffb10a70813fe2567c9e9677b6c9c4406c9d064f",
+      "settlements": 26,
+      "usdc": 0.026,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-02T02:56:51.000Z",
+      "lastSeen": "2026-09-02T04:56:03.000Z"
+    },
+    {
+      "payer": "0xe62923133a417cee4241677865ed5a63f44f4b54",
+      "settlements": 26,
+      "usdc": 0.0936,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 3,
+      "firstSeen": "2026-09-09T04:50:47.000Z",
+      "lastSeen": "2026-09-12T08:35:19.000Z"
+    },
+    {
+      "payer": "0xd04fa221be2ebd6aad2d3d460e8e04681e4c440f",
+      "settlements": 25,
+      "usdc": 0.102,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-10T19:50:21.000Z",
+      "lastSeen": "2026-09-10T20:46:41.000Z"
+    },
+    {
+      "payer": "0x0059d9e94323683b711b7bc747c4e12e13d3de62",
+      "settlements": 24,
+      "usdc": 0.306,
+      "distinctSellers": 8,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8",
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0x5f7254f252ef9b9f92b6b4f2cf91205ed7a96c7a",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-15T06:00:07.000Z",
+      "lastSeen": "2026-09-15T06:20:39.000Z"
+    },
+    {
+      "payer": "0x9ac7bfec2f0f14c45a64f17686a3e02b94e294e1",
+      "settlements": 23,
+      "usdc": 0.69,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-07T07:57:01.000Z",
+      "lastSeen": "2026-09-07T08:17:09.000Z"
+    },
+    {
+      "payer": "0xdb00f642739a5608a755555e54235319ac211fac",
+      "settlements": 22,
+      "usdc": 0.945,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 3,
+      "firstSeen": "2026-09-04T07:04:03.000Z",
+      "lastSeen": "2026-09-07T22:34:17.000Z"
+    },
+    {
+      "payer": "0x48b181a519bacdd678e3eeb974882eec7f2507d3",
+      "settlements": 19,
+      "usdc": 0.019,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 19,
+      "firstSeen": "2026-08-16T16:43:09.000Z",
+      "lastSeen": "2026-09-14T16:41:57.000Z"
+    },
+    {
+      "payer": "0x7fd9f9e51c9a94b3bca2082c8332cbf708b0b529",
+      "settlements": 19,
+      "usdc": 0.146,
+      "distinctSellers": 4,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 5,
+      "firstSeen": "2026-08-23T13:20:25.000Z",
+      "lastSeen": "2026-09-08T15:52:29.000Z"
+    },
+    {
+      "payer": "0xac90549c9c1b4c37e270f709f037e0b7ad79bad2",
+      "settlements": 19,
+      "usdc": 0.38,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-26T02:49:53.000Z",
+      "lastSeen": "2026-08-26T02:52:01.000Z"
+    },
+    {
+      "payer": "0x2312d90008be70a955160ff9f475656f8b0dafa8",
+      "settlements": 18,
+      "usdc": 0.09,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 3,
+      "firstSeen": "2026-08-18T10:24:25.000Z",
+      "lastSeen": "2026-08-26T13:38:21.000Z"
+    },
+    {
+      "payer": "0x3a0aa040b8785babc28b8436065dd2057c17773e",
+      "settlements": 18,
+      "usdc": 0.1755,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-09T21:16:33.000Z",
+      "lastSeen": "2026-09-09T21:18:11.000Z"
+    },
+    {
+      "payer": "0xa74f75bbade9bbf497b48aff4d3bc436a03be2f4",
+      "settlements": 17,
+      "usdc": 0.199,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-18T09:24:53.000Z",
+      "lastSeen": "2026-08-18T15:44:45.000Z"
+    },
+    {
+      "payer": "0x7052ca449702e5ffafbe3dc63b74c7b7d8af402b",
+      "settlements": 16,
+      "usdc": 0.132,
+      "distinctSellers": 4,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 6,
+      "firstSeen": "2026-08-24T04:15:13.000Z",
+      "lastSeen": "2026-09-11T20:24:41.000Z"
+    },
+    {
+      "payer": "0xfa1c6ff4ede5a8290b292f40bb7ad0fbcb1c65d1",
+      "settlements": 16,
+      "usdc": 0.173,
+      "distinctSellers": 4,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 6,
+      "firstSeen": "2026-08-24T05:47:49.000Z",
+      "lastSeen": "2026-09-11T16:23:57.000Z"
+    },
+    {
+      "payer": "0xc533bf5268a2f64adde58dce380651f70aa92d7a",
+      "settlements": 15,
+      "usdc": 0.105,
+      "distinctSellers": 6,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-17T07:06:47.000Z",
+      "lastSeen": "2026-08-30T15:50:21.000Z"
+    },
+    {
+      "payer": "0x3aebb73a33377f0d6fc2195f83559635adee8408",
+      "settlements": 15,
+      "usdc": 0.118,
+      "distinctSellers": 6,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 8,
+      "firstSeen": "2026-08-19T22:01:07.000Z",
+      "lastSeen": "2026-09-10T04:32:55.000Z"
+    },
+    {
+      "payer": "0xedc637d4b1bb9069753cc9335942be932083d2d0",
+      "settlements": 15,
+      "usdc": 0.137,
+      "distinctSellers": 4,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 8,
+      "firstSeen": "2026-08-24T05:52:05.000Z",
+      "lastSeen": "2026-09-11T21:19:27.000Z"
+    },
+    {
+      "payer": "0x9688385469cd5d216fd5a89eb03ec7fd0e0bd92d",
+      "settlements": 14,
+      "usdc": 0.1026,
+      "distinctSellers": 5,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 8,
+      "firstSeen": "2026-08-19T21:56:01.000Z",
+      "lastSeen": "2026-09-11T23:12:33.000Z"
+    },
+    {
+      "payer": "0x09c32b8fc0a94a1eed424499a42180e29667beee",
+      "settlements": 14,
+      "usdc": 0.155,
+      "distinctSellers": 4,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 8,
+      "firstSeen": "2026-08-19T23:35:43.000Z",
+      "lastSeen": "2026-09-11T20:45:29.000Z"
+    },
+    {
+      "payer": "0x6e5306c83602b204acaa65ceb05ec178120ea265",
+      "settlements": 14,
+      "usdc": 0.085,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 9,
+      "firstSeen": "2026-08-22T19:56:55.000Z",
+      "lastSeen": "2026-09-11T19:45:49.000Z"
+    },
+    {
+      "payer": "0xe2d8dc842fc5037c99c332bd57baaba3649f66c2",
+      "settlements": 14,
+      "usdc": 0.327,
+      "distinctSellers": 4,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 6,
+      "firstSeen": "2026-08-26T04:50:19.000Z",
+      "lastSeen": "2026-09-15T02:18:35.000Z"
+    },
+    {
+      "payer": "0xe5f7c1abc6ead4dd4bef98ad20ae74280d97cc08",
+      "settlements": 14,
+      "usdc": 0.07,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 6,
+      "firstSeen": "2026-09-01T04:33:27.000Z",
+      "lastSeen": "2026-09-10T18:43:57.000Z"
+    },
+    {
+      "payer": "0x584879b0daba04a7a1760312e318c59169e7aabf",
+      "settlements": 13,
+      "usdc": 0.7661,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8",
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 4,
+      "firstSeen": "2026-08-20T08:54:35.000Z",
+      "lastSeen": "2026-09-02T11:49:45.000Z"
+    },
+    {
+      "payer": "0xc059b9cd5b7421a28f9259adb4511418fd548b5e",
+      "settlements": 13,
+      "usdc": 0.106,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 8,
+      "firstSeen": "2026-08-24T09:01:53.000Z",
+      "lastSeen": "2026-09-11T17:27:55.000Z"
+    },
+    {
+      "payer": "0x9403cf26de8431bd6cf0fceb3691a9af623c6cb2",
+      "settlements": 13,
+      "usdc": 0.032,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-05T20:50:25.000Z",
+      "lastSeen": "2026-09-07T22:28:11.000Z"
+    },
+    {
+      "payer": "0x07fbca218b0a0a35244e0025a036fa85a6dc97dc",
+      "settlements": 12,
+      "usdc": 0.1085,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-19T07:33:53.000Z",
+      "lastSeen": "2026-08-20T20:21:53.000Z"
+    },
+    {
+      "payer": "0x945659f0eb9c34487b0c0f61ed7e9d279ace8f09",
+      "settlements": 12,
+      "usdc": 0.117,
+      "distinctSellers": 4,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 5,
+      "firstSeen": "2026-08-19T23:11:21.000Z",
+      "lastSeen": "2026-09-11T23:07:45.000Z"
+    },
+    {
+      "payer": "0x5975442e9608f71cea6e9b1f3841b5a045e0500d",
+      "settlements": 12,
+      "usdc": 0.122,
+      "distinctSellers": 4,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 6,
+      "firstSeen": "2026-08-22T19:48:13.000Z",
+      "lastSeen": "2026-09-04T19:41:21.000Z"
+    },
+    {
+      "payer": "0x46bdfd8256ceeb3325725cb3b81701c3e2e32ebd",
+      "settlements": 12,
+      "usdc": 0.096,
+      "distinctSellers": 4,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 8,
+      "firstSeen": "2026-08-23T15:49:01.000Z",
+      "lastSeen": "2026-09-11T21:49:29.000Z"
+    },
+    {
+      "payer": "0x01f90369170c917a2c0e9d26d54c6a3a400984d3",
+      "settlements": 12,
+      "usdc": 0.145,
+      "distinctSellers": 4,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 8,
+      "firstSeen": "2026-08-30T23:50:21.000Z",
+      "lastSeen": "2026-09-10T19:26:47.000Z"
+    },
+    {
+      "payer": "0x7c655d3d3944bd27994dd81a036c3afb19806c40",
+      "settlements": 12,
+      "usdc": 0.16,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea"
+      ],
+      "distinctDays": 3,
+      "firstSeen": "2026-08-31T06:54:35.000Z",
+      "lastSeen": "2026-09-11T12:46:07.000Z"
+    },
+    {
+      "payer": "0x2ebe788c488689795c3b61b38b9f0a209b2a89d3",
+      "settlements": 12,
+      "usdc": 0.097,
+      "distinctSellers": 6,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 3,
+      "firstSeen": "2026-09-10T20:30:35.000Z",
+      "lastSeen": "2026-09-14T01:51:37.000Z"
+    },
+    {
+      "payer": "0x5f00d6e68aae828dcbbf6e3855a069ce294e8914",
+      "settlements": 12,
+      "usdc": 0.04,
+      "distinctSellers": 2,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-13T14:28:49.000Z",
+      "lastSeen": "2026-09-13T15:38:43.000Z"
+    },
+    {
+      "payer": "0x84f18f5e7ea7b341c561bf13f7e56be3cd228e0f",
+      "settlements": 11,
+      "usdc": 0.0954,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8",
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 3,
+      "firstSeen": "2026-08-21T03:31:47.000Z",
+      "lastSeen": "2026-08-28T07:51:11.000Z"
+    },
+    {
+      "payer": "0x3a3f992d926da3272e681dc59d23ad63fa77f3a7",
+      "settlements": 11,
+      "usdc": 0.098,
+      "distinctSellers": 4,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 6,
+      "firstSeen": "2026-08-23T11:19:33.000Z",
+      "lastSeen": "2026-09-11T22:00:37.000Z"
+    },
+    {
+      "payer": "0xfadd19d17d74649e3d146dd6244e1a5ac2016c94",
+      "settlements": 11,
+      "usdc": 0.064,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8",
+        "0x5f7254f252ef9b9f92b6b4f2cf91205ed7a96c7a",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 9,
+      "firstSeen": "2026-08-25T03:05:11.000Z",
+      "lastSeen": "2026-09-06T00:15:45.000Z"
+    },
+    {
+      "payer": "0xb5e1de7fe053fd140482e6a27665969f2995df6e",
+      "settlements": 11,
+      "usdc": 0.33,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-11T05:32:09.000Z",
+      "lastSeen": "2026-09-11T09:45:33.000Z"
+    },
+    {
+      "payer": "0x749e3a3a743889bec27584c1c8212f4cf926b431",
+      "settlements": 11,
+      "usdc": 0.011128,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 3,
+      "firstSeen": "2026-09-13T09:46:03.000Z",
+      "lastSeen": "2026-09-15T05:22:53.000Z"
+    },
+    {
+      "payer": "0x7ceb03e87a25564395e0bbbc266b1f51bdb5afff",
+      "settlements": 10,
+      "usdc": 0.266,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 3,
+      "firstSeen": "2026-08-16T14:30:11.000Z",
+      "lastSeen": "2026-08-19T04:06:43.000Z"
+    },
+    {
+      "payer": "0x914c38fc1aec27912b90609ca82383630d64b5e4",
+      "settlements": 10,
+      "usdc": 0.0676,
+      "distinctSellers": 4,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 6,
+      "firstSeen": "2026-08-19T23:34:57.000Z",
+      "lastSeen": "2026-09-11T22:41:31.000Z"
+    },
+    {
+      "payer": "0x64dbe996e626260f21f5c4fad3c9ba209978c368",
+      "settlements": 10,
+      "usdc": 0.087,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 7,
+      "firstSeen": "2026-08-22T19:42:15.000Z",
+      "lastSeen": "2026-09-08T02:52:07.000Z"
+    },
+    {
+      "payer": "0xfb481951a0495aaff00f2a69cf5221407daf570f",
+      "settlements": 10,
+      "usdc": 0.2,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-24T06:29:11.000Z",
+      "lastSeen": "2026-08-24T06:35:51.000Z"
+    },
+    {
+      "payer": "0x40758b382b620d2bcb1e3e381e7812589ba21a86",
+      "settlements": 10,
+      "usdc": 0.062,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0x5f7254f252ef9b9f92b6b4f2cf91205ed7a96c7a"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-01T18:48:59.000Z",
+      "lastSeen": "2026-09-01T19:12:45.000Z"
+    },
+    {
+      "payer": "0x228440f8d5df8b2e29c37255b291599060894bfb",
+      "settlements": 10,
+      "usdc": 0.079,
+      "distinctSellers": 2,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-03T16:09:27.000Z",
+      "lastSeen": "2026-09-08T14:08:27.000Z"
+    },
+    {
+      "payer": "0x2533022cafa6505042e4928c9706f4728eef04a1",
+      "settlements": 9,
+      "usdc": 0.0496,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-19T21:20:17.000Z",
+      "lastSeen": "2026-08-21T17:59:09.000Z"
+    },
+    {
+      "payer": "0xd5791860ca10a6f39749fb499931c79c7c35071a",
+      "settlements": 9,
+      "usdc": 0.113,
+      "distinctSellers": 4,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 6,
+      "firstSeen": "2026-08-22T17:23:53.000Z",
+      "lastSeen": "2026-09-09T22:27:11.000Z"
+    },
+    {
+      "payer": "0x350ef06f11e87731476d567b3e5e5d865dcd6657",
+      "settlements": 9,
+      "usdc": 0.081,
+      "distinctSellers": 5,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 5,
+      "firstSeen": "2026-08-22T16:43:13.000Z",
+      "lastSeen": "2026-09-07T05:28:59.000Z"
+    },
+    {
+      "payer": "0xc7a277c1961e5ca07f1319a5369cb4ef9c98263e",
+      "settlements": 9,
+      "usdc": 0.029,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8",
+        "0x5f7254f252ef9b9f92b6b4f2cf91205ed7a96c7a",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 6,
+      "firstSeen": "2026-08-30T21:31:09.000Z",
+      "lastSeen": "2026-09-05T02:15:21.000Z"
+    },
+    {
+      "payer": "0xb13eb9a5a650d86a0f173f8300ba28d281e5a6ce",
+      "settlements": 9,
+      "usdc": 0.036,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 3,
+      "firstSeen": "2026-09-02T06:04:13.000Z",
+      "lastSeen": "2026-09-10T13:03:29.000Z"
+    },
+    {
+      "payer": "0x8f60b3838e6c121fcdbdbc50e7b150f8560a670e",
+      "settlements": 9,
+      "usdc": 0.0225,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-02T13:45:37.000Z",
+      "lastSeen": "2026-09-02T14:19:55.000Z"
+    },
+    {
+      "payer": "0x22da983d11ac1d70ecfbe84bdc06d70aceca5b4e",
+      "settlements": 9,
+      "usdc": 0.068,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-03T13:22:03.000Z",
+      "lastSeen": "2026-09-05T12:10:27.000Z"
+    },
+    {
+      "payer": "0x87494918f2975d95a0aa6e11ef907cb87a3dbc9c",
+      "settlements": 9,
+      "usdc": 0.145,
+      "distinctSellers": 2,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-06T18:45:53.000Z",
+      "lastSeen": "2026-09-10T23:29:03.000Z"
+    },
+    {
+      "payer": "0x2044b1d3265a634445a495ee41c46d865a382051",
+      "settlements": 8,
+      "usdc": 0.048,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-21T22:44:49.000Z",
+      "lastSeen": "2026-08-21T23:41:07.000Z"
+    },
+    {
+      "payer": "0x76e9be89a3be6c1bf581a1f4519cb82dca9c57b3",
+      "settlements": 8,
+      "usdc": 0.108,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 5,
+      "firstSeen": "2026-08-23T23:37:21.000Z",
+      "lastSeen": "2026-09-11T21:34:51.000Z"
+    },
+    {
+      "payer": "0xd1b1bc50bf91672e6cdf6405b0881963d89b2887",
+      "settlements": 8,
+      "usdc": 0.16,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 3,
+      "firstSeen": "2026-08-31T22:45:19.000Z",
+      "lastSeen": "2026-09-03T03:09:59.000Z"
+    },
+    {
+      "payer": "0x39b8fc64a6f4c495bb1ef26826578bab32732968",
+      "settlements": 8,
+      "usdc": 0.02,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-06T13:48:15.000Z",
+      "lastSeen": "2026-09-06T13:49:31.000Z"
+    },
+    {
+      "payer": "0x61fc36216c5b87c981ba9ebbdc34c8dc9d7c6dbb",
+      "settlements": 7,
+      "usdc": 0.029,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-17T15:00:09.000Z",
+      "lastSeen": "2026-08-17T15:00:23.000Z"
+    },
+    {
+      "payer": "0xa991e0e7b3277bad37290dad772945b21918d31d",
+      "settlements": 7,
+      "usdc": 0.035,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-31T21:34:59.000Z",
+      "lastSeen": "2026-09-01T01:29:55.000Z"
+    },
+    {
+      "payer": "0xe7203b52bd6a44accbc3a113a4468d161151a2c7",
+      "settlements": 7,
+      "usdc": 0.07,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-05T10:40:41.000Z",
+      "lastSeen": "2026-09-05T10:41:41.000Z"
+    },
+    {
+      "payer": "0x0874c798c9fa7f8f37d3519c2551849ba4f38210",
+      "settlements": 7,
+      "usdc": 0.19,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 4,
+      "firstSeen": "2026-09-07T10:11:23.000Z",
+      "lastSeen": "2026-09-10T14:26:09.000Z"
+    },
+    {
+      "payer": "0x732d8af93e496ffdb34df08f7e68cca0b7ac8129",
+      "settlements": 7,
+      "usdc": 0.125,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-08T18:54:51.000Z",
+      "lastSeen": "2026-09-09T21:05:47.000Z"
+    },
+    {
+      "payer": "0x384279b41dc9335e3421d5d7e49799878a2e1b42",
+      "settlements": 6,
+      "usdc": 0.06,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 3,
+      "firstSeen": "2026-08-17T05:01:07.000Z",
+      "lastSeen": "2026-08-31T05:01:17.000Z"
+    },
+    {
+      "payer": "0x9a07cea7ed111c93a233d1d12bbb68a511b59eea",
+      "settlements": 6,
+      "usdc": 0.072,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-18T10:32:35.000Z",
+      "lastSeen": "2026-08-18T13:03:27.000Z"
+    },
+    {
+      "payer": "0xfe2470540303e9211e9e4949e8486ae5b7b04aff",
+      "settlements": 6,
+      "usdc": 0.419,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-23T15:10:17.000Z",
+      "lastSeen": "2026-08-24T12:31:41.000Z"
+    },
+    {
+      "payer": "0x9ed1fdd10e2864d0ae7e8c6466e99c46f9f0c764",
+      "settlements": 6,
+      "usdc": 0.09,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-01T06:31:37.000Z",
+      "lastSeen": "2026-09-15T06:31:31.000Z"
+    },
+    {
+      "payer": "0x72c573fd7de6a3dec3035d48db938ebf733d159b",
+      "settlements": 6,
+      "usdc": 0.1574,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-08T22:29:11.000Z",
+      "lastSeen": "2026-09-11T22:00:55.000Z"
+    },
+    {
+      "payer": "0x3d54f4dabb741e83466bf74e82c6170515063c5c",
+      "settlements": 6,
+      "usdc": 0.089,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-09T08:13:43.000Z",
+      "lastSeen": "2026-09-09T08:22:11.000Z"
+    },
+    {
+      "payer": "0x72a2a313518e2f8e1369baaaf3edff38c859e9d5",
+      "settlements": 6,
+      "usdc": 0.54,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-09T08:47:27.000Z",
+      "lastSeen": "2026-09-09T09:01:51.000Z"
+    },
+    {
+      "payer": "0x99d5667c7528003d5c5cf063016266843daacf80",
+      "settlements": 6,
+      "usdc": 0.023,
+      "distinctSellers": 5,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-11T15:59:41.000Z",
+      "lastSeen": "2026-09-13T20:55:19.000Z"
+    },
+    {
+      "payer": "0x47ee566e9123b39f8ae16f2e8c85996eb2fdc6e8",
+      "settlements": 6,
+      "usdc": 0.3,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-14T20:27:11.000Z",
+      "lastSeen": "2026-09-14T20:29:13.000Z"
+    },
+    {
+      "payer": "0x854de845d3dc10208c97014fc43f5711ea17e61e",
+      "settlements": 5,
+      "usdc": 0.0236,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-16T10:48:09.000Z",
+      "lastSeen": "2026-08-16T10:48:17.000Z"
+    },
+    {
+      "payer": "0xf84380a401382bffa9a0c8790c43fe15ac8a4930",
+      "settlements": 5,
+      "usdc": 0.0065,
+      "distinctSellers": 4,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-17T01:08:01.000Z",
+      "lastSeen": "2026-08-23T20:33:41.000Z"
+    },
+    {
+      "payer": "0x9dd5e3a608ba321c5205688d66e11e81b67e08c2",
+      "settlements": 5,
+      "usdc": 0.06,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-18T00:42:21.000Z",
+      "lastSeen": "2026-08-18T12:26:45.000Z"
+    },
+    {
+      "payer": "0x7dd81398fac7de0bf843bfd874cbea68face17d2",
+      "settlements": 5,
+      "usdc": 0.02,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-18T16:37:19.000Z",
+      "lastSeen": "2026-08-18T17:38:15.000Z"
+    },
+    {
+      "payer": "0x843b544bf5f0aa6cbf13e94563874878c98cc4a7",
+      "settlements": 5,
+      "usdc": 0.023,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-18T21:36:55.000Z",
+      "lastSeen": "2026-09-09T14:18:57.000Z"
+    },
+    {
+      "payer": "0xeba857f54b18367b8d32d4dfe2f7667f37f97757",
+      "settlements": 5,
+      "usdc": 0.025,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-20T19:21:25.000Z",
+      "lastSeen": "2026-08-20T19:21:49.000Z"
+    },
+    {
+      "payer": "0xaf95b213f44f0177e3a82e2d959524dd1e2a1174",
+      "settlements": 5,
+      "usdc": 0.023,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-23T23:09:27.000Z",
+      "lastSeen": "2026-09-04T20:23:39.000Z"
+    },
+    {
+      "payer": "0x63e52807b0a4403698416ca4b615c488541deb10",
+      "settlements": 5,
+      "usdc": 0.015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-25T19:28:23.000Z",
+      "lastSeen": "2026-08-25T19:28:51.000Z"
+    },
+    {
+      "payer": "0x6937dd45e33b70757486daaf31208150c590c403",
+      "settlements": 5,
+      "usdc": 0.012,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 5,
+      "firstSeen": "2026-08-27T01:23:07.000Z",
+      "lastSeen": "2026-09-06T01:15:11.000Z"
+    },
+    {
+      "payer": "0x4f568bf0ce8537cbe7a0daf1a43c955e0a648db9",
+      "settlements": 5,
+      "usdc": 0.021,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-01T00:38:49.000Z",
+      "lastSeen": "2026-09-01T00:40:45.000Z"
+    },
+    {
+      "payer": "0xb76922c10b34984990b4711b399ebc9406823320",
+      "settlements": 5,
+      "usdc": 0.005,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-02T13:28:51.000Z",
+      "lastSeen": "2026-09-02T13:29:27.000Z"
+    },
+    {
+      "payer": "0x4807e95c982a9c63ec3ab9fc47aebff7b3879180",
+      "settlements": 5,
+      "usdc": 0.024,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-04T14:27:07.000Z",
+      "lastSeen": "2026-09-04T14:34:29.000Z"
+    },
+    {
+      "payer": "0x7ef12be65ed6ec9d8a89c414662e2ac471154ae2",
+      "settlements": 5,
+      "usdc": 0.075,
+      "distinctSellers": 5,
+      "sellers": [
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-06T04:45:03.000Z",
+      "lastSeen": "2026-09-11T00:37:41.000Z"
+    },
+    {
+      "payer": "0x8600a3ec0fccfe3dc5095753936c1f14a75adb4b",
+      "settlements": 5,
+      "usdc": 0.15,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-06T23:02:11.000Z",
+      "lastSeen": "2026-09-06T23:02:29.000Z"
+    },
+    {
+      "payer": "0x9f105dd1a03d4071c2944da92b8e5bb5e5795350",
+      "settlements": 5,
+      "usdc": 0.102,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-10T02:52:47.000Z",
+      "lastSeen": "2026-09-10T02:59:33.000Z"
+    },
+    {
+      "payer": "0xc93f84490fd4f0dbbb1899313d7facca7ce0e081",
+      "settlements": 5,
+      "usdc": 0.065,
+      "distinctSellers": 2,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-11T12:39:21.000Z",
+      "lastSeen": "2026-09-12T13:13:01.000Z"
+    },
+    {
+      "payer": "0x482dc10a8077dcfdac630baa54cb3b7247504654",
+      "settlements": 4,
+      "usdc": 0.00048,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x5f7254f252ef9b9f92b6b4f2cf91205ed7a96c7a"
+      ],
+      "distinctDays": 4,
+      "firstSeen": "2026-08-17T12:03:15.000Z",
+      "lastSeen": "2026-09-14T12:02:11.000Z"
+    },
+    {
+      "payer": "0x1162019cca10a6d71702f6ab8981bf443ddd1082",
+      "settlements": 4,
+      "usdc": 0.024,
+      "distinctSellers": 2,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-18T16:43:45.000Z",
+      "lastSeen": "2026-08-18T16:44:21.000Z"
+    },
+    {
+      "payer": "0x29713f42d00fb71d65a6b302a7882556a7d81916",
+      "settlements": 4,
+      "usdc": 0.02,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-25T11:19:53.000Z",
+      "lastSeen": "2026-08-25T11:37:29.000Z"
+    },
+    {
+      "payer": "0x426308b9bf37412b07f6c65607bbe8febec4b817",
+      "settlements": 4,
+      "usdc": 0.08,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-28T09:15:59.000Z",
+      "lastSeen": "2026-08-28T09:16:17.000Z"
+    },
+    {
+      "payer": "0x9a21a45a14d3bbee6a668255a92726582512f0c2",
+      "settlements": 4,
+      "usdc": 0.04,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-30T13:09:53.000Z",
+      "lastSeen": "2026-08-30T13:37:01.000Z"
+    },
+    {
+      "payer": "0xc88a654bb80978a680d090250313454a6846d0b1",
+      "settlements": 4,
+      "usdc": 0.02,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-04T11:42:47.000Z",
+      "lastSeen": "2026-09-04T17:20:03.000Z"
+    },
+    {
+      "payer": "0x6fd92e11df636847c783b381b740aa63d9f462b4",
+      "settlements": 4,
+      "usdc": 0.08,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-04T22:46:39.000Z",
+      "lastSeen": "2026-09-04T22:46:49.000Z"
+    },
+    {
+      "payer": "0x0d4d5e5eab1854ebe4a4c875a0e78c2be577555c",
+      "settlements": 4,
+      "usdc": 0.1847,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea"
+      ],
+      "distinctDays": 3,
+      "firstSeen": "2026-09-08T04:24:53.000Z",
+      "lastSeen": "2026-09-11T01:26:45.000Z"
+    },
+    {
+      "payer": "0xd3b5958e453ff9bb3f46fd2e60b24d916ed3a95f",
+      "settlements": 4,
+      "usdc": 0.065,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-09T20:42:13.000Z",
+      "lastSeen": "2026-09-10T23:12:29.000Z"
+    },
+    {
+      "payer": "0x813dc2fba0386c396df284229478d5b5fb33def7",
+      "settlements": 4,
+      "usdc": 0.065,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-11T16:52:33.000Z",
+      "lastSeen": "2026-09-11T19:39:17.000Z"
+    },
+    {
+      "payer": "0xa43774fd2e867fc45b782456d78f135a215d5561",
+      "settlements": 4,
+      "usdc": 0.016,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-12T08:35:31.000Z",
+      "lastSeen": "2026-09-12T18:05:59.000Z"
+    },
+    {
+      "payer": "0x9a6d8b123d72062b8d13c61c0892fbf2016c9715",
+      "settlements": 3,
+      "usdc": 0.0003,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-17T08:26:31.000Z",
+      "lastSeen": "2026-08-29T10:02:27.000Z"
+    },
+    {
+      "payer": "0x8b86f88a759804272dca46cafff8d3d6dd5a80ac",
+      "settlements": 3,
+      "usdc": 0.003,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-17T13:08:21.000Z",
+      "lastSeen": "2026-08-17T13:15:33.000Z"
+    },
+    {
+      "payer": "0x925ae9ba62caa70e45a8c5b23af7af81d12562ef",
+      "settlements": 3,
+      "usdc": 0.025,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-17T19:34:51.000Z",
+      "lastSeen": "2026-08-31T03:15:35.000Z"
+    },
+    {
+      "payer": "0xf0687d7720a7d981eeb3cdb811850f113c15258e",
+      "settlements": 3,
+      "usdc": 0.0003,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-18T03:37:51.000Z",
+      "lastSeen": "2026-09-01T09:03:31.000Z"
+    },
+    {
+      "payer": "0xeb3d1b27e74aaa4ecbc9dc80d795512806de515f",
+      "settlements": 3,
+      "usdc": 0.007,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4"
+      ],
+      "distinctDays": 3,
+      "firstSeen": "2026-08-18T07:01:07.000Z",
+      "lastSeen": "2026-09-10T07:00:15.000Z"
+    },
+    {
+      "payer": "0x2ab618106c67d956ea4f0fabb56c8037f2761a8d",
+      "settlements": 3,
+      "usdc": 0.0003,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-20T04:07:17.000Z",
+      "lastSeen": "2026-09-01T08:03:43.000Z"
+    },
+    {
+      "payer": "0xf9bb2eca00883a004e80f7a7b1b522613bf92d5d",
+      "settlements": 3,
+      "usdc": 0.026,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 3,
+      "firstSeen": "2026-08-21T06:20:43.000Z",
+      "lastSeen": "2026-08-25T06:26:31.000Z"
+    },
+    {
+      "payer": "0x5bcda55247b238a573a968b234f788a2d35664dd",
+      "settlements": 3,
+      "usdc": 0.011,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-21T08:06:13.000Z",
+      "lastSeen": "2026-08-21T08:07:05.000Z"
+    },
+    {
+      "payer": "0x144c078ec5043992891f3089ef7276b8cd22cfc7",
+      "settlements": 3,
+      "usdc": 0.007,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-21T19:19:21.000Z",
+      "lastSeen": "2026-08-23T19:29:01.000Z"
+    },
+    {
+      "payer": "0x79f896ff38691931fc2494610c106ad755e6f758",
+      "settlements": 3,
+      "usdc": 0.07,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-22T17:56:41.000Z",
+      "lastSeen": "2026-09-12T03:18:23.000Z"
+    },
+    {
+      "payer": "0x644678ad37833c0d52f0170f1f73a5e62bc3e6d5",
+      "settlements": 3,
+      "usdc": 0.0132,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-24T01:21:01.000Z",
+      "lastSeen": "2026-08-24T02:08:27.000Z"
+    },
+    {
+      "payer": "0x27d56235a0107d53a727449b063440e1a7abc09b",
+      "settlements": 3,
+      "usdc": 0.03,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-24T10:54:07.000Z",
+      "lastSeen": "2026-08-24T11:07:51.000Z"
+    },
+    {
+      "payer": "0xf9168d255cc2ba50a9707e127f673e97d04701e3",
+      "settlements": 3,
+      "usdc": 0.0102,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-26T06:58:15.000Z",
+      "lastSeen": "2026-09-11T23:27:35.000Z"
+    },
+    {
+      "payer": "0xf331600ab219c1ccea02527685da0c2fb58f194c",
+      "settlements": 3,
+      "usdc": 0.0225,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-27T21:16:09.000Z",
+      "lastSeen": "2026-09-11T12:11:47.000Z"
+    },
+    {
+      "payer": "0x9adbee672bc6b3ee802d92600141dddd86dd279c",
+      "settlements": 3,
+      "usdc": 0.29,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-29T06:33:25.000Z",
+      "lastSeen": "2026-08-29T06:43:37.000Z"
+    },
+    {
+      "payer": "0x836c20f537e56eeb8bda763519f17490488b2d37",
+      "settlements": 3,
+      "usdc": 0.03,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x5f7254f252ef9b9f92b6b4f2cf91205ed7a96c7a"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-30T04:04:41.000Z",
+      "lastSeen": "2026-08-30T09:56:27.000Z"
+    },
+    {
+      "payer": "0xf9eb7ceab43a5bab35001aeebdf4d4d66e22e9d0",
+      "settlements": 3,
+      "usdc": 0.0075,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 3,
+      "firstSeen": "2026-08-30T07:22:47.000Z",
+      "lastSeen": "2026-09-06T18:39:45.000Z"
+    },
+    {
+      "payer": "0x406416b4e39352830be0afe8731c29b223725ecd",
+      "settlements": 3,
+      "usdc": 0.015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-31T14:43:55.000Z",
+      "lastSeen": "2026-08-31T14:44:05.000Z"
+    },
+    {
+      "payer": "0x7b15daf454c7031cf59ea8b3c470f3d7e8579f0c",
+      "settlements": 3,
+      "usdc": 0.015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-01T04:56:47.000Z",
+      "lastSeen": "2026-09-03T17:06:51.000Z"
+    },
+    {
+      "payer": "0xe51dd0b1d52fd9f72dd42e7cc17bb773f244b06b",
+      "settlements": 3,
+      "usdc": 0.076,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-01T20:29:37.000Z",
+      "lastSeen": "2026-09-01T20:31:07.000Z"
+    },
+    {
+      "payer": "0x37faca44ce50802a8b1490802182894e848238a8",
+      "settlements": 3,
+      "usdc": 0.105,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-02T13:23:01.000Z",
+      "lastSeen": "2026-09-02T13:35:25.000Z"
+    },
+    {
+      "payer": "0x481de7b52268452d0a1ccf71f119839c76b51334",
+      "settlements": 3,
+      "usdc": 0.003,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-04T10:41:53.000Z",
+      "lastSeen": "2026-09-04T10:42:03.000Z"
+    },
+    {
+      "payer": "0xf968974c68d6fb06f408397ae59b41faa9871929",
+      "settlements": 3,
+      "usdc": 0.15,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-04T20:40:51.000Z",
+      "lastSeen": "2026-09-04T20:41:31.000Z"
+    },
+    {
+      "payer": "0x01c956c98b8e2938573affbf5897a6120d202816",
+      "settlements": 3,
+      "usdc": 0.052,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-06T06:29:33.000Z",
+      "lastSeen": "2026-09-06T19:57:23.000Z"
+    },
+    {
+      "payer": "0xf17a4eaa502674a910397e7e6147337db69d16e1",
+      "settlements": 3,
+      "usdc": 0.015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-06T12:14:01.000Z",
+      "lastSeen": "2026-09-06T12:32:49.000Z"
+    },
+    {
+      "payer": "0x039e80bf08c06586094e6cb05e2fc5f8ccf8266e",
+      "settlements": 3,
+      "usdc": 0.08,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 3,
+      "firstSeen": "2026-09-07T07:04:49.000Z",
+      "lastSeen": "2026-09-14T06:04:45.000Z"
+    },
+    {
+      "payer": "0xa19f621581dbc851a21d6179868111709a52accc",
+      "settlements": 3,
+      "usdc": 0.065,
+      "distinctSellers": 3,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-09T10:13:49.000Z",
+      "lastSeen": "2026-09-09T11:03:05.000Z"
+    },
+    {
+      "payer": "0xd86f5e4526f79bbc1bc5952cd86894b1bcdfb684",
+      "settlements": 3,
+      "usdc": 0.052,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-09T17:00:05.000Z",
+      "lastSeen": "2026-09-09T17:01:15.000Z"
+    },
+    {
+      "payer": "0x5e525b3cebcfc0fca20daa0e61c16a0a8daf5364",
+      "settlements": 3,
+      "usdc": 0.075,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-09T22:25:05.000Z",
+      "lastSeen": "2026-09-09T22:26:33.000Z"
+    },
+    {
+      "payer": "0x79ebde4b4582f6f81598ed97ec8cc1025c497d53",
+      "settlements": 3,
+      "usdc": 0.015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-10T07:41:57.000Z",
+      "lastSeen": "2026-09-10T15:40:23.000Z"
+    },
+    {
+      "payer": "0x705f6f660dee5e9ee4f2f339410ccb63360ed68d",
+      "settlements": 3,
+      "usdc": 0.015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-11T21:41:09.000Z",
+      "lastSeen": "2026-09-11T21:52:23.000Z"
+    },
+    {
+      "payer": "0x520dd1fb1feef59f35e6a88b54f64e49d9d858e8",
+      "settlements": 2,
+      "usdc": 0.002,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-16T17:47:25.000Z",
+      "lastSeen": "2026-08-22T10:21:01.000Z"
+    },
+    {
+      "payer": "0x5b5230958af4cc50f320ae9cbdd1a731a0542e8c",
+      "settlements": 2,
+      "usdc": 0.002,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-16T22:43:39.000Z",
+      "lastSeen": "2026-08-20T15:32:57.000Z"
+    },
+    {
+      "payer": "0x495140d260bb8a38ce3a9ad6ee4161313b2a321d",
+      "settlements": 2,
+      "usdc": 0.04,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-17T13:41:01.000Z",
+      "lastSeen": "2026-08-17T13:42:45.000Z"
+    },
+    {
+      "payer": "0x10921a2a2e3f8a427f2af1d494c92bf537bf46be",
+      "settlements": 2,
+      "usdc": 0.01,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-17T20:18:35.000Z",
+      "lastSeen": "2026-08-17T20:18:37.000Z"
+    },
+    {
+      "payer": "0x2d75c894765415d6bd17ad1a94a58e4a4d74c9ea",
+      "settlements": 2,
+      "usdc": 0.002,
+      "distinctSellers": 2,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-18T16:19:15.000Z",
+      "lastSeen": "2026-08-19T21:04:39.000Z"
+    },
+    {
+      "payer": "0x2960a4b12a0cf133c738bf8e768411152ef8e5b5",
+      "settlements": 2,
+      "usdc": 0.01,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-20T12:54:13.000Z",
+      "lastSeen": "2026-08-20T12:54:49.000Z"
+    },
+    {
+      "payer": "0xa54515859e36a5fceb1254fcafc1962deb14b1e3",
+      "settlements": 2,
+      "usdc": 0.002,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-20T17:29:07.000Z",
+      "lastSeen": "2026-08-20T17:29:13.000Z"
+    },
+    {
+      "payer": "0xe7d9a4ec7aec0e6952eaa4e82ce7c27460837a81",
+      "settlements": 2,
+      "usdc": 0.007,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-22T11:54:41.000Z",
+      "lastSeen": "2026-08-28T10:52:51.000Z"
+    },
+    {
+      "payer": "0x836bf3aa11df19caba652b3dbedc4277b29b2615",
+      "settlements": 2,
+      "usdc": 0.0003,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-23T04:05:57.000Z",
+      "lastSeen": "2026-08-24T06:45:57.000Z"
+    },
+    {
+      "payer": "0x03caf5a4c53e4aa98acfa2ff46ccd04c69d155f3",
+      "settlements": 2,
+      "usdc": 0.004,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-26T02:27:25.000Z",
+      "lastSeen": "2026-08-28T02:20:09.000Z"
+    },
+    {
+      "payer": "0xc3dd3dee328831fe12f259fa20725c2ce312bf3d",
+      "settlements": 2,
+      "usdc": 0.002,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-26T14:33:51.000Z",
+      "lastSeen": "2026-09-01T10:42:37.000Z"
+    },
+    {
+      "payer": "0x2a3770e744aaf78fe499399e0c082fe25480b949",
+      "settlements": 2,
+      "usdc": 0.06,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-26T18:04:11.000Z",
+      "lastSeen": "2026-08-26T18:12:07.000Z"
+    },
+    {
+      "payer": "0x839ec926163945ca5d5031dc38c80e540683a5e6",
+      "settlements": 2,
+      "usdc": 0.018,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-26T22:40:53.000Z",
+      "lastSeen": "2026-08-26T22:42:45.000Z"
+    },
+    {
+      "payer": "0xf5d02904261cc513126ae30b7f8ca0184bda0364",
+      "settlements": 2,
+      "usdc": 0.002,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-28T11:17:27.000Z",
+      "lastSeen": "2026-08-28T11:21:47.000Z"
+    },
+    {
+      "payer": "0x3bda0c274a055abe0a17b0cbb96bc482c60de2d6",
+      "settlements": 2,
+      "usdc": 0.00015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-28T15:13:55.000Z",
+      "lastSeen": "2026-08-28T17:03:47.000Z"
+    },
+    {
+      "payer": "0x24e6a249111ae0cc8ea09f487a114f7e7ef15e12",
+      "settlements": 2,
+      "usdc": 0.002,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-28T20:03:39.000Z",
+      "lastSeen": "2026-09-14T13:39:39.000Z"
+    },
+    {
+      "payer": "0x43ae41c2879c4d35f15609bde67dfed194ad1253",
+      "settlements": 2,
+      "usdc": 0.01,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-31T18:37:01.000Z",
+      "lastSeen": "2026-09-02T17:54:09.000Z"
+    },
+    {
+      "payer": "0xf4972163ac415b7c90376bf08f74f5df63492fb0",
+      "settlements": 2,
+      "usdc": 0.01,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-31T23:41:35.000Z",
+      "lastSeen": "2026-08-31T23:43:29.000Z"
+    },
+    {
+      "payer": "0x7e6b6556322c4e26c567a867964ac793f5ee2b1c",
+      "settlements": 2,
+      "usdc": 0.031,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-08-31T20:00:41.000Z",
+      "lastSeen": "2026-09-08T09:01:09.000Z"
+    },
+    {
+      "payer": "0x546673d69f5caca9e68f665c7313a427538a7a0c",
+      "settlements": 2,
+      "usdc": 0.0125,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-02T01:45:13.000Z",
+      "lastSeen": "2026-09-07T22:32:19.000Z"
+    },
+    {
+      "payer": "0x8c6bb96ed53b8e9108ea5b443b3a2d12b19d36fb",
+      "settlements": 2,
+      "usdc": 0.004,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-02T17:18:57.000Z",
+      "lastSeen": "2026-09-02T17:25:01.000Z"
+    },
+    {
+      "payer": "0xa5bc082bb5c7f39bc1a29aefb399ddcd527af288",
+      "settlements": 2,
+      "usdc": 0.021,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-02T18:28:09.000Z",
+      "lastSeen": "2026-09-02T18:32:17.000Z"
+    },
+    {
+      "payer": "0xf57fc601ec32dc7feab6b838d14af10faae6d495",
+      "settlements": 2,
+      "usdc": 0.0055,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-05T20:36:45.000Z",
+      "lastSeen": "2026-09-10T04:18:23.000Z"
+    },
+    {
+      "payer": "0x4ddd7b4a6a1cb82852195fe0bc41e9c62d514354",
+      "settlements": 2,
+      "usdc": 0.0245,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-05T15:48:53.000Z",
+      "lastSeen": "2026-09-08T20:10:27.000Z"
+    },
+    {
+      "payer": "0x01aa479a6d4c3a5a2ac3eac5a3890f2f52121463",
+      "settlements": 2,
+      "usdc": 0.0055,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-05T23:36:57.000Z",
+      "lastSeen": "2026-09-08T08:34:19.000Z"
+    },
+    {
+      "payer": "0xc3027b6f3dcc41188727e85e6dc78a41c13dafb8",
+      "settlements": 2,
+      "usdc": 0.0245,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-06T07:24:07.000Z",
+      "lastSeen": "2026-09-13T06:57:45.000Z"
+    },
+    {
+      "payer": "0x2971a2d9cbd886c7a4b8dccb8f78896884dc8345",
+      "settlements": 2,
+      "usdc": 0.0055,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-07T09:48:39.000Z",
+      "lastSeen": "2026-09-08T22:36:29.000Z"
+    },
+    {
+      "payer": "0x1e3aa1aa619079630e97babf003c0134b4fe9891",
+      "settlements": 2,
+      "usdc": 0.002,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-07T11:42:57.000Z",
+      "lastSeen": "2026-09-07T16:55:55.000Z"
+    },
+    {
+      "payer": "0x59e8877f00e5171d9871f55ba83cf008dfeba801",
+      "settlements": 2,
+      "usdc": 0.0095,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-07T13:17:17.000Z",
+      "lastSeen": "2026-09-08T10:49:45.000Z"
+    },
+    {
+      "payer": "0x9045e4be2d0f9ed128eaac650bb44a4439377f56",
+      "settlements": 2,
+      "usdc": 0.0145,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-07T17:26:25.000Z",
+      "lastSeen": "2026-09-11T16:09:59.000Z"
+    },
+    {
+      "payer": "0xaf159e190de067515c70fc006e4345e232de5c4a",
+      "settlements": 2,
+      "usdc": 0.0145,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-07T20:03:21.000Z",
+      "lastSeen": "2026-09-14T00:55:03.000Z"
+    },
+    {
+      "payer": "0x1a34c6e7687ab586fe2b77b8c54bd2ed055451d0",
+      "settlements": 2,
+      "usdc": 0.002,
+      "distinctSellers": 2,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-07T21:25:41.000Z",
+      "lastSeen": "2026-09-08T22:58:07.000Z"
+    },
+    {
+      "payer": "0xa9f985b22d9f76a89dedce26cf9cc4bf39bf34a8",
+      "settlements": 2,
+      "usdc": 0.0145,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-08T00:57:49.000Z",
+      "lastSeen": "2026-09-13T11:23:31.000Z"
+    },
+    {
+      "payer": "0x970594d0d870567376f237bb94183a78d0ca8ee6",
+      "settlements": 2,
+      "usdc": 0.02,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-07T18:18:43.000Z",
+      "lastSeen": "2026-09-07T18:19:09.000Z"
+    },
+    {
+      "payer": "0xc58bb475ceeb02ed4dd8cee27e69e0e6db76777c",
+      "settlements": 2,
+      "usdc": 0.0145,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-08T06:08:45.000Z",
+      "lastSeen": "2026-09-08T20:30:59.000Z"
+    },
+    {
+      "payer": "0xf04ea4b3807221195910b93bd4b296051d017c0a",
+      "settlements": 2,
+      "usdc": 0.0145,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-08T07:32:17.000Z",
+      "lastSeen": "2026-09-08T15:26:11.000Z"
+    },
+    {
+      "payer": "0x25b832be84d7923fba1fab0393eccec1590c8114",
+      "settlements": 2,
+      "usdc": 0.0145,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-08T09:36:27.000Z",
+      "lastSeen": "2026-09-08T17:53:11.000Z"
+    },
+    {
+      "payer": "0x4821c2b368ea2b59148250b5a62648a0b3b6e7f8",
+      "settlements": 2,
+      "usdc": 0.0145,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-08T11:30:57.000Z",
+      "lastSeen": "2026-09-14T22:17:43.000Z"
+    },
+    {
+      "payer": "0x99ffdbb7fbe7217176fb92b2c2e3d01cf1fcac0a",
+      "settlements": 2,
+      "usdc": 0.0145,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-08T03:02:47.000Z",
+      "lastSeen": "2026-09-09T01:02:49.000Z"
+    },
+    {
+      "payer": "0x3a024d944625fda2de5a5be8146e75270d1d3c35",
+      "settlements": 2,
+      "usdc": 0.0145,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-08T13:14:33.000Z",
+      "lastSeen": "2026-09-09T00:41:51.000Z"
+    },
+    {
+      "payer": "0x2b785a40446dc650717d6ef97e18d171f5d57cd5",
+      "settlements": 2,
+      "usdc": 0.002,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-08T14:37:33.000Z",
+      "lastSeen": "2026-09-08T15:37:19.000Z"
+    },
+    {
+      "payer": "0x34f8878ae60edd48f0d6ce500654c407b7d6dd53",
+      "settlements": 2,
+      "usdc": 0.0145,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-08T18:18:09.000Z",
+      "lastSeen": "2026-09-12T04:36:33.000Z"
+    },
+    {
+      "payer": "0x98b9d747db64cae7208c3df6c94d2412519eac6f",
+      "settlements": 2,
+      "usdc": 0.02,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-08T16:55:29.000Z",
+      "lastSeen": "2026-09-08T16:55:57.000Z"
+    },
+    {
+      "payer": "0xdc6f48d89482493fba334a3a76c64bb040551d43",
+      "settlements": 2,
+      "usdc": 0.04,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-08T23:29:27.000Z",
+      "lastSeen": "2026-09-08T23:29:39.000Z"
+    },
+    {
+      "payer": "0x75480fd29a66c65c7f1215b42e5ace122540901c",
+      "settlements": 2,
+      "usdc": 0.0145,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 2,
+      "firstSeen": "2026-09-08T05:06:29.000Z",
+      "lastSeen": "2026-09-11T10:19:31.000Z"
+    },
+    {
+      "payer": "0x94aa52201cb118d7158f95cd8dcb7f02a38a02be",
+      "settlements": 2,
+      "usdc": 0.0035,
+      "distinctSellers": 2,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-09T07:59:21.000Z",
+      "lastSeen": "2026-09-09T09:35:41.000Z"
+    },
+    {
+      "payer": "0x35d067d337dd3f7e2bbb4367bed467dcfae1e1fb",
+      "settlements": 2,
+      "usdc": 0.05,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-09T08:22:21.000Z",
+      "lastSeen": "2026-09-09T08:35:23.000Z"
+    },
+    {
+      "payer": "0x75c4e613d07b9ec4b63f5b781d9ad2b74c456720",
+      "settlements": 2,
+      "usdc": 0.05,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-09T16:57:43.000Z",
+      "lastSeen": "2026-09-09T16:57:51.000Z"
+    },
+    {
+      "payer": "0x5fa5aa08b8c5e0d8197c2bb9f4967eb75811b5a7",
+      "settlements": 2,
+      "usdc": 0.05,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-09T15:43:01.000Z",
+      "lastSeen": "2026-09-09T15:46:09.000Z"
+    },
+    {
+      "payer": "0xb02a1eca259861dca10e0f383361cbe7d5d364fc",
+      "settlements": 2,
+      "usdc": 0.18,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-09T23:20:51.000Z",
+      "lastSeen": "2026-09-09T23:21:49.000Z"
+    },
+    {
+      "payer": "0xa7cd34b0f3aa3fc9c4e2368b49196dec862f3640",
+      "settlements": 2,
+      "usdc": 0.02,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-11T02:13:31.000Z",
+      "lastSeen": "2026-09-11T02:13:45.000Z"
+    },
+    {
+      "payer": "0xe51af854409af3dbeb4811ebbf59504e80e583c1",
+      "settlements": 2,
+      "usdc": 0.01,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-11T18:45:45.000Z",
+      "lastSeen": "2026-09-11T18:45:47.000Z"
+    },
+    {
+      "payer": "0xb1856e2bb46b0c1771392b7ad19f797f3f9f3e1d",
+      "settlements": 2,
+      "usdc": 0.13,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-11T19:21:29.000Z",
+      "lastSeen": "2026-09-11T19:23:41.000Z"
+    },
+    {
+      "payer": "0xb1d7a9eb9c059119f582160f572300706c00ef7f",
+      "settlements": 2,
+      "usdc": 1.2,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-14T08:47:01.000Z",
+      "lastSeen": "2026-09-14T08:47:35.000Z"
+    },
+    {
+      "payer": "0xbffc1f6d4613458c3054bcb42591f11dececaaf9",
+      "settlements": 2,
+      "usdc": 0.2,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-14T15:51:17.000Z",
+      "lastSeen": "2026-09-14T15:53:41.000Z"
+    },
+    {
+      "payer": "0x9bad027fa30d6acb4711ce44fc05d776b01db0c3",
+      "settlements": 1,
+      "usdc": 0.00015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-16T07:47:59.000Z",
+      "lastSeen": "2026-08-16T07:47:59.000Z"
+    },
+    {
+      "payer": "0x9bacfbdd8e5de6a0110db2dc22137da54bd2b0c3",
+      "settlements": 1,
+      "usdc": 0.000023,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-16T07:49:15.000Z",
+      "lastSeen": "2026-08-16T07:49:15.000Z"
+    },
+    {
+      "payer": "0xf945ec82e6e94132c535a8897f35adbabf04bac5",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-16T21:26:35.000Z",
+      "lastSeen": "2026-08-16T21:26:35.000Z"
+    },
+    {
+      "payer": "0x4550ed6c95b5ddcbc384e135e5d542f15b28f8b3",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-16T23:06:53.000Z",
+      "lastSeen": "2026-08-16T23:06:53.000Z"
+    },
+    {
+      "payer": "0x4df34ec73aae8bfa5efcbb429b72d90150b9f81f",
+      "settlements": 1,
+      "usdc": 0.015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-17T07:47:41.000Z",
+      "lastSeen": "2026-08-17T07:47:41.000Z"
+    },
+    {
+      "payer": "0x9a6de37554eabdb4f03c4af4afc905bac46d9715",
+      "settlements": 1,
+      "usdc": 0.000023,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-17T08:24:05.000Z",
+      "lastSeen": "2026-08-17T08:24:05.000Z"
+    },
+    {
+      "payer": "0xa3195fcd5d9a228c4d020870a0a7f48367220c52",
+      "settlements": 1,
+      "usdc": 0.02,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-17T10:20:37.000Z",
+      "lastSeen": "2026-08-17T10:20:37.000Z"
+    },
+    {
+      "payer": "0x37067a223993884429c6e46413eacc8ac5763a9c",
+      "settlements": 1,
+      "usdc": 0.002,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-17T14:16:49.000Z",
+      "lastSeen": "2026-08-17T14:16:49.000Z"
+    },
+    {
+      "payer": "0x5e93dd09c7fa6f23f096309f2e0f815073db9288",
+      "settlements": 1,
+      "usdc": 0.02,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-17T14:28:45.000Z",
+      "lastSeen": "2026-08-17T14:28:45.000Z"
+    },
+    {
+      "payer": "0xe03ce3a34913f1a2245854fca79e4fbba789e10c",
+      "settlements": 1,
+      "usdc": 0.006,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-17T14:32:29.000Z",
+      "lastSeen": "2026-08-17T14:32:29.000Z"
+    },
+    {
+      "payer": "0xdba99bc472ed045d6facc3c29be97c66c15dfe87",
+      "settlements": 1,
+      "usdc": 0.005,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-17T16:43:29.000Z",
+      "lastSeen": "2026-08-17T16:43:29.000Z"
+    },
+    {
+      "payer": "0x17d5b4177a66eb11fe7fdce6c12b06bc2c6a34cc",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-18T00:43:45.000Z",
+      "lastSeen": "2026-08-18T00:43:45.000Z"
+    },
+    {
+      "payer": "0xc6827f6e0c58adaf63c3ef0c921e80edb29a4212",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-18T01:05:29.000Z",
+      "lastSeen": "2026-08-18T01:05:29.000Z"
+    },
+    {
+      "payer": "0xf06828279bcf55e13c7abd5cde394e2b21d4258e",
+      "settlements": 1,
+      "usdc": 0.000024,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-18T03:40:37.000Z",
+      "lastSeen": "2026-08-18T03:40:37.000Z"
+    },
+    {
+      "payer": "0xeb7682b32ca3693c6586eeb176e749261df08222",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-18T13:14:21.000Z",
+      "lastSeen": "2026-08-18T13:14:21.000Z"
+    },
+    {
+      "payer": "0x7781722fd02080078288dab78df580a9c897f8f6",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-18T14:11:13.000Z",
+      "lastSeen": "2026-08-18T14:11:13.000Z"
+    },
+    {
+      "payer": "0x0a3cd0183b4a6396c900d3ef9d522c84be0c13e8",
+      "settlements": 1,
+      "usdc": 0.01,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-19T10:38:25.000Z",
+      "lastSeen": "2026-08-19T10:38:25.000Z"
+    },
+    {
+      "payer": "0xe16570300a94c7845743d10054e23c64f2b3a2f9",
+      "settlements": 1,
+      "usdc": 0.02,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-19T21:04:25.000Z",
+      "lastSeen": "2026-08-19T21:04:25.000Z"
+    },
+    {
+      "payer": "0xc7e22d02c6fc035dab7751a64834791034b96954",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-19T22:57:27.000Z",
+      "lastSeen": "2026-08-19T22:57:27.000Z"
+    },
+    {
+      "payer": "0xd505b382e9beb3cdf34361982d29e5e817c829af",
+      "settlements": 1,
+      "usdc": 0.00015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-20T02:47:17.000Z",
+      "lastSeen": "2026-08-20T02:47:17.000Z"
+    },
+    {
+      "payer": "0x0ac3aacf3d0bc68e287c582b8e4aa814abcc11f5",
+      "settlements": 1,
+      "usdc": 0.00015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-20T02:57:39.000Z",
+      "lastSeen": "2026-08-20T02:57:39.000Z"
+    },
+    {
+      "payer": "0x2abc064c9e90aba49380c60b6ca512d12d311a8d",
+      "settlements": 1,
+      "usdc": 0.000023,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-20T04:15:31.000Z",
+      "lastSeen": "2026-08-20T04:15:31.000Z"
+    },
+    {
+      "payer": "0xf617eb3cf39e2a584a999b2e559e5653cbc61640",
+      "settlements": 1,
+      "usdc": 0.045,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-20T05:23:13.000Z",
+      "lastSeen": "2026-08-20T05:23:13.000Z"
+    },
+    {
+      "payer": "0x8cac04d3e2cb3d30e0de255b190b58be1d762d15",
+      "settlements": 1,
+      "usdc": 0.00015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-20T06:07:29.000Z",
+      "lastSeen": "2026-08-20T06:07:29.000Z"
+    },
+    {
+      "payer": "0xb957cd220b8120c192fe4b3874ccc50e62f9d81a",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-20T14:55:23.000Z",
+      "lastSeen": "2026-08-20T14:55:23.000Z"
+    },
+    {
+      "payer": "0x358b125e46b3d6e252ffc116589e3739595741c6",
+      "settlements": 1,
+      "usdc": 0.003,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-20T16:31:33.000Z",
+      "lastSeen": "2026-08-20T16:31:33.000Z"
+    },
+    {
+      "payer": "0xd0ec64acc83ba142ae74469caf04842dd2a44834",
+      "settlements": 1,
+      "usdc": 0.0027,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-21T13:36:01.000Z",
+      "lastSeen": "2026-08-21T13:36:01.000Z"
+    },
+    {
+      "payer": "0x2b5ca59fe3204302120cba2c3c8f7a5e5d16fe2a",
+      "settlements": 1,
+      "usdc": 0.00015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-22T03:28:09.000Z",
+      "lastSeen": "2026-08-22T03:28:09.000Z"
+    },
+    {
+      "payer": "0x2e46c1d42b484669d3cfbc4ced9e003f92fafb62",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-22T10:47:45.000Z",
+      "lastSeen": "2026-08-22T10:47:45.000Z"
+    },
+    {
+      "payer": "0x8f8db8429b41702c58b140cfc3b40884b8338d90",
+      "settlements": 1,
+      "usdc": 0.01,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-23T07:01:51.000Z",
+      "lastSeen": "2026-08-23T07:01:51.000Z"
+    },
+    {
+      "payer": "0x1386c9106c22375b8530f86cdd996f721512a229",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-23T12:01:35.000Z",
+      "lastSeen": "2026-08-23T12:01:35.000Z"
+    },
+    {
+      "payer": "0xe1f811eca59d9996ff073311711264b4d1310b35",
+      "settlements": 1,
+      "usdc": 0.015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-23T13:53:07.000Z",
+      "lastSeen": "2026-08-23T13:53:07.000Z"
+    },
+    {
+      "payer": "0xae539098d5b7fac564469b1cf1ecc450966301e0",
+      "settlements": 1,
+      "usdc": 0.005,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-23T15:42:59.000Z",
+      "lastSeen": "2026-08-23T15:42:59.000Z"
+    },
+    {
+      "payer": "0x8362d8357a7ec8970b52f0a3f0a08de80b2b2615",
+      "settlements": 1,
+      "usdc": 0.00001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-23T04:08:35.000Z",
+      "lastSeen": "2026-08-23T04:08:35.000Z"
+    },
+    {
+      "payer": "0xd24efae646bfc3df2395d994533fd13097c898af",
+      "settlements": 1,
+      "usdc": 0.005,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-24T07:45:33.000Z",
+      "lastSeen": "2026-08-24T07:45:33.000Z"
+    },
+    {
+      "payer": "0x2b995918d06b92ac7766d1e5d3519533015a41a4",
+      "settlements": 1,
+      "usdc": 0.00015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-24T05:02:21.000Z",
+      "lastSeen": "2026-08-24T05:02:21.000Z"
+    },
+    {
+      "payer": "0x6433cd9b2b712b496e3e243020527dbc38df02fd",
+      "settlements": 1,
+      "usdc": 0.00015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-24T05:47:19.000Z",
+      "lastSeen": "2026-08-24T05:47:19.000Z"
+    },
+    {
+      "payer": "0xe4d1c89373668bb683096f1145e66d8d7cc3bed7",
+      "settlements": 1,
+      "usdc": 0.0025,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-24T13:17:25.000Z",
+      "lastSeen": "2026-08-24T13:17:25.000Z"
+    },
+    {
+      "payer": "0x59c6eda8d869a11ba5d5252491ee3ea70969a068",
+      "settlements": 1,
+      "usdc": 0.01,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-24T18:25:09.000Z",
+      "lastSeen": "2026-08-24T18:25:09.000Z"
+    },
+    {
+      "payer": "0xbcd4a5a660ff14c310ebfb44104f8b503100e7a7",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-24T22:18:23.000Z",
+      "lastSeen": "2026-08-24T22:18:23.000Z"
+    },
+    {
+      "payer": "0x350c203c85b192c4a0417f2b08977dbb12c787f0",
+      "settlements": 1,
+      "usdc": 0.0025,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-25T00:21:17.000Z",
+      "lastSeen": "2026-08-25T00:21:17.000Z"
+    },
+    {
+      "payer": "0xff9f7de857e0b0fab169864212b60fed45140e32",
+      "settlements": 1,
+      "usdc": 0.00015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-25T04:30:05.000Z",
+      "lastSeen": "2026-08-25T04:30:05.000Z"
+    },
+    {
+      "payer": "0x6459b89981ac361e2ddfa28745eb6266dc648599",
+      "settlements": 1,
+      "usdc": 0.000023,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-25T07:03:59.000Z",
+      "lastSeen": "2026-08-25T07:03:59.000Z"
+    },
+    {
+      "payer": "0x6452519cad26bf618d15cd65f9605c7ee8318599",
+      "settlements": 1,
+      "usdc": 0.00015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-25T07:05:29.000Z",
+      "lastSeen": "2026-08-25T07:05:29.000Z"
+    },
+    {
+      "payer": "0x57d385c071d2a1a630d3c286cd72a19a2784cb39",
+      "settlements": 1,
+      "usdc": 0.00015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-25T09:55:59.000Z",
+      "lastSeen": "2026-08-25T09:55:59.000Z"
+    },
+    {
+      "payer": "0x2a0647e359ec4e89e35fc1f0a8a704f5b6c75ac0",
+      "settlements": 1,
+      "usdc": 0.003,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-25T11:38:33.000Z",
+      "lastSeen": "2026-08-25T11:38:33.000Z"
+    },
+    {
+      "payer": "0x941bb473287b307ba7d2e17cdb6c5009489057aa",
+      "settlements": 1,
+      "usdc": 0.00015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-25T07:51:31.000Z",
+      "lastSeen": "2026-08-25T07:51:31.000Z"
+    },
+    {
+      "payer": "0xaa31a09fcd959711ea1a1cf9ab17cbb1af7f3621",
+      "settlements": 1,
+      "usdc": 0.02,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-26T02:29:29.000Z",
+      "lastSeen": "2026-08-26T02:29:29.000Z"
+    },
+    {
+      "payer": "0x9f5a5784d272c09195ced73d6512faa34cd1a36d",
+      "settlements": 1,
+      "usdc": 0.0025,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-26T07:22:13.000Z",
+      "lastSeen": "2026-08-26T07:22:13.000Z"
+    },
+    {
+      "payer": "0xaeda0fe81aa6bac7c485661bf2241449b72b5094",
+      "settlements": 1,
+      "usdc": 0.005,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-26T09:09:25.000Z",
+      "lastSeen": "2026-08-26T09:09:25.000Z"
+    },
+    {
+      "payer": "0xbd62583d71ed52f89f8a6798a49052f5a8732497",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-26T22:43:19.000Z",
+      "lastSeen": "2026-08-26T22:43:19.000Z"
+    },
+    {
+      "payer": "0x46018879502cf2bc6857776c13128dbd7dfa2127",
+      "settlements": 1,
+      "usdc": 0.00015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-27T06:19:43.000Z",
+      "lastSeen": "2026-08-27T06:19:43.000Z"
+    },
+    {
+      "payer": "0x71228b285b67b357f131451cebe8754a8d97004d",
+      "settlements": 1,
+      "usdc": 0.00015,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-27T07:37:31.000Z",
+      "lastSeen": "2026-08-27T07:37:31.000Z"
+    },
+    {
+      "payer": "0x63face02ec7c6985c85dc455e76245c962dde7e6",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-27T14:45:09.000Z",
+      "lastSeen": "2026-08-27T14:45:09.000Z"
+    },
+    {
+      "payer": "0x14e0f0bfbb205addb3627302cbe51a46dff9dd66",
+      "settlements": 1,
+      "usdc": 0.0025,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-28T15:23:53.000Z",
+      "lastSeen": "2026-08-28T15:23:53.000Z"
+    },
+    {
+      "payer": "0x2d43136ffbbbe0ed5cbaab2e8b2b8c968059114c",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-28T16:58:29.000Z",
+      "lastSeen": "2026-08-28T16:58:29.000Z"
+    },
+    {
+      "payer": "0xce3c6e20aab568dfe60ed99fabd82770c49fcaf9",
+      "settlements": 1,
+      "usdc": 0.005,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-29T13:42:29.000Z",
+      "lastSeen": "2026-08-29T13:42:29.000Z"
+    },
+    {
+      "payer": "0xa831042b5b4448e7da41ac4c14d4282b606a09fa",
+      "settlements": 1,
+      "usdc": 0.005,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-29T16:44:43.000Z",
+      "lastSeen": "2026-08-29T16:44:43.000Z"
+    },
+    {
+      "payer": "0x66d60de3f7112787add464be32d97c9b4601b0de",
+      "settlements": 1,
+      "usdc": 0.005,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-29T16:51:25.000Z",
+      "lastSeen": "2026-08-29T16:51:25.000Z"
+    },
+    {
+      "payer": "0xb3a4b4f7767dc3444c99c039be3b39a080eb21f7",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-29T21:45:15.000Z",
+      "lastSeen": "2026-08-29T21:45:15.000Z"
+    },
+    {
+      "payer": "0xcc00b04910ae7a67bc0e0eda5f121af70568d003",
+      "settlements": 1,
+      "usdc": 0.02,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-29T22:16:57.000Z",
+      "lastSeen": "2026-08-29T22:16:57.000Z"
+    },
+    {
+      "payer": "0x9ca0321249cb96175639855e68769b79314b802e",
+      "settlements": 1,
+      "usdc": 0.01,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-30T21:54:57.000Z",
+      "lastSeen": "2026-08-30T21:54:57.000Z"
+    },
+    {
+      "payer": "0xc1062b7c5dc8e4b1df9f200fe360cdc0ed6e7741",
+      "settlements": 1,
+      "usdc": 3.022516,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-31T01:16:17.000Z",
+      "lastSeen": "2026-08-31T01:16:17.000Z"
+    },
+    {
+      "payer": "0xa18968cc31232724f1dbd0d1e8d0b323d89f3501",
+      "settlements": 1,
+      "usdc": 10.047364,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-31T01:24:25.000Z",
+      "lastSeen": "2026-08-31T01:24:25.000Z"
+    },
+    {
+      "payer": "0xc4a30220296e967fad47689d2a29b3efaea28060",
+      "settlements": 1,
+      "usdc": 0.2,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-08-31T19:27:29.000Z",
+      "lastSeen": "2026-08-31T19:27:29.000Z"
+    },
+    {
+      "payer": "0x05fdaf598d420e7caf649928c1893764ddf8a7d6",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-01T03:02:23.000Z",
+      "lastSeen": "2026-09-01T03:02:23.000Z"
+    },
+    {
+      "payer": "0xd519a8b747a1910ac317d185a422da3d68564b0c",
+      "settlements": 1,
+      "usdc": 0.003,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-01T03:48:25.000Z",
+      "lastSeen": "2026-09-01T03:48:25.000Z"
+    },
+    {
+      "payer": "0x33444e1742767d42a1475a8ab4fdb8cac057993c",
+      "settlements": 1,
+      "usdc": 0.00009,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-01T04:34:27.000Z",
+      "lastSeen": "2026-09-01T04:34:27.000Z"
+    },
+    {
+      "payer": "0xf5cfac3b72aee5088ea9e2ff69def8db843aa03b",
+      "settlements": 1,
+      "usdc": 0.00009,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-01T06:17:33.000Z",
+      "lastSeen": "2026-09-01T06:17:33.000Z"
+    },
+    {
+      "payer": "0xf5c58444f6aae02694723b943d85dc254b7aa03b",
+      "settlements": 1,
+      "usdc": 0.000023,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-01T06:18:55.000Z",
+      "lastSeen": "2026-09-01T06:18:55.000Z"
+    },
+    {
+      "payer": "0x7acaf38c920b157a403d6221c046010328aa245b",
+      "settlements": 1,
+      "usdc": 0.0036,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-01T17:54:35.000Z",
+      "lastSeen": "2026-09-01T17:54:35.000Z"
+    },
+    {
+      "payer": "0xc0cfeba84e11dcf437a3aecfcecb65dd367e1187",
+      "settlements": 1,
+      "usdc": 0.02,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-01T18:37:35.000Z",
+      "lastSeen": "2026-09-01T18:37:35.000Z"
+    },
+    {
+      "payer": "0x9c33b33bc3d2b8e8a1e60bda68afab7d7cf1b5f9",
+      "settlements": 1,
+      "usdc": 0.0045,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-02T04:56:25.000Z",
+      "lastSeen": "2026-09-02T04:56:25.000Z"
+    },
+    {
+      "payer": "0x5c8f2ef59b48e0e21b6457e0430c583d929ee678",
+      "settlements": 1,
+      "usdc": 0.03,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-02T21:38:29.000Z",
+      "lastSeen": "2026-09-02T21:38:29.000Z"
+    },
+    {
+      "payer": "0xd6c32432d2c12501c77130359ef94e9ac4cf482b",
+      "settlements": 1,
+      "usdc": 0.01,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-03T20:31:03.000Z",
+      "lastSeen": "2026-09-03T20:31:03.000Z"
+    },
+    {
+      "payer": "0xb3b9e430b2af30e4b7ee5c391efc95e20fa9c101",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-04T03:27:43.000Z",
+      "lastSeen": "2026-09-04T03:27:43.000Z"
+    },
+    {
+      "payer": "0x7ec34cc91e15f86ec432185750fba1151d827f11",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-04T08:43:17.000Z",
+      "lastSeen": "2026-09-04T08:43:17.000Z"
+    },
+    {
+      "payer": "0x14004a0f9c3ffa5cb380cffd2835ff487161b8bd",
+      "settlements": 1,
+      "usdc": 0.008,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-05T00:18:33.000Z",
+      "lastSeen": "2026-09-05T00:18:33.000Z"
+    },
+    {
+      "payer": "0x4db7aafbe797a39cd6cc4e7aa64d970f7f6e02b7",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-06T06:39:01.000Z",
+      "lastSeen": "2026-09-06T06:39:01.000Z"
+    },
+    {
+      "payer": "0xf2b2a8e362244b39c1acd6ec3df5073e81cbb2fd",
+      "settlements": 1,
+      "usdc": 0.003,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-06T04:44:05.000Z",
+      "lastSeen": "2026-09-06T04:44:05.000Z"
+    },
+    {
+      "payer": "0x7bd9e3cac525f6c991964c2c214298ef19c280c6",
+      "settlements": 1,
+      "usdc": 0.005,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-06T15:09:17.000Z",
+      "lastSeen": "2026-09-06T15:09:17.000Z"
+    },
+    {
+      "payer": "0x050baaba304a96b987a2ffc9f62e4129e5dff2bb",
+      "settlements": 1,
+      "usdc": 0.005,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-07T14:40:25.000Z",
+      "lastSeen": "2026-09-07T14:40:25.000Z"
+    },
+    {
+      "payer": "0x28bbf5ed9102e82fb4e145cb7137b119c8e259c7",
+      "settlements": 1,
+      "usdc": 0.01,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-07T15:01:03.000Z",
+      "lastSeen": "2026-09-07T15:01:03.000Z"
+    },
+    {
+      "payer": "0x06806a0ee1e8cf8f9c3267272fd7812ccddd9f13",
+      "settlements": 1,
+      "usdc": 0.005,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-07T16:03:27.000Z",
+      "lastSeen": "2026-09-07T16:03:27.000Z"
+    },
+    {
+      "payer": "0x4b156ef53a220e66520a83bfec819e53b80c5923",
+      "settlements": 1,
+      "usdc": 0.01,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-08T13:35:23.000Z",
+      "lastSeen": "2026-09-08T13:35:23.000Z"
+    },
+    {
+      "payer": "0x4e4c81bd2440e505dfd2a6e64666dd669a12cb22",
+      "settlements": 1,
+      "usdc": 0.03,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-08T20:08:05.000Z",
+      "lastSeen": "2026-09-08T20:08:05.000Z"
+    },
+    {
+      "payer": "0x4a36acceca120b1da6dbd6ba8525d785f278d1b3",
+      "settlements": 1,
+      "usdc": 0.005,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-08T19:00:25.000Z",
+      "lastSeen": "2026-09-08T19:00:25.000Z"
+    },
+    {
+      "payer": "0xa7d0eb508dbbd434545d8bb3574fdb827a615aee",
+      "settlements": 1,
+      "usdc": 0.01,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-09T02:04:39.000Z",
+      "lastSeen": "2026-09-09T02:04:39.000Z"
+    },
+    {
+      "payer": "0x64155a5d85a51a8485d54d88c05df59a2337863d",
+      "settlements": 1,
+      "usdc": 0.05,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4df66b6c140778fe0717880a7c6dde5ea53acdea"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-09T08:33:33.000Z",
+      "lastSeen": "2026-09-09T08:33:33.000Z"
+    },
+    {
+      "payer": "0x2cae48380bfa1e294aacc4ec0f5a57f3311c270d",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xb86f95ef5fa904318ea9df3b59adce099b478fc4"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-09T03:35:31.000Z",
+      "lastSeen": "2026-09-09T03:35:31.000Z"
+    },
+    {
+      "payer": "0x00029915a707ddf3ced1771f7ddaf443f33638db",
+      "settlements": 1,
+      "usdc": 0.025,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-09T09:28:47.000Z",
+      "lastSeen": "2026-09-09T09:28:47.000Z"
+    },
+    {
+      "payer": "0xe6398a16a0402b9a0e40d2cee9725489e9840e6d",
+      "settlements": 1,
+      "usdc": 0.025,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-09T16:26:39.000Z",
+      "lastSeen": "2026-09-09T16:26:39.000Z"
+    },
+    {
+      "payer": "0xb4d3d8ec03d26cfa3f89a25e6b6def6086879ba0",
+      "settlements": 1,
+      "usdc": 0.003,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf22e558a00d91ee12a1f50c52186fecb8ddff493"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-10T01:32:53.000Z",
+      "lastSeen": "2026-09-10T01:32:53.000Z"
+    },
+    {
+      "payer": "0xb280b4fb85959f2a273c6a39c6f06617c81c327c",
+      "settlements": 1,
+      "usdc": 0.02,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-10T08:14:53.000Z",
+      "lastSeen": "2026-09-10T08:14:53.000Z"
+    },
+    {
+      "payer": "0x643ce42c4d592e260af0f61261c71c8ed51702fd",
+      "settlements": 1,
+      "usdc": 0.000023,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-10T08:40:01.000Z",
+      "lastSeen": "2026-09-10T08:40:01.000Z"
+    },
+    {
+      "payer": "0xaed067d2f443bd40e995c38b53d5823840a96c46",
+      "settlements": 1,
+      "usdc": 0.005,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-10T11:44:21.000Z",
+      "lastSeen": "2026-09-10T11:44:21.000Z"
+    },
+    {
+      "payer": "0x72388a268ecf5321280dbcf556fcb484a5494f5f",
+      "settlements": 1,
+      "usdc": 0.005,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-10T14:34:31.000Z",
+      "lastSeen": "2026-09-10T14:34:31.000Z"
+    },
+    {
+      "payer": "0x89d9d965db443ffe0470562577b1c21407dfa10d",
+      "settlements": 1,
+      "usdc": 0.025,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x0550779cfbc832657a8bb46bac9f359a5ad038b8"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-11T01:34:27.000Z",
+      "lastSeen": "2026-09-11T01:34:27.000Z"
+    },
+    {
+      "payer": "0x82a4d3f5304b108ec55094f0e9a4f1f486b7751d",
+      "settlements": 1,
+      "usdc": 0.01,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-11T06:47:57.000Z",
+      "lastSeen": "2026-09-11T06:47:57.000Z"
+    },
+    {
+      "payer": "0x77065d81e18ad403bcd6e9a0616b288e16744121",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-11T12:50:27.000Z",
+      "lastSeen": "2026-09-11T12:50:27.000Z"
+    },
+    {
+      "payer": "0x20125b033546d7ac6ce0aebc5ed0044e328b4759",
+      "settlements": 1,
+      "usdc": 0.0045,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-10T19:25:53.000Z",
+      "lastSeen": "2026-09-10T19:25:53.000Z"
+    },
+    {
+      "payer": "0xcecbc7ade689b7da27bbbb0bc64a9404d03f60b4",
+      "settlements": 1,
+      "usdc": 1.1,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-11T19:45:33.000Z",
+      "lastSeen": "2026-09-11T19:45:33.000Z"
+    },
+    {
+      "payer": "0xddf44350ff7e0f5ea6bbf576158e0db2a0f8021e",
+      "settlements": 1,
+      "usdc": 0.0045,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-11T22:21:29.000Z",
+      "lastSeen": "2026-09-11T22:21:29.000Z"
+    },
+    {
+      "payer": "0x127df88a15c7a1a14b75140a95b5f3658e43bcbd",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-13T05:55:33.000Z",
+      "lastSeen": "2026-09-13T05:55:33.000Z"
+    },
+    {
+      "payer": "0xc195e6d466458addb6aaf11ff7c471f94439a70b",
+      "settlements": 1,
+      "usdc": 0.1,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-13T17:22:19.000Z",
+      "lastSeen": "2026-09-13T17:22:19.000Z"
+    },
+    {
+      "payer": "0xdd060eea0451203e6f9238495b941e42cf7dd9e1",
+      "settlements": 1,
+      "usdc": 0.0045,
+      "distinctSellers": 1,
+      "sellers": [
+        "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-14T07:08:35.000Z",
+      "lastSeen": "2026-09-14T07:08:35.000Z"
+    },
+    {
+      "payer": "0x5443f9f5f679c32ec731662fc35671467848e100",
+      "settlements": 1,
+      "usdc": 0.005,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-14T10:01:43.000Z",
+      "lastSeen": "2026-09-14T10:01:43.000Z"
+    },
+    {
+      "payer": "0x2e8dfc2a77adcdd865a46293844c250462a1c32d",
+      "settlements": 1,
+      "usdc": 0.01,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-14T15:30:41.000Z",
+      "lastSeen": "2026-09-14T15:30:41.000Z"
+    },
+    {
+      "payer": "0xca16d8d5208f1889ca61cb5574328e638a91c06d",
+      "settlements": 1,
+      "usdc": 0.001,
+      "distinctSellers": 1,
+      "sellers": [
+        "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0"
+      ],
+      "distinctDays": 1,
+      "firstSeen": "2026-09-14T16:13:19.000Z",
+      "lastSeen": "2026-09-14T16:13:19.000Z"
+    }
+  ],
+  "sellers": [
+    {
+      "seller": "0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0",
+      "settlements": 6707,
+      "usdc": 143.880033,
+      "distinctPayers": 151
+    },
+    {
+      "seller": "0x4df66b6c140778fe0717880a7c6dde5ea53acdea",
+      "settlements": 4243,
+      "usdc": 142.18531,
+      "distinctPayers": 55
+    },
+    {
+      "seller": "0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e",
+      "settlements": 3922,
+      "usdc": 77.113852,
+      "distinctPayers": 124
+    },
+    {
+      "seller": "0x2b6d4988db4723e6908db86ab2b8dfbc51fc32c5",
+      "settlements": 1569,
+      "usdc": 10.610284,
+      "distinctPayers": 86
+    },
+    {
+      "seller": "0xf22e558a00d91ee12a1f50c52186fecb8ddff493",
+      "settlements": 1412,
+      "usdc": 15.555,
+      "distinctPayers": 88
+    },
+    {
+      "seller": "0x5f7254f252ef9b9f92b6b4f2cf91205ed7a96c7a",
+      "settlements": 443,
+      "usdc": 7.63548,
+      "distinctPayers": 12
+    },
+    {
+      "seller": "0xf752eeb75d3bea24aa867ad93bfd8ef5a2f431b9",
+      "settlements": 344,
+      "usdc": 3.59,
+      "distinctPayers": 38
+    },
+    {
+      "seller": "0x0550779cfbc832657a8bb46bac9f359a5ad038b8",
+      "settlements": 277,
+      "usdc": 6.875,
+      "distinctPayers": 29
+    },
+    {
+      "seller": "0xb86f95ef5fa904318ea9df3b59adce099b478fc4",
+      "settlements": 61,
+      "usdc": 0.16,
+      "distinctPayers": 25
+    }
+  ]
+}
