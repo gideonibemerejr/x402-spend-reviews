@@ -11,6 +11,19 @@
  */
 
 /**
+ * Version of the review wire format, carried on every submission and echoed on
+ * every row this server returns.
+ *
+ * Bumped to 2 when the four peer labels became two outcomes with a reason code.
+ * The bump is what keeps that change legible in the data: a row's vocabulary is
+ * readable from its own schema number, rather than having to be inferred from
+ * the date it was collected. A schema-1 body is refused outright instead of
+ * being read under the new vocabulary, because `discarded` and `failed` do not
+ * map onto `useful`/`not_useful` without inventing a reason nobody recorded.
+ */
+export const REVIEW_SCHEMA_VERSION = 2;
+
+/**
  * What a buyer concluded about a paid call. Two outcomes, not four.
  *
  * The response either gave the buyer what they wrote down before paying, or it

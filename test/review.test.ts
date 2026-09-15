@@ -79,8 +79,15 @@ test("amounts stay atomic decimal strings", () => {
 test("the envelope is checked before anything else", () => {
   rejects(null, /./);
   rejects([submission()], /./);
-  rejects({ ...submission(), schema: 2 }, /schema/);
+  rejects({ ...submission(), schema: 3 }, /schema: must be 2/);
   rejects({ ...submission(), ts: "whenever" }, /ISO 8601/);
+});
+
+test("a schema-1 body is refused with what the bump was for", () => {
+  // Not read under the new vocabulary: `discarded` and `failed` have no reason
+  // to map onto, so accepting one would mean inventing a finding.
+  rejects({ ...submission(), schema: 1 }, /schema 1 carried the four outcome labels/);
+  rejects({ ...submission(), schema: 1 }, /schema 2, which is `useful`\/`not_useful`/);
 });
 
 test("fields the client keeps to itself are rejected rather than silently dropped", () => {

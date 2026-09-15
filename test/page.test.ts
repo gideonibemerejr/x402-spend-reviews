@@ -2,11 +2,11 @@ import { describe, expect, test } from "vitest";
 import { escapeHtml, formatAmount, renderPage, shortHash } from "../src/page";
 import { NETWORK } from "../src/network";
 import type { StoredReview } from "../src/store";
-import { OUTCOME, PROOF, REASON } from "../src/vocab";
+import { OUTCOME, PROOF, REASON, REVIEW_SCHEMA_VERSION } from "../src/vocab";
 import { harness } from "./helpers";
 
 const stored = (overrides: Partial<StoredReview> = {}): StoredReview => ({
-  schema: 1,
+  schema: REVIEW_SCHEMA_VERSION,
   id: "r1",
   resourceUrl: "https://api.test/paid",
   network: "eip155:84532",

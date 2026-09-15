@@ -4,7 +4,7 @@ import {
   canonicalNetwork, familyOf, foldCase,
   isEvmAddress, isEvmTxHash, isSvmAddress, isSvmSignature,
 } from "./network";
-import { FAMILY, OUTCOME, REASON, RECOVERY, REJECTION, RETIRED_OUTCOMES } from "./vocab";
+import { FAMILY, OUTCOME, REASON, RECOVERY, REJECTION, RETIRED_OUTCOMES, REVIEW_SCHEMA_VERSION } from "./vocab";
 
 /**
  * How each network family spells the accounts and settlements it names.
@@ -44,7 +44,14 @@ const ACCOUNT_FIELDS = ["asset", "payTo", "payer"] as const;
  */
 export const ReviewSubmission = z
   .object({
-    schema: z.literal(1),
+    // Named rather than left to zod's "invalid literal": schema 1 was the four
+    // peer labels, and a client still on it is told what the bump was for.
+    schema: z.literal(REVIEW_SCHEMA_VERSION, {
+      error: (issue) =>
+        issue.input === 1
+          ? `schema 1 carried the four outcome labels; this server takes schema ${REVIEW_SCHEMA_VERSION}, which is \`${OUTCOME.useful}\`/\`${OUTCOME.notUseful}\` with a reason on \`${OUTCOME.notUseful}\``
+          : `must be ${REVIEW_SCHEMA_VERSION}`,
+    }),
     resourceUrl: z
       .url("must be an absolute URL")
       // zod runs every check, so this refinement still sees values that failed

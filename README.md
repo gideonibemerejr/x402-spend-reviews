@@ -198,7 +198,7 @@ server-to-server act no browser should be talked into performing on someone's be
 
 ```json
 {
-  "schema": 1,
+  "schema": 2,
   "resourceUrl": "https://api.example/paid",
   "taskClass": "search",
   "network": "eip155:84532",
@@ -213,6 +213,11 @@ server-to-server act no browser should be talked into performing on someone's be
   "ts": "2026-09-06T12:00:00.000Z"
 }
 ```
+
+`schema` is `2`. A body sent as `1` is refused, not read: schema 1 carried the four peer labels,
+and `discarded` and `failed` have no `not_useful` reason to map onto that anyone actually recorded.
+The number is on the wire so a row's vocabulary is readable from the row rather than inferred from
+the date it was collected.
 
 `outcome` is `useful` or `not_useful`. Two, not four: the response either gave the buyer what they
 wrote down before paying or it did not, and whether they then retried or went elsewhere is recovery

@@ -3,7 +3,7 @@ import { foldCase } from "./network";
 import type { ReviewSubmission } from "./review";
 import type { SettlementFacts } from "./state";
 import {
-  REVIEW_OUTCOMES, STATUS,
+  REVIEW_OUTCOMES, REVIEW_SCHEMA_VERSION, STATUS,
   type Proof, type ReviewOutcome, type ReviewReason, type ReviewRecovery, type ReviewStatus,
 } from "./vocab";
 
@@ -71,7 +71,7 @@ const COLUMNS = `id, "transaction", payer, resource_url, task_class, network, as
 
 function toReview(row: Row): StoredReview {
   return {
-    schema: 1,
+    schema: REVIEW_SCHEMA_VERSION,
     id: row.id,
     transaction: row.transaction,
     payer: row.payer,

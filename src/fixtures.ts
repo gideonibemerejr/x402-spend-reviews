@@ -1,7 +1,7 @@
 /** Chain-free fixtures: hand-built transaction receipts so tests never touch a network. */
 import type { ReviewSubmission } from "./review";
 import type { RpcCall } from "./verify";
-import { OUTCOME } from "./vocab";
+import { OUTCOME, REVIEW_SCHEMA_VERSION } from "./vocab";
 import type { RpcLog, RpcTransactionReceipt } from "./verify/evm";
 import { TRANSFER_TOPIC } from "./verify/evm";
 import { NETWORK } from "./network";
@@ -50,7 +50,7 @@ export function rpcReturning(receipt: RpcTransactionReceipt | null): RpcCall {
 /** A submission that matches {@link transferLog}'s defaults. */
 export function submission(overrides: Partial<ReviewSubmission> = {}): ReviewSubmission {
   return {
-    schema: 1,
+    schema: REVIEW_SCHEMA_VERSION,
     resourceUrl: "https://api.test/paid",
     network: NETWORK.baseSepolia,
     asset: USDC_BASE_SEPOLIA,
@@ -195,7 +195,7 @@ export function svmRpcReturning(transaction: SvmTransaction | null): RpcCall {
 /** A submission that matches {@link svmTransfer}'s defaults. */
 export function svmSubmission(overrides: Partial<ReviewSubmission> = {}): ReviewSubmission {
   return {
-    schema: 1,
+    schema: REVIEW_SCHEMA_VERSION,
     resourceUrl: "https://api.test/paid",
     network: NETWORK.solanaDevnet,
     asset: USDC_SOLANA_DEVNET,
