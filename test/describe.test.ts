@@ -35,6 +35,7 @@ test("an EVM transfer is reported with its payer, recipient and amount", async (
       payTo: PAY_TO.toLowerCase(),
       amount: "10000",
       proof: PROOF.paymentTraced,
+      proofLabel: "payment traced",
     }],
   });
 });
@@ -105,6 +106,7 @@ test("a Solana transfer names the account owners, not their token accounts", asy
       payTo: SOL_PAY_TO,
       amount: "10000",
       proof: PROOF.paymentTraced,
+      proofLabel: "payment traced",
     }],
   });
 });

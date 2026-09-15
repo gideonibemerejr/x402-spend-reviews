@@ -44,6 +44,7 @@ test("POST /v1/verify describes a settlement from the hash alone", async () => {
       payTo: PAY_TO.toLowerCase(),
       amount: "10000",
       proof: PROOF.paymentTraced,
+      proofLabel: "payment traced",
     }],
   });
 });

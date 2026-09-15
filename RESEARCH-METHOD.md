@@ -275,6 +275,59 @@ trial-checked first.
    I record that it changed and why.
 5. Publish every row, including the ones where the endpoint did fine.
 
+## Attempt 1, void — recorded rather than quietly re-run
+
+**Amendment, 2026-09-15.** Run 001 was executed once, at 05:59–06:00 UTC on 2026-09-15, and
+**all 34 rows are void as quality data.** The harness sent every request with no query
+parameters at all. Attempt 2 supersedes it. This section stays in the document because a run
+that is re-done silently is a run whose published numbers nobody can reconcile against its
+own history.
+
+**The defect.** The plan's `endpoint` column was filled from the frozen catalog, which lists
+bare endpoint URLs, while the harness treated that column as the complete URL to request. The
+`query` column — the pre-registered question — was prose meant for a reader and was never
+encoded onto the wire. So `GET https://2s.io/api/geocode/address` went out with no `q`, and
+`GET https://2s.io/api/weather/current` with no `lat` or `lon`. The endpoints behaved
+correctly; 22 of them answered `400`.
+
+**What it cost.** 8 rows settled, $0.041 total. 22 returned `400` after the payment leg but
+before settlement, so they cost nothing. 2 returned `404` and 2 `401`, still undiagnosed.
+
+**The eight that returned 200 are the interesting ones, and are not yet labeled.** Three calls
+to the same search endpoint — carrying, nominally, a World Cup question, a question about a
+college soccer coach, and an open question about football managers — came back byte-identical
+at 386 bytes each. Two calls to a geocoder came back identical at 473. Those endpoints returned
+a default payload to a request that asked nothing, and charged for it.
+
+Read one way that is outcome 2, reason `wrong`: a well-formed, plausible, incorrect response,
+which is precisely the failure this method predicted would be hardest to catch — and it very
+nearly passed as a success because the status code was 200. Read the other way, an endpoint
+given no parameter cannot be said to have ignored one. **Both readings are open and neither is
+labeled**, because attempt 1 cannot distinguish them: the request was malformed, so the
+endpoint's behaviour toward a well-formed request is simply unobserved. Attempt 2 sends real
+parameters and can tell the two apart. That comparison is now a stated expectation of attempt
+2 rather than a finding of attempt 1.
+
+**No row from attempt 1 is labeled, published, or counted** — not for Axis 1, not for Axis 2,
+not for Axis 3. The results log and receipts are kept, and the defect, its cost and this
+reasoning are published alongside attempt 2.
+
+**What changed before attempt 2**, so the same class of defect fails loudly instead of
+silently:
+
+- Rows carry a `params` object, separate from `endpoint`. Keeping `endpoint` identical to the
+  frozen catalog entry preserves the provenance chain from the sample freeze.
+- The harness refuses to pay a row whose parameter names are not in the 402's own declared
+  input, where the 402 declares one. A request the seller has already said it cannot answer is
+  not worth paying for.
+- The harness records response bodies. Attempt 1 discarded every one of them, including the 22
+  `400` bodies that would have named the missing parameter on the spot. A research harness that
+  throws away evidence is not one.
+
+The pre-registered `query` and `expected` columns are unchanged and were not rewritten in light
+of any response. `params` is derived from `query`, which is a change of encoding rather than of
+expectation.
+
 ## Wallet and spend
 
 A dedicated run wallet per network family, funded with a few dollars and nothing more. Key in

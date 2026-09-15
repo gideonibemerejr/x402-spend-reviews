@@ -16,7 +16,7 @@
  * Nothing here writes. Describing a transaction is a lookup.
  */
 import { familyOf, referenceOf } from "../network";
-import { FAMILY, PROOF, REJECTION, type Proof } from "../vocab";
+import { FAMILY, PROOF, PROOF_LABEL, REJECTION, type Proof } from "../vocab";
 import {
   addressFromTopic,
   sameAddress,
@@ -61,6 +61,12 @@ export interface DescribedTransfer {
    * for rows.
    */
   proof: Proof;
+  /**
+   * How {@link proof} is named to a reader, sent rather than left for the
+   * caller to map. The site renders this verbatim, so there is no second copy
+   * of the vocabulary to fall out of step with this one.
+   */
+  proofLabel: string;
 }
 
 /** What a transaction turned out to contain, or why it could not be read. */
@@ -121,6 +127,7 @@ async function describeEvm(
       amount: amount.toString(),
       // The log names its own sender, so an EVM transfer is always attributed.
       proof: PROOF.paymentTraced,
+      proofLabel: PROOF_LABEL[PROOF.paymentTraced],
     });
   }
 
@@ -184,6 +191,7 @@ async function describeSvm(
       payTo,
       amount: transfer.amount.toString(),
       proof: payer ? PROOF.paymentTraced : PROOF.receiptOnly,
+      proofLabel: PROOF_LABEL[payer ? PROOF.paymentTraced : PROOF.receiptOnly],
     });
   }
 
