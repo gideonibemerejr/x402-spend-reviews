@@ -148,3 +148,45 @@ export function describeIssues(error: {
     })
     .join("; ");
 }
+
+/**
+ * What the two demo routes accept.
+ *
+ * Deliberately a fraction of {@link ReviewSubmission}: a reader arriving with a
+ * transaction hash is not making a claim about it, so there is no payer, payTo,
+ * asset, amount or outcome to state. They ask what the transaction contains and
+ * the server answers; nothing is stored either way.
+ */
+export const DemoVerify = z
+  .object({
+    network: z
+      .string()
+      .transform(canonicalNetwork)
+      .refine((network) => familyOf(network) !== undefined, "must be an eip155 or solana CAIP-2 network id"),
+    transaction: z.string().min(1),
+  })
+  .strict()
+  // Spelled per family, exactly as a submission is: `0x…` is a malformed
+  // settlement on Solana, and a base58 signature is one on Base. Checked here so
+  // a typo is a 422 rather than a wasted RPC round trip.
+  .superRefine((input, ctx) => {
+    const family = familyOf(input.network);
+    if (!family) return;
+    const spelling = SPELLING[family];
+    if (!spelling.settlement(input.transaction)) {
+      ctx.addIssue({ code: "custom", path: ["transaction"], message: spelling.settlementMessage });
+    }
+  });
+
+export type DemoVerify = z.infer<typeof DemoVerify>;
+
+/**
+ * A URL to read a 402 from. Only the shape is checked here; which hosts may
+ * actually be fetched is {@link checkProbeUrl}'s question, because the same
+ * rule has to be applied again to anything a redirect points at.
+ */
+export const DemoProbe = z
+  .object({ url: z.url("must be an absolute URL").max(2048) })
+  .strict();
+
+export type DemoProbe = z.infer<typeof DemoProbe>;

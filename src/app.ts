@@ -4,12 +4,14 @@ import { cors } from "hono/cors";
 import { bodyLimit } from "hono/body-limit";
 import { zValidator } from "@hono/zod-validator";
 import { renderPage } from "./page";
-import { describeIssues, ReviewSubmission } from "./review";
+import { probeEndpoint } from "./probe";
+import { DemoProbe, DemoVerify, describeIssues, ReviewSubmission } from "./review";
 import { defaultRpc } from "./verify/rpc";
 import { applyVerification, decideSubmission } from "./state";
 import { retryPending, type RetryRpcResolver } from "./retry";
 import { ReviewStore, settlementFacts } from "./store";
 import { verifySettlement, type RpcCall } from "./verify";
+import { describeSettlement } from "./verify/describe";
 import { STATUS } from "./vocab";
 
 /** Resolves a JSON-RPC caller for a network. Tests inject fixtures here so nothing reaches a chain. */
@@ -28,6 +30,20 @@ export interface AppOptions {
 
 /** Largest accepted POST body. A review is a few hundred bytes; this guards the parser. */
 export const POST_BODY_LIMIT = 4096;
+
+/**
+ * Origins allowed to call the demo routes from a browser.
+ *
+ * Named rather than `*`: these two routes spend an RPC round trip or an
+ * outbound fetch per call, so the site they were built for is what they answer
+ * to. Anything server-side can still call them — CORS is a browser rule — and
+ * localhost is listed so the site's own `next dev` works against production.
+ */
+export const DEMO_ORIGINS = [
+  "https://x402spend.dev",
+  "https://www.x402spend.dev",
+  "http://localhost:3000",
+];
 
 /**
  * Compares a bearer token against the configured admin secret in constant time.
@@ -73,6 +89,13 @@ export function createApp(options: AppOptions = {}) {
     if (c.req.method === "GET" || c.req.method === "OPTIONS") return readCors(c, next);
     return next();
   });
+
+  // The two demo routes are the one place a browser legitimately POSTs here:
+  // they are read-only lookups the site runs on a reader's behalf. Posting a
+  // *review* stays closed to browsers, which is why this is scoped to the two
+  // paths rather than widened on the middleware above.
+  app.use("/v1/verify", cors({ origin: DEMO_ORIGINS, allowMethods: ["POST", "OPTIONS"] }));
+  app.use("/v1/probe", cors({ origin: DEMO_ORIGINS, allowMethods: ["POST", "OPTIONS"] }));
 
   // The dataset is meant to be checkable by anyone, so it has a page of its own:
   // rendered on the server, no client JavaScript, readable from view-source.
@@ -157,6 +180,48 @@ export function createApp(options: AppOptions = {}) {
     }
     return c.json(await retryPending(c.env, 50, { rpc: resolveRpc as RetryRpcResolver }));
   });
+
+  // Nothing below is stored. Both routes are lookups the site runs for a reader
+  // who has arrived with a hash or a URL and no account, which is the whole
+  // point of them: the demos work with an empty database.
+  app.post(
+    "/v1/verify",
+    rateLimited((env) => env.DEMO) as never,
+    bodyLimit({ maxSize: POST_BODY_LIMIT, onError: (c) => c.json({ error: "request body too large" }, 413) }),
+    zValidator("json", DemoVerify, (result, c) => {
+      if (!result.success) return c.json({ error: describeIssues(result.error) }, 422);
+    }),
+    async (c) => {
+      const { transaction, network } = c.req.valid("json");
+      const rpc = resolveRpc(network, c.env);
+      if (!rpc) return c.json({ error: `no RPC endpoint configured for ${network}` }, 422);
+      try {
+        const result = await describeSettlement(transaction, network, rpc);
+        // A transaction that proves nothing is a 200 carrying `found: false`,
+        // not an error: the lookup succeeded and the answer is "no payment
+        // here". Refusals are the product working, and the page shows them.
+        return c.json(result, 200);
+      } catch (cause: unknown) {
+        return c.json(
+          { error: "could not reach the chain", detail: cause instanceof Error ? cause.message : String(cause) },
+          503
+        );
+      }
+    }
+  );
+
+  app.post(
+    "/v1/probe",
+    rateLimited((env) => env.DEMO) as never,
+    bodyLimit({ maxSize: POST_BODY_LIMIT, onError: (c) => c.json({ error: "request body too large" }, 413) }),
+    zValidator("json", DemoProbe, (result, c) => {
+      if (!result.success) return c.json({ error: describeIssues(result.error) }, 422);
+    }),
+    async (c) => {
+      const result = await probeEndpoint(c.req.valid("json").url);
+      return c.json(result, 200);
+    }
+  );
 
   app.get("/v1/reviews/recent", rateLimited((env) => env.GET_REVIEWS) as never, async (c) => {
     return c.json({ reviews: await new ReviewStore(c.env.DB).recent(100) });

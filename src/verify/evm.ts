@@ -47,16 +47,23 @@ export interface RpcTransactionReceipt {
 }
 
 const isAddress = (value: string) => /^0x[0-9a-fA-F]{40}$/.test(value);
-const sameAddress = (a: string, b: string) => a.toLowerCase() === b.toLowerCase();
+/** EVM hex is case-insensitive: EIP-55 checksums are casing and nothing more. */
+export const sameAddress = (a: string, b: string) => a.toLowerCase() === b.toLowerCase();
 
-/** Reads the 20-byte address out of a 32-byte indexed log topic. */
-function addressFromTopic(topic: string): string | undefined {
+/**
+ * Reads the 20-byte address out of a 32-byte indexed log topic.
+ *
+ * Exported for the describing path, which reads the same logs to report what a
+ * transaction contains rather than to check a claim against it. One decoder,
+ * so the two can never disagree about what a log says.
+ */
+export function addressFromTopic(topic: string): string | undefined {
   if (typeof topic !== "string" || !/^0x[0-9a-fA-F]{64}$/.test(topic)) return undefined;
   return `0x${topic.slice(26)}`;
 }
 
-/** Reads a uint256 out of a log's data word. */
-function uint256(data: string): bigint | undefined {
+/** Reads a uint256 out of a log's data word. Exported alongside {@link addressFromTopic}. */
+export function uint256(data: string): bigint | undefined {
   if (typeof data !== "string" || !/^0x[0-9a-fA-F]+$/.test(data)) return undefined;
   try {
     return BigInt(data);

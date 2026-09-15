@@ -11,6 +11,14 @@ preview_urls = false
 # ships a newer runtime.
 compatibility_date = "2026-08-22"
 
+# The stable origin the site calls. Added as a custom domain rather than a
+# route so Cloudflare provisions the DNS record and certificate itself.
+# workers_dev stays on above: the existing *.workers.dev URL is published and
+# must keep answering.
+[[routes]]
+pattern = "api.x402spend.dev"
+custom_domain = true
+
 # Traces need their own flag; the top-level setting alone does not enable them.
 [observability]
 enabled = true
@@ -52,6 +60,16 @@ simple = { limit = 30, period = 60 }
 name = "GET_REVIEWS"
 namespace_id = "1002"
 simple = { limit = 300, period = 60 }
+
+# The two demo routes. Tighter than the read side by an order of magnitude
+# because each call costs either an RPC round trip or an outbound fetch to a
+# stranger's server, and both are unauthenticated: without a limit here the
+# demos are a way to spend this Worker's budget, and the probe a way to point
+# it at someone else.
+[[ratelimits]]
+name = "DEMO"
+namespace_id = "1003"
+simple = { limit = 20, period = 60 }
 
 # Drains pending verifications; retryPending is also reachable at POST /internal/retry.
 [triggers]

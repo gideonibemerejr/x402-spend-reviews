@@ -90,7 +90,7 @@ export interface SvmTransaction {
 }
 
 /** A token transfer, as much of one as the parsed instruction reveals. */
-interface TokenTransfer {
+export interface TokenTransfer {
   programId: string;
   destination: string;
   amount: bigint;
@@ -117,7 +117,7 @@ function atomic(value: unknown): bigint | undefined {
  * fee-bearing transfer credits is not the amount it names, and a scheme that
  * tolerated the difference would verify an underpayment.
  */
-function parseTransfer(instruction: ParsedInstruction | undefined): TokenTransfer | undefined {
+export function parseTransfer(instruction: ParsedInstruction | undefined): TokenTransfer | undefined {
   const programId = asString(instruction?.programId);
   if (!programId || !TOKEN_PROGRAMS.includes(programId)) return undefined;
   const parsed = instruction?.parsed;
@@ -144,11 +144,26 @@ function parseTransfer(instruction: ParsedInstruction | undefined): TokenTransfe
 /**
  * Resolves the owner of a token account from the transaction's own balance
  * records, for the `transfer` variants that name no authority.
+ */
+function ownerOfTokenAccount(transaction: SvmTransaction, account: string | undefined): string | undefined {
+  return tokenAccountFacts(transaction, account)?.owner;
+}
+
+/**
+ * The balance record a transaction carries for one token account, which is
+ * where both its owner and its mint are written down.
+ *
+ * Verification only ever needed the owner; describing a transaction needs the
+ * mint too, because a bare `transfer` instruction names no mint and the account
+ * it credited is the only thing that says which token moved.
  *
  * Account indices count across the static keys and then the addresses loaded
  * from lookup tables, in that order, so a versioned transaction resolves too.
  */
-function ownerOfTokenAccount(transaction: SvmTransaction, account: string | undefined): string | undefined {
+export function tokenAccountFacts(
+  transaction: SvmTransaction,
+  account: string | undefined
+): TokenBalance | undefined {
   if (!account) return undefined;
   const meta = transaction.meta;
   const keys = [
@@ -161,7 +176,7 @@ function ownerOfTokenAccount(transaction: SvmTransaction, account: string | unde
   const index = keys.indexOf(account);
   if (index < 0) return undefined;
   const balances = [...(meta?.postTokenBalances ?? []), ...(meta?.preTokenBalances ?? [])];
-  return balances.find((balance) => balance?.accountIndex === index)?.owner;
+  return balances.find((balance) => balance?.accountIndex === index);
 }
 
 /**
