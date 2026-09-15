@@ -1,6 +1,6 @@
 # Buyer census — Base
 
-**Status: Base only, v2 frame. Arbitrum, Avalanche and Solana not scanned — awaiting Gideon's go.**
+**Status: Base only, v2 frame. Arbitrum, Avalanche and Solana deliberately not scanned — see "Why not Etherscan".**
 Read-only: `eth_getLogs` only, no payments, no writes to D1. Nothing published.
 
 **This is not part of run 001 and does not ship with it.** Different question, different method,
@@ -40,7 +40,12 @@ anticipate: `eth_getLogs` accepts an **array** of `topic2` values, so all 1,115 
 single filter, whereas Etherscan's `topic2` takes one value and would need one call per seller per
 range. The node method got cheaper as the frame got wider, not more expensive.
 
-**Arbitrum and Avalanche will need a paid Etherscan plan or a node.** That is Gideon's call.
+**Arbitrum and Avalanche will need a paid Etherscan plan or a node — decided 2026-09-15: not
+scanned, and not paid for.** Base carries ~96% of the catalogued endpoint population; Arbitrum and
+Avalanche hold 353 between them, and the aggregator finding already holds on Base. Paying to
+confirm on 353 endpoints what 15,583 already show is money spent on a result the frame does not
+need. If it matters later, a public node with a head-block freshness guard does it for free, and
+the failure modes that guard has to cover are now known and written down above.
 
 ## Completeness — what was verified
 
