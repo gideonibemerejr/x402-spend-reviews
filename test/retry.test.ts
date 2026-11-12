@@ -109,37 +109,16 @@ test("a chain with no endpoint ages a review out instead of branding the claim f
   expect(stored?.lastError).toMatch(/no RPC endpoint configured for eip155:84532/);
 });
 
-test("the retry route is closed without a matching admin token", async () => {
+test("the operational retry pass has no HTTP endpoint", async () => {
   const api = harness({ rpc: () => unreachable });
-  const call = (headers: Record<string, string>) =>
-    api.send(new Request("https://reviews.test/internal/retry", { method: "POST", headers }));
-
-  const cases: Record<string, string>[] = [
+  for (const headers of [
     {},
-    { authorization: "Bearer wrong-token" },
-    { authorization: env.ADMIN_TOKEN },
-    { authorization: `Bearer ${env.ADMIN_TOKEN.slice(0, -1)}` },
-  ];
-  for (const headers of cases) {
-    const response = await call(headers);
-    expect(response.status, JSON.stringify(headers)).toBe(401);
-    expect((await response.json<{ error: string }>()).error).toBe("unauthorized");
+    { authorization: "Bearer arbitrary-value" },
+  ]) {
+    const response = await api.send(new Request("https://reviews.test/internal/retry", {
+      method: "POST",
+      headers,
+    }));
+    expect(response.status).toBe(404);
   }
-});
-
-test("the retry route runs a pass for a caller holding the admin token", async () => {
-  const api = await parked();
-  const response = await api.send(new Request("https://reviews.test/internal/retry", {
-    method: "POST",
-    headers: { authorization: `Bearer ${env.ADMIN_TOKEN}` },
-  }));
-  expect(response.status).toBe(200);
-  const report = await response.json<{ attempted: number; verified: number; stillPending: number }>();
-  expect(report.attempted).toBeGreaterThan(0);
-
-  // The default resolver reaches the real Base Sepolia endpoint, which cannot
-  // know this fixture transaction, so the row is settled rather than published.
-  const stored = await row(api);
-  expect(stored?.status === "rejected" || stored?.status === "pending").toBe(true);
-  expect(stored?.verifyAttempts).toBe(2);
 });

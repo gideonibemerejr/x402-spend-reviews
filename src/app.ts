@@ -8,7 +8,6 @@ import { probeEndpoint } from "./probe";
 import { DemoProbe, DemoVerify, describeIssues, ReviewSubmission } from "./review";
 import { defaultRpc } from "./verify/rpc";
 import { applyVerification, decideSubmission } from "./state";
-import { retryPending, type RetryRpcResolver } from "./retry";
 import { ReviewStore, settlementFacts } from "./store";
 import { verifySettlement, type RpcCall } from "./verify";
 import { describeSettlement } from "./verify/describe";
@@ -47,24 +46,6 @@ export const DEMO_ORIGINS = [
   "https://www.x402spend.dev",
   "http://localhost:3000",
 ];
-
-/**
- * Compares a bearer token against the configured admin secret in constant time.
- *
- * Both sides are hashed to a fixed size first, so neither the token's length nor
- * how far it matched is observable in the response time. An unset secret fails
- * closed rather than opening the route.
- */
-async function bearerMatches(header: string | undefined, secret: string | undefined): Promise<boolean> {
-  const provided = header?.match(/^Bearer\s+(.+)$/i)?.[1];
-  if (!provided || !secret) return false;
-  const encoder = new TextEncoder();
-  const [a, b] = await Promise.all([
-    crypto.subtle.digest("SHA-256", encoder.encode(provided)),
-    crypto.subtle.digest("SHA-256", encoder.encode(secret)),
-  ]);
-  return crypto.subtle.timingSafeEqual(a, b);
-}
 
 /** Rate limits are keyed by client IP, so one noisy caller cannot spend everyone's budget. */
 const rateLimited = (pick: (env: Env) => RateLimit) =>
@@ -177,13 +158,6 @@ export function createApp(options: AppOptions = {}) {
       }
     }
   );
-
-  app.post("/internal/retry", async (c) => {
-    if (!(await bearerMatches(c.req.header("authorization"), c.env.ADMIN_TOKEN))) {
-      return c.json({ error: "unauthorized" }, 401);
-    }
-    return c.json(await retryPending(c.env, 50, { rpc: resolveRpc as RetryRpcResolver }));
-  });
 
   // Nothing below is stored. Both routes are lookups the site runs for a reader
   // who has arrived with a hash or a URL and no account, which is the whole

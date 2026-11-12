@@ -40,7 +40,6 @@ head_sampling_rate = 0.01
 #   wrangler secret put RPC_URL_56               # BNB Smart Chain
 #   wrangler secret put RPC_URL_SOLANA
 #   wrangler secret put RPC_URL_SOLANA_DEVNET
-#   wrangler secret put ADMIN_TOKEN
 # The Solana endpoints are optional; without them the public cluster endpoints
 # are used, which throttle hard enough to park reviews as pending under load.
 
@@ -71,6 +70,6 @@ name = "DEMO"
 namespace_id = "1003"
 simple = { limit = 20, period = 60 }
 
-# Drains pending verifications; retryPending is also reachable at POST /internal/retry.
+# Drains pending verifications on a schedule without exposing an administrative HTTP route.
 [triggers]
 crons = ["*/5 * * * *"]

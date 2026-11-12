@@ -185,7 +185,6 @@ POST /v1/reviews          → 201 verified | 200 replayed | 202 pending | 422 | 
 GET  /v1/reviews?resource=<url>  → { resourceUrl, counts, excludedUnattributed, reviews }
 GET  /v1/reviews/recent   → { reviews }   last 100 verified, newest first
 GET  /health              → { ok, pending }
-POST /internal/retry      → Authorization: Bearer <ADMIN_TOKEN>; runs one retry pass
 ```
 
 JSON only. `GET` is CORS-open to any origin; `POST` is not, because publishing a review is a
@@ -281,7 +280,6 @@ wrangler secret put RPC_URL_42161          # Arbitrum One (optional)
 wrangler secret put RPC_URL_56             # BNB Smart Chain (optional)
 wrangler secret put RPC_URL_SOLANA         # Solana mainnet JSON-RPC (optional)
 wrangler secret put RPC_URL_SOLANA_DEVNET  # Solana devnet JSON-RPC (optional)
-wrangler secret put ADMIN_TOKEN            # guards POST /internal/retry
 
 npm run deploy
 ```
@@ -314,7 +312,7 @@ as pure functions, with no I/O. `store.ts` is the only file that knows SQL.
 
 **The edges, flat in `src/`.** `index.ts` is the Worker entry, `fetch` and cron. `app.ts` holds the
 routes, CORS and rate limiting. `page.ts` renders the public page. `retry.ts` is one pass over the
-pending backlog, called by both the cron and the admin route.
+pending backlog, called by the cron trigger only.
 
 Two files sit outside those groups: `fixtures.ts`, which is imported by `src` and `test` alike and
 is the only place a transaction receipt is hand-built, and `env.d.ts`, which declares the secrets
